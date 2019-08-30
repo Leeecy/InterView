@@ -9,11 +9,14 @@
 #import "LabelViewController.h"
 #import "SZDataModel.h"
 #import "SZUtils.h"
-
-@interface LabelViewController ()
+#import "LLGifImageView.h"
+@interface LabelViewController (){
+   
+}
 @property (nonatomic, strong)NSArray *dataArrs;
 @property (nonatomic, strong)NSArray *heightArrs;
 @property (nonatomic, strong) UILabel *describeLabel;
+@property (nonatomic, strong) LLGifImageView *gifImageView;
 @end
 
 @implementation LabelViewController
@@ -21,18 +24,38 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    UIView *v1 = [UIView new];
-    v1.frame = CGRectMake(100, 100, 100, 60);
-    v1.backgroundColor = [UIColor redColor];
-    UIView *v2 = [UIView new];
-    v2.backgroundColor = [UIColor purpleColor];
-    v2.frame = CGRectMake(80, 120, 100, 60);
-    [self.view addSubview:v1];
-    [self.view addSubview:v2];
-    UIView *v3 = [UIView new];
-    v3.backgroundColor = [UIColor yellowColor];
-    v3.frame = CGRectMake(60, 140, 160, 60);
-    [self.view insertSubview:v2 atIndex:3];
+    [self loadCADisplayLineImageView];
+    //将GIF图片分解成多张PNG图片
+    //得到GIF图片的url
+   
+//    NSString *path = [NSBundle.mainBundle pathForResource:@"222" ofType:@"gif"];
+//    NSData *data = [NSData dataWithContentsOfFile:path];
+//
+//
+//    //将GIF图片转换成对应的图片源
+//    CGImageSourceRef gifSource = CGImageSourceCreateWithData(CFBridgingRetain(data), nil);
+//    //获取其中图片源个数，即由多少帧图片组成
+//    size_t frameCount = CGImageSourceGetCount(gifSource);
+//    //定义数组存储拆分出来的图片
+//    NSMutableArray *frames = [[NSMutableArray alloc] init];
+//    for (size_t i = 0; i < frameCount; i++) {
+//        //从GIF图片中取出源图片
+//        CGImageRef imageRef = CGImageSourceCreateImageAtIndex(gifSource, i, NULL);
+//        //将图片源转换成UIimageView能使用的图片源
+//        UIImage *imageName = [UIImage imageWithCGImage:imageRef];
+//        //将图片加入数组中
+//        [frames addObject:imageName];
+//        CGImageRelease(imageRef);
+//    }
+//    UIImageView *gifImageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth*0.5-15, 15, 30, 30)];
+//    //将图片数组加入UIImageView动画数组中
+//    gifImageView.animationImages = frames;
+//    //每次动画时长
+//    gifImageView.animationDuration = 1.3;
+//    //开启动画，此处没有调用播放次数接口，UIImageView默认播放次数为无限次，故这里不做处理
+//    [gifImageView startAnimating];
+//    [self.view addSubview:gifImageView];
+
     
 //    NSArray *randomArr = [[NSArray alloc] initWithObjects:
 //                          @"考生因身高遭淘汰北京体育大学艺考现场,一名考生因身高不够遭淘汰,提前走出考场,家长们立即蜂拥而上。她还现场表演了本来为复试准备的舞蹈,现场一片叫好",
@@ -64,14 +87,23 @@
 //    }
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)loadCADisplayLineImageView{
+    [self removeGif];
+    
+    NSData *localData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"222" ofType:@"gif"]];
+    _gifImageView = [[LLGifImageView alloc] initWithFrame:self.view.bounds];
+    _gifImageView.contentMode = UIViewContentModeScaleAspectFit;
+    _gifImageView.gifData = localData;
+    [self.view addSubview:_gifImageView];
+    [_gifImageView startGif];
+    
+    UILabel * label = [[UILabel alloc]init];
+    [self.view addSubview:label];
 }
-*/
-
+- (void)removeGif {
+    if (_gifImageView.superview) {
+        [_gifImageView removeFromSuperview];
+        _gifImageView = nil;
+    }
+}
 @end

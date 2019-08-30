@@ -60,13 +60,12 @@
 //    dispatch_sync(dispatch_get_main_queue(), ^(void){
 //        NSLog(@"这里死锁了");
 //    });
-
-
-     NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"KB464_3020_dfu_20190812"ofType:@"bin"];
+    
+ 
 
     NSLog(@"16==%@",[self to16:16]);
     
-    NSArray *showLevels = @[@(12), @(7), @(-9),@(15),@(26),@(-6)];
+//    NSArray *showLevels = @[@(12), @(7), @(-9),@(15),@(26),@(-6)];
     
 //    NSLog(@"suit=%ld", [self getMinValueShowLevel:showLevels mapZoomLevel:-5]);
     self.titles = @[].mutableCopy;
@@ -75,7 +74,7 @@
     [self addCell:@"寻找view父视图+Label字体显示优先级" class:@"CommonViewController"];
     [self addCell:@"app启动性能优化+事件传递链和响应链" class:@"AppLaunchController"];
     [self addCell:@"核心动画" class:@"CoreAnimateController"];
-    [self addCell:@"EQ" class:@"ZghChartController"];
+    [self addCell:@"固件更新动画" class:@"OTAFirmController"];
     
     [self addCell:@"Alert" class:@"AlertViewController"];
     
