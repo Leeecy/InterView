@@ -81,6 +81,7 @@
     [self addCell:@"Chart" class:@"ChartViewController"];
     [self addCell:@"Label高度" class:@"LabelViewController"];
     [self addCell:@"固件升级" class:@"DeviceTableController"];
+    [self addCell:@"固件升级弹出" class:@"FirmTableController"];
     [self.tableView reloadData];
     
     dispatch_queue_t queue1 = dispatch_get_global_queue(0, 0);
@@ -172,6 +173,7 @@
         [self.navigationController pushViewController:ctrl animated:YES];
     }
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
 }
 
 

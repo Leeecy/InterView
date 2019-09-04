@@ -11,6 +11,8 @@
 
 
 //size
+#define iPhoneX (ScreenHeight >= 812 && ScreenWidth >= 375)
+
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
 
@@ -60,6 +62,36 @@
 
 #define BaseUrl  @"http://116.62.9.17:8080/douyin/"
 
+#ifndef hq_weak
+#if DEBUG
+#if __has_feature(objc_arc)
+#define hq_weak(object) __weak __typeof(object) weak##_##object = object;
+#else
+#define hq_weak(object) __block __typeof(object) weak##_##object = object;
+#endif
+#else
+#if __has_feature(objc_arc)
+#define hq_weak(object) __weak __typeof(object) weak##_##object = object;
+#else
+#define hq_weak(object) __block __typeof(object) weak##_##object = object;
+#endif
+#endif
+#endif
 
+#ifndef hq_strong
+#if DEBUG
+#if __has_feature(objc_arc)
+#define hq_strong(object) __typeof(object) object = weak##_##object;
+#else
+#define hq_strong(object) __typeof(object) object = block##_##object;
+#endif
+#else
+#if __has_feature(objc_arc)
+#define hq_strong(object) __typeof(object) object = weak##_##object;
+#else
+#define hq_strong(object) __typeof(object) object = block##_##object;
+#endif
+#endif
+#endif
 
 #endif /* DefaultMarco_h */
