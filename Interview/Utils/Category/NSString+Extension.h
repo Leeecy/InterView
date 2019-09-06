@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSString (Extension)
 +(NSDictionary *)readJson2DicWithFileName:(NSString *)fileName;
++(NSString*)compareInt:(NSInteger)left right:(NSInteger)right;
 @end
 
 NS_ASSUME_NONNULL_END

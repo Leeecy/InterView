@@ -77,6 +77,7 @@
             [[CSRConnectionManager sharedInstance] connectPeripheral:self.chosenPeripheral];
             //            self.noServicesMessage = NO;
         } else {
+            
             [self discoveredPripheralDetails];
         }
     }

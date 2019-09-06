@@ -15,4 +15,22 @@
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
     return dic;
 }
++(NSString*)compareInt:(NSInteger)left right:(NSInteger)right{
+    NSString *result ;
+    if (left < right) {
+        if (left < 30 && right < 30) {
+            result = @"左右";
+        }else{
+            result = @"左";
+        }
+        
+    }else if (left > right){
+        if (left < 30 && right < 30) {
+            result = @"左右";
+        }else{
+            result = @"右";
+        }
+    }
+    return result;
+}
 @end

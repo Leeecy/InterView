@@ -42,6 +42,9 @@ NSString * const kUserInfoCell         = @"UserInfoCell";
     [super viewDidLoad];
     [self initCollectionView];
     [self loadUserData];
+    
+   
+    
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -49,6 +52,8 @@ NSString * const kUserInfoCell         = @"UserInfoCell";
     [self setNavigationBarBackgroundColor:ColorClear];
     [self setStatusBarBackgroundColor:ColorClear];
     [self setStatusBarHidden:NO];
+    NSString * test = [NSString compareInt:15 right:30];
+    NSLog(@"test =%@",test);
 }
 -(void)loadUserData{
 //    NSMutableDictionary *params = [[NSMutableDictionary alloc]init];
