@@ -129,8 +129,6 @@
     NSLog(@"%d",self.dataEndPointResponse);
     
     
-
-    
 }
 
 -(void)setupOTAU{

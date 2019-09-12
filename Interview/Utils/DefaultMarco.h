@@ -9,7 +9,7 @@
 #ifndef DefaultMarco_h
 #define DefaultMarco_h
 
-
+#define kKeyWindow [UIApplication sharedApplication].keyWindow
 //size
 #define iPhoneX (ScreenHeight >= 812 && ScreenWidth >= 375)
 
