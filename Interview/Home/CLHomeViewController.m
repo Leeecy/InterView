@@ -61,8 +61,15 @@
 //        NSLog(@"这里死锁了");
 //    });
     
- 
-
+    unsigned char send[2] = {0x00,0xa4};
+    
+    Byte data1[100] = {0};
+    data1[0] = 0x00;
+    data1[1] = 0xa1;
+    
+    NSData *sendData = [NSData dataWithBytes:data1 length:2];
+    NSLog(@"sendData==%@",sendData);
+    
     NSLog(@"16==%@",[self to16:16]);
     
 //    NSArray *showLevels = @[@(12), @(7), @(-9),@(15),@(26),@(-6)];
