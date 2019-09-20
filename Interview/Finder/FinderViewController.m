@@ -8,7 +8,7 @@
 //
 
 #import "FinderViewController.h"
-
+#import "SwitchViewController.h"
 @interface FinderViewController ()
 @property (nonatomic, strong) NSMutableArray *titles;
 @property (nonatomic, strong) NSMutableArray *classNames;
@@ -23,7 +23,7 @@
     self.classNames = @[].mutableCopy;
     [self addCell:@"Block测试" class:@"BlockViewController"];
     [self addCell:@"TEVI" class:@"TEVIViewController"];
-    
+    [self addCell:@"测试Switch" class:@"SwitchViewController"];
     [self.tableView reloadData];
 }
 
@@ -48,9 +48,25 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *className = self.classNames[indexPath.row];
     Class class = NSClassFromString(className);
+    if ([class isEqual:[SwitchViewController class]]) {
+        SwitchViewController *switch1 = [[SwitchViewController alloc]init];
+        switch1.vocieTipBlock = ^(BOOL isOpen) {
+            if (isOpen) {
+                NSLog(@"isOpne");
+            }else{
+                NSLog(@"close");
+            }
+        };
+        [self.navigationController pushViewController:switch1 animated:YES];
+        return;
+    }
+    
     if (class) {
         UIViewController *ctrl = class.new;
         ctrl.title = _titles[indexPath.row];
+        if ([ctrl.title isEqualToString:@"测试Switch"]) {
+            
+        }
         [self.navigationController pushViewController:ctrl animated:YES];
     }
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];

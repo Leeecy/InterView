@@ -4,7 +4,7 @@
 //
 //  Created by cl on 2019/7/19.
 //  Copyright © 2019 cl. All rights reserved.
-
+// 69cili.xyz  p99y.com
 /** runloop 事件产生的地方就是source(输入源), 运用发消息的机制，让事件可以唤醒休眠的runloop执行*/
 //    dispatch_get_main_queue()串行 gloable_queue 并发
 
@@ -16,14 +16,49 @@
 //[leftLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal]; 右边label优先显示
 
 #import "CLHomeViewController.h"
-
-
 #import "CopyTest.h"
 #import "ReverseList.h"
 #import "CLButton.h"
 #import "TicketManager.h"
 #import <objc/runtime.h>
 #import "HomeManager/CLPerson.h"
+#import "MathUtil.h"
+
+typedef NS_ENUM(NSUInteger, GaiaCommandUpdate) {
+    GaiaUpdate_Unknown                          = 0x00,
+    GaiaUpdate_StartRequest                     = 0x01,
+    GaiaUpdate_StartConfirm                     = 0x02,
+    GaiaUpdate_DataBytesRequest                 = 0x03,
+    GaiaUpdate_Data                             = 0x04,
+    GaiaUpdate_SuspendIndicator                 = 0x05,
+    GaiaUpdate_ResumeIndicator                  = 0x06,
+    GaiaUpdate_AbortRequest                     = 0x07,
+    GaiaUpdate_AbortConfirm                     = 0x08,
+    GaiaUpdate_ProgressRequest                  = 0x09,
+    GaiaUpdate_ProgressConfirm                  = 0x0A,
+    GaiaUpdate_TransferCompleteIndicator        = 0x0B,
+    GaiaUpdate_TransferCompleteResult           = 0x0C,
+    GaiaUpdate_InProgressIndicator              = 0x0D,
+    GaiaUpdate_InProgressResult                 = 0x0E,
+    GaiaUpdate_CommitRequest                    = 0x0F,
+    GaiaUpdate_CommitConfirm                    = 0x10,
+    GaiaUpdate_ErrorWarnIndicator               = 0x11,
+    GaiaUpdate_CompleteIndicator                = 0x12,
+    GaiaUpdate_SyncRequest                      = 0x13,
+    GaiaUpdate_SyncConfirm                      = 0x14,
+    GaiaUpdate_StartDataRequest                 = 0x15,
+    GaiaUpdate_IsValidationDoneRequest          = 0x16,
+    GaiaUpdate_IsValidationDoneConfirm          = 0x17,
+    GaiaUpdate_SyncAferRebootRequest            = 0x18,
+    GaiaUpdate_VersionRequest                   = 0x19,
+    GaiaUpdate_VersionConfirm                   = 0x1A,
+    GaiaUpdate_VariantRequest                   = 0x1B,
+    GaiaUpdate_VariantConform                   = 0x1C,
+    GaiaUpdate_HostEraseSquifRequest            = 0x1D,
+    GaiaUpdate_HostEraseSquifConfirm            = 0x1E,
+    GaiaUpdate_ErrorWarnResponse                = 0x1F
+};
+
 
 @interface CLHomeViewController ()
 @property (copy, nonatomic) NSMutableArray *arr;
@@ -35,6 +70,7 @@
 
 @property (nonatomic, strong) NSMutableArray *titles;
 @property (nonatomic, strong) NSMutableArray *classNames;
+
 
 @end
 
@@ -55,22 +91,52 @@
 //}
 
 //MARK:- view #
+
+-(void)sendDataCommand:(GaiaCommandUpdate)command{
+    
+    //方法2，直接拼接data
+    NSMutableData *data = [NSMutableData data];
+    //表头
+    char head1 = 0x00;
+    [data appendBytes:&head1 length:1];
+    //长度
+    char length = 0x03;
+    //    [data appendBytes:&length length:1];
+   
+    switch (command) {
+        case GaiaUpdate_Unknown:{
+            //获取电池管理状态
+            char num = GaiaUpdate_Unknown;
+            [data appendBytes:&num length:1];
+        } break;
+            
+        case GaiaUpdate_StartRequest:{
+            
+        } break;
+            
+        default:
+            break;
+    }
+    //命令字
+    char cmd = 0x01;
+    [data appendBytes:&cmd length:1];
+    
+    //灯泡的亮度
+    int lightness = 40;
+
+    [data appendData:[MathUtil convertHexStrToData:[self to16:lightness]]];//这一步是把亮度40转化为16进制字符串，然后16进制字符串转化为NSData。下面粘上这一部分转换的方法
+    
+    NSLog(@"data===%@",data);
+    
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    dispatch_sync(dispatch_get_main_queue(), ^(void){
 //        NSLog(@"这里死锁了");
 //    });
     
-    unsigned char send[2] = {0x00,0xa4};
+    [self sendDataCommand:GaiaUpdate_Unknown];
     
-    Byte data1[100] = {0};
-    data1[0] = 0x00;
-    data1[1] = 0xa1;
-    
-    NSData *sendData = [NSData dataWithBytes:data1 length:2];
-    NSLog(@"sendData==%@",sendData);
-    
-    NSLog(@"16==%@",[self to16:16]);
     
 //    NSArray *showLevels = @[@(12), @(7), @(-9),@(15),@(26),@(-6)];
     
@@ -90,6 +156,7 @@
     [self addCell:@"固件升级" class:@"DeviceTableController"];
     [self addCell:@"固件升级弹出" class:@"FirmTableController"];
     [self addCell:@"各种弹窗" class:@"PopTableController"];
+    [self addCell:@"BabyBluetooth" class:@"BabyBluetoothController"];
     [self.tableView reloadData];
     
     dispatch_queue_t queue1 = dispatch_get_global_queue(0, 0);
@@ -490,6 +557,31 @@ void printMethodNamesOfClass(Class cls){
         }
     }
     return hex;
+}
+-(void )convertHexStrToData:(NSString *)str{
+    if (!str || [str length] == 0) {
+        return ;
+    }
+    
+    NSMutableData *hexData = [[NSMutableData alloc] initWithCapacity:20];
+    NSRange range;
+    if ([str length] % 2 == 0) {
+        range = NSMakeRange(0, 2);
+    } else {
+        range = NSMakeRange(0, 1);
+    }
+    for (NSInteger i = range.location; i < [str length]; i += 2) {
+        unsigned int anInt;
+        NSString *hexCharStr = [str substringWithRange:range];
+        NSScanner *scanner = [[NSScanner alloc] initWithString:hexCharStr];
+        
+        [scanner scanHexInt:&anInt];
+        NSData *entity = [[NSData alloc] initWithBytes:&anInt length:1];
+        [hexData appendData:entity];
+        
+        range.location += range.length;
+        range.length = 2;
+    }
 }
 
 //销毁
