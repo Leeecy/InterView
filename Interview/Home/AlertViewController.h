@@ -6,11 +6,11 @@
 //  Copyright © 2019 cl. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AlertViewController : BaseViewController
+@interface AlertViewController : UIViewController
 
 @end
 
