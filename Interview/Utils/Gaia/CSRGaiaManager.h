@@ -221,6 +221,7 @@
 /// @brief Get the current battery level
 - (void)getBattery;
 
+- (void)getFastBattery;
 /// @brief Get the on chip application version
 - (void)getApiVersion;
 

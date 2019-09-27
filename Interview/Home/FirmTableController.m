@@ -34,12 +34,18 @@
 @property(nonatomic,strong)MBProgressHUD *hud;
 @property(nonatomic,strong)UIButton *startButton;
 @property(nonatomic,strong)UIButton *cancelButton;
+
+@property(nonatomic,strong)NSMutableArray *otherChosen;//更新第二个耳机
+@property (nonatomic) NSMutableArray *devices;
+
 @end
 
 @implementation FirmTableController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.devices = [NSMutableArray array];
+    self.otherChosen = [NSMutableArray array];
     self.supportedServices = @{ GaiaServiceUUID:
                                     @[@"Update Service", @"This service can update the software on the connected device."]};
     [self injected];
@@ -63,12 +69,13 @@
 //    [alert addAction:okButton];
 //    [self presentViewController:alert animated:YES completion:nil];
     
-    NSLog(@"The device disconnected");
+    NSLog(@"The device disconnected ==%@",peripheral);
 }
 
 - (void)didDiscoverPeripheral:(CSRPeripheral *)peripheral {
     self.chosenPeripheral = peripheral;
-     [[CSRConnectionManager sharedInstance] stopScan];
+    
+    
     if ([peripheral.peripheral isEqual:[CSRConnectionManager sharedInstance].connectedPeripheral.peripheral]) {
         NSLog(@"green");
     } else {
@@ -81,22 +88,42 @@
             [self discoveredPripheralDetails];
         }
     }
+    [self.devices addObject:peripheral];
+    NSLog(@"devices==%@",self.devices);
+    if (self.otherChosen.count >= 2) {
+         [[CSRConnectionManager sharedInstance] stopScan];
+    }
     
 }
 
 - (void)discoveredPripheralDetails{
-    for (CBService *service in self.chosenPeripheral.peripheral.services) {
-//        if ([self.supportedServices objectForKey:service.UUID.UUIDString]) {
-//
-//
-//        }
-        NSLog(@"services==%@",service);
-        if ([service.UUID.UUIDString isEqualToString:GaiaServiceUUID]) {
-            
-            [self setDelegate];
+    CSRPeripheral *second = self.otherChosen.firstObject;
+    
+    if (self.otherChosen.count > 0) {
+        for (CBService *service in second.peripheral.services) {
+            if ([service.UUID.UUIDString isEqualToString:GaiaServiceUUID]) {
+                
+                NSLog(@"%@更新第二个耳机\n%@",self.chosenPeripheral.peripheral, second.peripheral);
+                
+                [self setDelegate];
+            }
         }
-        
+    }else{
+        for (CBService *service in self.chosenPeripheral.peripheral.services) {
+            //        if ([self.supportedServices objectForKey:service.UUID.UUIDString]) {
+            //
+            //
+            //        }
+            NSLog(@"services==%@",service);
+            if ([service.UUID.UUIDString isEqualToString:GaiaServiceUUID]) {
+                
+                [self setDelegate];
+            }
+            
+        }
     }
+    
+    
 }
 -(void)setDelegate{
     [CSRGaiaManager sharedInstance].delegate = self;
@@ -124,6 +151,7 @@
     [[CSRConnectionManager sharedInstance] addDelegate:self];
     CBUUID *deviceInfoUUID = [CBUUID UUIDWithString:@"AE86"];
     NSArray *array = @[deviceInfoUUID];
+    [self.devices removeAllObjects];
     [[CSRConnectionManager sharedInstance] startScan:array];
     
     NSLog(@"%d",self.dataEndPointResponse);
@@ -296,10 +324,17 @@
         self.dataEndPointResponse = true;
         NSLog(@"dataEndPoint");
 //        [MBProgressHUD showAutoMessage:@"能更新" toView:kKeyWindow];
-        if (!self.updateView) {
-            [self popView];
+        if (self.otherChosen.count > 0) {
+            [self.updateView close];
+            [self update];
+        }else{
+            if (!self.updateView) {
+                [self popView];
+            }
+            //        [self.tableView reloadData];
         }
-        //        [self.tableView reloadData];
+        
+       
         
     }
 }
@@ -403,30 +438,37 @@
 #pragma mark CSRUpdateManager delegate methods
 
 - (void)confirmRequired {
+    if (self.otherChosen.count > 0) {
+        self.hideBusyView = YES;
+        [[CSRBusyViewController sharedInstance] hideBusy];
+        
+        UIAlertController *alert = [UIAlertController
+                                    alertControllerWithTitle:@"Finalise Update"
+                                    message:@"Would you like to complete the upgrade?"
+                                    preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okButton = [UIAlertAction
+                                   actionWithTitle:@"OK"
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction * action) {
+                                       [[CSRGaiaManager sharedInstance] commitConfirm:YES];
+                                   }];
+        UIAlertAction *cancelActionButton = [UIAlertAction
+                                             actionWithTitle:@"Cancel"
+                                             style:UIAlertActionStyleDefault
+                                             handler:^(UIAlertAction * action) {
+                                                 [[CSRGaiaManager sharedInstance] commitConfirm:NO];
+                                             }];
+        
+        [alert addAction:okButton];
+        [alert addAction:cancelActionButton];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+        return;
+    }
     self.hideBusyView = YES;
     [[CSRBusyViewController sharedInstance] hideBusy];
+    [[CSRGaiaManager sharedInstance] commitConfirm:YES];
     
-    UIAlertController *alert = [UIAlertController
-                                alertControllerWithTitle:@"Finalise Update"
-                                message:@"Would you like to complete the upgrade?"
-                                preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okButton = [UIAlertAction
-                               actionWithTitle:@"OK"
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction * action) {
-                                   [[CSRGaiaManager sharedInstance] commitConfirm:YES];
-                               }];
-    UIAlertAction *cancelActionButton = [UIAlertAction
-                                         actionWithTitle:@"Cancel"
-                                         style:UIAlertActionStyleDefault
-                                         handler:^(UIAlertAction * action) {
-                                             [[CSRGaiaManager sharedInstance] commitConfirm:NO];
-                                         }];
-    
-    [alert addAction:okButton];
-    [alert addAction:cancelActionButton];
-    
-    [self presentViewController:alert animated:YES completion:nil];
 }
 - (void)confirmForceUpgrade {
     UIAlertController *alert = [UIAlertController
@@ -512,34 +554,67 @@
     self.updateProgressView.progress = value / 100;
     self.title = [NSString stringWithFormat:@"%.2f%% Complete", value];
     self.timeLeftLabel.text = eta;
-    self.progressL.text = [NSString stringWithFormat:@"%.0f%%", value];
+//    self.progressL.text = [NSString stringWithFormat:@"%.0f%%", value];
+    if (self.otherChosen.count > 0) {
+        
+        NSLog(@"value=====%f",value*0.5);
+        self.progressL.text = [NSString stringWithFormat:@"%.0f%%", value * 0.5 + 50];
+    }else{
+        self.progressL.text = [NSString stringWithFormat:@"%.0f%%", value * 0.5];
+    }
     NSLog(@"progressL==%@", self.progressL.text);
     
 }
 
 - (void)didCompleteUpgrade {
-    self.hideBusyView = YES;
-    [[CSRBusyViewController sharedInstance] hideBusy];
+    if (self.otherChosen.count > 0) {
+        self.hideBusyView = YES;
+        [[CSRBusyViewController sharedInstance] hideBusy];
+        
+        NSString *message = [NSString stringWithFormat:@"Update with: %@", self.fileName];
+        UIAlertController *alert = [UIAlertController
+                                    alertControllerWithTitle:@"Update successful"
+                                    message:message
+                                    preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okButton = [UIAlertAction
+                                   actionWithTitle:@"OK"
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction * action) {
+                                       [self tidyUp];
+                                       
+                                   }];
+        
+        [alert addAction:okButton];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+       
+    }else{
+        self.hideBusyView = YES;
+        [[CSRBusyViewController sharedInstance] hideBusy];
+        NSLog(@"第一个耳机更新完了");
+        /**接着更新另外一个耳机*/
+        for (CSRPeripheral * secondPeri in self.devices) {
+            if (![secondPeri.peripheral.name isEqualToString:self.chosenPeripheral.peripheral.name]) {
+                [self.otherChosen addObject:secondPeri];
+                
+                NSLog(@"second ==%@",secondPeri);
+                if (![secondPeri isConnected]) {
+                    NSLog(@"secondIsNotConnected");
+                    [[CSRConnectionManager sharedInstance] connectPeripheral:secondPeri];
+                    
+                }else{
+                    NSLog(@"secondisConnected");
+                    [self discoveredPripheralDetails];
+                }
+            }
+        }
+        
+    }
     
-    NSString *message = [NSString stringWithFormat:@"Update with: %@", self.fileName];
-    UIAlertController *alert = [UIAlertController
-                                alertControllerWithTitle:@"Update successful"
-                                message:message
-                                preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okButton = [UIAlertAction
-                               actionWithTitle:@"OK"
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction * action) {
-                                   [self tidyUp];
-                                   
-                               }];
-    
-    [alert addAction:okButton];
-    
-    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)didAbortUpgrade {
+    
     NSString *message = [NSString stringWithFormat:@"Update with: %@", self.fileName];
     UIAlertController *alert = [UIAlertController
                                 alertControllerWithTitle:@"Update aborted"
@@ -563,28 +638,30 @@
 }
 
 - (void)confirmTransferRequired {
-    UIAlertController *alert = [UIAlertController
-                                alertControllerWithTitle:@"File transfer complete"
-                                message:@"Would you like to proceed?"
-                                preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okButton = [UIAlertAction
-                               actionWithTitle:@"OK"
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction * action) {
-                                   [[CSRGaiaManager sharedInstance] updateTransferComplete];
-                                   
-                               }];
-    UIAlertAction *cancelActionButton = [UIAlertAction
-                                         actionWithTitle:@"Cancel"
-                                         style:UIAlertActionStyleDefault
-                                         handler:^(UIAlertAction * action) {
-                                             [[CSRGaiaManager sharedInstance] updateTransferAborted];
-                                         }];
+     [[CSRGaiaManager sharedInstance] updateTransferComplete];
     
-    [alert addAction:okButton];
-    [alert addAction:cancelActionButton];
-    
-    [self presentViewController:alert animated:YES completion:nil];
+//    UIAlertController *alert = [UIAlertController
+//                                alertControllerWithTitle:@"File transfer complete"
+//                                message:@"Would you like to proceed?"
+//                                preferredStyle:UIAlertControllerStyleAlert];
+//    UIAlertAction *okButton = [UIAlertAction
+//                               actionWithTitle:@"OK"
+//                               style:UIAlertActionStyleDefault
+//                               handler:^(UIAlertAction * action) {
+//                                   [[CSRGaiaManager sharedInstance] updateTransferComplete];
+//
+//                               }];
+//    UIAlertAction *cancelActionButton = [UIAlertAction
+//                                         actionWithTitle:@"Cancel"
+//                                         style:UIAlertActionStyleDefault
+//                                         handler:^(UIAlertAction * action) {
+//                                             [[CSRGaiaManager sharedInstance] updateTransferAborted];
+//                                         }];
+//
+//    [alert addAction:okButton];
+//    [alert addAction:cancelActionButton];
+//
+//    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)confirmBatteryOkay {
@@ -650,8 +727,14 @@
 }
 
 - (void)didWarmBoot {
-    CSRBusyViewController *busy = [[CSRBusyViewController alloc]init];
-    [self.navigationController pushViewController:busy animated:YES];
+    if (self.otherChosen.count > 0) {
+//        CSRBusyViewController *busy = [[CSRBusyViewController alloc]init];
+//        [self.navigationController pushViewController:busy animated:YES];
+//        return;
+    }
+    
+//    CSRBusyViewController *busy = [[CSRBusyViewController alloc]init];
+//    [self.navigationController pushViewController:busy animated:YES];
     
 }
 @end

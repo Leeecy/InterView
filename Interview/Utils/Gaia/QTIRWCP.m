@@ -157,7 +157,7 @@
     _hasDisconnected = true;
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(didMakeProgress:)]) {
-        [self.delegate didMakeProgress:0];
+//        [self.delegate didMakeProgress:50];
         [self.delegate didUpdateStatus:@"Disconnected. Waiting for reconnection..."];
     }
 }
@@ -194,7 +194,7 @@
     _hasDisconnected = true;
 
     if (self.delegate && [self.delegate respondsToSelector:@selector(didMakeProgress:)]) {
-        [self.delegate didMakeProgress:0];
+//        [self.delegate didMakeProgress:50];
         [self.delegate didUpdateStatus:@"Disconnected. Waiting for reconnection..."];
     }
 }

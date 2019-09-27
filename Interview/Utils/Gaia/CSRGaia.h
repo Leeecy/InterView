@@ -76,7 +76,7 @@
 
 /// @brief Get the current battery level
 - (void)getBattery;
-
+- (void)getFastBattery;
 /// @brief Get the current audio source
 - (void)getAudioSource;
 

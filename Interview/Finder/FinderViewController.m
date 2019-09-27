@@ -24,6 +24,7 @@
     [self addCell:@"Block测试" class:@"BlockViewController"];
     [self addCell:@"TEVI" class:@"TEVIViewController"];
     [self addCell:@"测试Switch" class:@"SwitchViewController"];
+    [self addCell:@"切换BLE" class:@"BLEViewController"];
     [self.tableView reloadData];
 }
 

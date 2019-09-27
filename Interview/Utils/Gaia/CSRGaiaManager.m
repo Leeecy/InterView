@@ -273,6 +273,9 @@
     [[CSRGaia sharedInstance] getBattery];
 }
 
+- (void)getFastBattery {
+    [[CSRGaia sharedInstance] getFastBattery];
+}
 - (void)getApiVersion {
     [[CSRGaia sharedInstance] getApiVersion];
 }

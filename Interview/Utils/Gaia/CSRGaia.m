@@ -125,7 +125,11 @@
                vendor:CSR_GAIA_VENDOR_ID
                  data:nil];
 }
-
+- (void)getFastBattery{
+    [self sendCommand:GaiaCommand_GetCurrentBatteryLevel
+               vendor:CSR_GAIA_VENDOR_ID
+                 data:nil];
+}
 - (void)setVolume:(NSInteger)value {
     NSMutableData *payload = [[NSMutableData alloc] init];
     uint8_t payload_event = (uint8_t)value;
