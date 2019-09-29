@@ -4,6 +4,7 @@
 //
 //  Created by cl on 2019/7/19.
 //  Copyright © 2019 cl. All rights reserved.
+
 // 69cili.xyz  p99y.com
 /** runloop 事件产生的地方就是source(输入源), 运用发消息的机制，让事件可以唤醒休眠的runloop执行*/
 //    dispatch_get_main_queue()串行 gloable_queue 并发

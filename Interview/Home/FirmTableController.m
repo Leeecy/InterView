@@ -68,8 +68,19 @@
 //                               handler:nil];
 //    [alert addAction:okButton];
 //    [self presentViewController:alert animated:YES completion:nil];
+    if (self.otherChosen.count > 0) {
+        
+        CSRPeripheral *secondPeri = self.otherChosen.firstObject;
+        if (![secondPeri isConnected]) {
+            NSLog(@"第一个耳机断了连上第二个didDisconnectFromPeripheral");
+            [[CSRConnectionManager sharedInstance] connectPeripheral:secondPeri];
+            [self discoveredPripheralDetails];
+        }
+        
+    }else{
+        NSLog(@"The device disconnected ==%@",peripheral);
+    }
     
-    NSLog(@"The device disconnected ==%@",peripheral);
 }
 
 - (void)didDiscoverPeripheral:(CSRPeripheral *)peripheral {
@@ -78,6 +89,7 @@
     
     if ([peripheral.peripheral isEqual:[CSRConnectionManager sharedInstance].connectedPeripheral.peripheral]) {
         NSLog(@"green");
+//        [self discoveredPripheralDetails];
     } else {
         NSLog(@"white");
         if (![self.chosenPeripheral isConnected]) {
@@ -100,6 +112,8 @@
     CSRPeripheral *second = self.otherChosen.firstObject;
     
     if (self.otherChosen.count > 0) {
+        [self setDelegate];
+        
         for (CBService *service in second.peripheral.services) {
             if ([service.UUID.UUIDString isEqualToString:GaiaServiceUUID]) {
                 
@@ -326,6 +340,7 @@
 //        [MBProgressHUD showAutoMessage:@"能更新" toView:kKeyWindow];
         if (self.otherChosen.count > 0) {
             [self.updateView close];
+            [self setupOTAU];
             [self update];
         }else{
             if (!self.updateView) {
@@ -360,7 +375,7 @@
     
     NSLog(@"++++++start");
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"QCC512X_dfu_file"ofType:@"bin"];
+    NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"ota_cc"ofType:@"bin"];
     if (self.dleSwitch && [CSRConnectionManager sharedInstance].connectedPeripheral.isDataLengthExtensionSupported){
         NSUInteger value = self.dleSizeTextField.integerValue;
         NSUInteger maxValue = [CSRConnectionManager sharedInstance].connectedPeripheral.maximumWriteLength;
@@ -468,6 +483,7 @@
     self.hideBusyView = YES;
     [[CSRBusyViewController sharedInstance] hideBusy];
     [[CSRGaiaManager sharedInstance] commitConfirm:YES];
+    NSLog(@"confirmRequired");
     
 }
 - (void)confirmForceUpgrade {
@@ -591,6 +607,7 @@
     }else{
         self.hideBusyView = YES;
         [[CSRBusyViewController sharedInstance] hideBusy];
+        [[CSRConnectionManager sharedInstance] addDelegate:self];
         NSLog(@"第一个耳机更新完了");
         /**接着更新另外一个耳机*/
         for (CSRPeripheral * secondPeri in self.devices) {
@@ -730,11 +747,17 @@
     if (self.otherChosen.count > 0) {
 //        CSRBusyViewController *busy = [[CSRBusyViewController alloc]init];
 //        [self.navigationController pushViewController:busy animated:YES];
-//        return;
+//
+    }else{
+        [[NSNotificationCenter defaultCenter]
+         removeObserver:self
+         name:CancelPressedNotification
+         object:nil];
+        [[CSRConnectionManager sharedInstance] removeDelegate:self];
+        [[CSRConnectionManager sharedInstance] stopScan];
     }
     
-//    CSRBusyViewController *busy = [[CSRBusyViewController alloc]init];
-//    [self.navigationController pushViewController:busy animated:YES];
+    
     
 }
 @end
