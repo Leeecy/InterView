@@ -184,7 +184,7 @@
     self.hud.label.text = NSLocalizedString(@"正在更新...", @"HUD loading title");
     
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-     NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"QCC512X_dfu_file"ofType:@"bin"];
+     NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"ota_cc"ofType:@"bin"];
     if (self.dleSwitch && [CSRConnectionManager sharedInstance].connectedPeripheral.isDataLengthExtensionSupported){
         NSUInteger value = self.dleSizeTextField.integerValue;
         NSUInteger maxValue = [CSRConnectionManager sharedInstance].connectedPeripheral.maximumWriteLength;
@@ -544,6 +544,13 @@
 - (void)didWarmBoot {
     CSRBusyViewController *busy = [[CSRBusyViewController alloc]init];
     [self.navigationController pushViewController:busy animated:YES];
+//    [[NSNotificationCenter defaultCenter]
+//     removeObserver:self
+//     name:CancelPressedNotification
+//     object:nil];
+//
+//    [[CSRConnectionManager sharedInstance] removeDelegate:self];
+    
  
 }
 #pragma mark CSRConnectionManager delegate methods
