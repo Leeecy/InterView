@@ -34,7 +34,7 @@
     [self drawChart];
     
 
-    GQYVerticalSlider *slider = [[GQYVerticalSlider alloc]initWithFrame:CGRectMake(100, 200, 16, 100)];
+    GQYVerticalSlider *slider = [[GQYVerticalSlider alloc]initWithFrame:CGRectMake(100, 200, 10, 200)];
     //    [slider sizeToFit];
     [self.view addSubview:slider];
     slider.titleStyle = TopTitleStyle;

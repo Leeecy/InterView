@@ -8,7 +8,7 @@
 
 #import "CoreAnimateController.h"
 #import "CLDropAnimate.h"
-
+#import "SOValueTrackingSlider.h"
 #define GKLineLoadingDuration  0.75
 #define GKLineLoadingLineColor [UIColor grayColor]
 
@@ -166,7 +166,7 @@
 @end
 
 
-@interface CoreAnimateController ()
+@interface CoreAnimateController ()<SOValueTrackingSliderDelegate>
 @property (strong, nonatomic) GKLineLoadingView *lineview;
 @property(strong,nonatomic)CircleView *cView ;
 @property(strong,nonatomic)NSTimer *timer;
@@ -185,15 +185,15 @@
     [self.cView setLineWidth:6.f];
     [self.cView setLineColr:[UIColor redColor]];
     
-    UISlider *slider1 = [[UISlider alloc]init];
-    slider1.frame = CGRectMake(100, 120, 100, 10);
-    slider1.maximumValue = 1;
-    slider1.minimumValue = 0;
-    slider1.value = 0;
-    slider1.maximumTrackTintColor = [UIColor blueColor];
-    slider1.minimumTrackTintColor = [UIColor redColor];
-    [slider1 addTarget:self action:@selector(sliderValue:) forControlEvents:(UIControlEventValueChanged)];
-    [self.view addSubview:slider1];
+    SOValueTrackingSlider *slider = [[SOValueTrackingSlider alloc] initWithFrame:CGRectMake(70, 150, 200, 50)];
+    slider.maxmumTrackTintColor = [UIColor redColor];
+    slider.minimumTrackTintColor = [UIColor greenColor];
+    slider.isVertical = YES;
+    slider.delegate = self;
+    
+    [self.view addSubview:slider];
+    
+
     
 //    CLDropAnimate *animate = [[CLDropAnimate alloc]initWithFrame:CGRectMake(100, 200, 10, 10)];
 //    [self.view addSubview:animate];

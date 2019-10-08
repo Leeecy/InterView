@@ -39,6 +39,9 @@
 		4A27DFE62340A3E10008FF82 /* ota_cc.bin in Resources */ = {isa = PBXBuildFile; fileRef = 4A27DFE52340A3E10008FF82 /* ota_cc.bin */; };
 		4A27DFE82340A3E90008FF82 /* ota_dd.bin in Resources */ = {isa = PBXBuildFile; fileRef = 4A27DFE72340A3E90008FF82 /* ota_dd.bin */; };
 		4A27DFEA2340A3EF0008FF82 /* h6_ota.bin in Resources */ = {isa = PBXBuildFile; fileRef = 4A27DFE92340A3EF0008FF82 /* h6_ota.bin */; };
+		4A2B5C7A234C29E9001BA0AE /* SOTrackingSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A2B5C74234C29E9001BA0AE /* SOTrackingSlider.m */; };
+		4A2B5C7B234C29E9001BA0AE /* SOValuePopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A2B5C75234C29E9001BA0AE /* SOValuePopView.m */; };
+		4A2B5C7C234C29E9001BA0AE /* SOValueTrackingSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A2B5C78234C29E9001BA0AE /* SOValueTrackingSlider.m */; };
 		4A2F5EFF23335AAE003E9B3E /* SwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F5EFE23335AAE003E9B3E /* SwitchViewController.m */; };
 		4A2F5F0223335B68003E9B3E /* KSVocieTipCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F5F0123335B68003E9B3E /* KSVocieTipCell.m */; };
 		4A2F5F0523335B98003E9B3E /* KSBaseViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F5F0323335B97003E9B3E /* KSBaseViewCell.m */; };
@@ -183,6 +186,12 @@
 		4A27DFE52340A3E10008FF82 /* ota_cc.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = ota_cc.bin; sourceTree = "<group>"; };
 		4A27DFE72340A3E90008FF82 /* ota_dd.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = ota_dd.bin; sourceTree = "<group>"; };
 		4A27DFE92340A3EF0008FF82 /* h6_ota.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = h6_ota.bin; sourceTree = "<group>"; };
+		4A2B5C74234C29E9001BA0AE /* SOTrackingSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOTrackingSlider.m; sourceTree = "<group>"; };
+		4A2B5C75234C29E9001BA0AE /* SOValuePopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOValuePopView.m; sourceTree = "<group>"; };
+		4A2B5C76234C29E9001BA0AE /* SOValueTrackingSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOValueTrackingSlider.h; sourceTree = "<group>"; };
+		4A2B5C77234C29E9001BA0AE /* SOTrackingSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOTrackingSlider.h; sourceTree = "<group>"; };
+		4A2B5C78234C29E9001BA0AE /* SOValueTrackingSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOValueTrackingSlider.m; sourceTree = "<group>"; };
+		4A2B5C79234C29E9001BA0AE /* SOValuePopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOValuePopView.h; sourceTree = "<group>"; };
 		4A2F5EFD23335AAE003E9B3E /* SwitchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwitchViewController.h; sourceTree = "<group>"; };
 		4A2F5EFE23335AAE003E9B3E /* SwitchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SwitchViewController.m; sourceTree = "<group>"; };
 		4A2F5F0023335B68003E9B3E /* KSVocieTipCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSVocieTipCell.h; sourceTree = "<group>"; };
@@ -425,6 +434,19 @@
 			path = PopVC;
 			sourceTree = "<group>";
 		};
+		4A2B5C73234C29E9001BA0AE /* SOSlider */ = {
+			isa = PBXGroup;
+			children = (
+				4A2B5C77234C29E9001BA0AE /* SOTrackingSlider.h */,
+				4A2B5C74234C29E9001BA0AE /* SOTrackingSlider.m */,
+				4A2B5C79234C29E9001BA0AE /* SOValuePopView.h */,
+				4A2B5C75234C29E9001BA0AE /* SOValuePopView.m */,
+				4A2B5C76234C29E9001BA0AE /* SOValueTrackingSlider.h */,
+				4A2B5C78234C29E9001BA0AE /* SOValueTrackingSlider.m */,
+			);
+			path = SOSlider;
+			sourceTree = "<group>";
+		};
 		4A347A6C2306A800007FCD76 /* BTL */ = {
 			isa = PBXGroup;
 			children = (
@@ -485,6 +507,7 @@
 		4A347AB62307DBBA007FCD76 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4A2B5C73234C29E9001BA0AE /* SOSlider */,
 				4A347AB72307DBE8007FCD76 /* CSRDeviceTableViewCell.h */,
 				4A347AB82307DBE8007FCD76 /* CSRDeviceTableViewCell.m */,
 				4A347AB92307DBE8007FCD76 /* CSRDeviceTableViewCell.xib */,
@@ -916,6 +939,7 @@
 				4A2F5F1023347933003E9B3E /* BabyBluetoothController.m in Sources */,
 				F5CFB2DB22E16CF600C81E26 /* CLPerson+Test1.m in Sources */,
 				4A2F5F0523335B98003E9B3E /* KSBaseViewCell.m in Sources */,
+				4A2B5C7B234C29E9001BA0AE /* SOValuePopView.m in Sources */,
 				F5CFB34222E2EEF500C81E26 /* HttpTool.m in Sources */,
 				F5CFB2CB22E0D79C00C81E26 /* CLHomeViewController.m in Sources */,
 				F5CFB32422E2051A00C81E26 /* FinderViewController.m in Sources */,
@@ -967,6 +991,7 @@
 				4A195007230F87DC005E1F4A /* UIImageView+LBBlurredImage.m in Sources */,
 				4A347A9F2306A800007FCD76 /* QTIL2CAPDataProvider.m in Sources */,
 				4A194FF4230E68FC005E1F4A /* KSControlViewController.m in Sources */,
+				4A2B5C7C234C29E9001BA0AE /* SOValueTrackingSlider.m in Sources */,
 				F5CFB30D22E16DA600C81E26 /* LJModuleADetailViewController.m in Sources */,
 				F5CFB31E22E16E3500C81E26 /* NSURL+HOOK.m in Sources */,
 				4A194FE8230E429D005E1F4A /* KSSettingsViewController.m in Sources */,
@@ -1000,6 +1025,7 @@
 				4A194FE2230E2ECC005E1F4A /* TEVIViewController.m in Sources */,
 				4A06E73F22F98787006056DB /* GQYVerticalSlider.m in Sources */,
 				4A48A31C22F3BB82002EE420 /* ChartViewController.m in Sources */,
+				4A2B5C7A234C29E9001BA0AE /* SOTrackingSlider.m in Sources */,
 				F5C7007222F176E8002F5C31 /* CLDropAnimate.m in Sources */,
 				4A195008230F87DC005E1F4A /* UIImage+ImageEffects.m in Sources */,
 				4A1E79A42318F2E900063544 /* OTAFirmController.m in Sources */,
