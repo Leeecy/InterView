@@ -8,11 +8,12 @@
 
 #import "KSChartView.h"
 
-#import "GQYVerticalSlider.h"
-#define xViewWidth 300
-#define xOffWidth 50
-#define contentWidth self.frame.size.width * 0.8
-@interface KSChartView()
+#import "KSEqSlider.h"
+#define xViewWidth 300 //没用到
+#define xOffWidth 50 //没用到
+#define contentWidth self.frame.size.width * 7/8
+#define sliderWidth 320
+@interface KSChartView()<KSEqSliderDelegate>
 @property(strong,nonatomic)NSMutableArray *xArray;
 @property(strong,nonatomic)NSMutableArray *yArray;
 
@@ -26,6 +27,7 @@
 @property (nonatomic, assign) CGFloat maxY;
 @property (nonatomic, assign) CGFloat topPadding;
 @property(strong,nonatomic)UIImageView *slideImg;
+@property(nonatomic,strong) KSEqSlider *slider;
 
 @end
 
@@ -37,6 +39,7 @@
     if (values.count < 1) {
         return self;
     }
+//    self.x = frame.origin.x -8;
     // DEFAULTS
     UIColor *curveColorDefault = curveColor ? curveColor : [UIColor blackColor];
     CGFloat curveWidthDefault = curveWidth ? curveWidth : 2.0;
@@ -48,7 +51,8 @@
     
     // STORE
     _values = values;
-    [self setupBtnWithArr:values andTop:topPaddingDefault];
+    [self makeDataX];
+//    [self setupBtnWithArr:values andTop:topPaddingDefault];
     _curveColor = curveColorDefault;
     _curveWidth = curveWidthDefault;
     _topGradientColor = topGradientColorDefault;
@@ -61,45 +65,45 @@
 //    [self addSubview:self.subView];
 //    [self insertSubview:self.subView atIndex:0];
     [self drawGraphWithValues:values inView:self minY:minYDefault maxY:maxYDefault topPadding:topPaddingDefault curveColor:curveColorDefault curveWidth:curveWidthDefault topGradientColor:topGradientColorDefault bottomGradientColor:bottomGradientColorDefault];
+    [self setupBtnWithArr:values andTop:topPaddingDefault];
     
     return self;
 }
 
 //MARK:-创建线上的点
 -(void)setupBtnWithArr:(NSArray*)arr andTop:(CGFloat)topPad{
-//    CGFloat beginPointY = self.height/2;
+    if (self.slider) {
+        [self.slider removeFromSuperview];
+    }
+    CGFloat width = contentWidth /(arr.count -1);
+     CGFloat topH = iPhoneX ?(SafeAreaTopHeight + 130):189;
+ 
+    for (int i =0; i < self.values.count; i++) {
+            CGFloat sliderH = EQSliderHeight;
+            CGFloat sliderW = 5;
+            CGFloat sliderX = width *i;
+            CGFloat sliderY = 0;
+            self.slider = [[KSEqSlider alloc] init];
+            self.slider.transform = CGAffineTransformMakeRotation(-M_PI_2);
+            CGFloat value = [arr[i] intValue];
+            self.slider.isShowTitle = YES;
+        self.slider.titleStyle = KSEqTopTitleStyle;
+            self.slider.value = value;
+            self.slider.tag = i;
+            self.slider.delegate = self;
+    //        [self.slider addTarget:self action:@selector(_sliderValueDidChanged:) forControlEvents:UIControlEventValueChanged];
+            [self addSubview:self.slider];
+             self.slider.frame = CGRectMake(sliderX, sliderY, sliderW, sliderH);
+        }
     
-    for (int i = 0; i< arr.count; i++) {
-        
-        CGFloat gap = fabs(contentWidth / MAX(arr.count - 1, 0));
-        CGFloat pX = i * gap;
-        CGFloat verticalMin = self.frame.size.height * 0;
-        CGFloat verticalMax = self.frame.size.height * 1;
-        // Curve also needs a floor
-        CGFloat pY = (self.frame.size.height + topPad) - (((([[arr objectAtIndex:i] floatValue] / verticalMax) * verticalMin)) + verticalMin);
-        pY = isnan(pY) ? 0.0 : pY; //isan 一个数是无穷
-        CGPoint p = CGPointMake(pX, pY);
-        NSLog(@"-------%@",NSStringFromCGPoint(p));
-        
-        GQYVerticalSlider *slider = [[GQYVerticalSlider alloc]init];
-        [self addSubview:slider];
-        slider.frame = CGRectMake(0, 0, 20, 300);
-        
-        slider.tag = i;
-        slider.maximumValue = 300;
-        slider.minimumValue = 0;
-//        slider.value = [arr[i] intValue];
-        slider.centerX = p.x;
-        [slider setValue: [arr[i] intValue] animated:YES];
-        
-        slider.touchSliderValueChange = ^(CGFloat value,BOOL isEnd ,NSInteger tag) {
-//            NSLog(@"vale---%f tag---%ld",value,tag);
-            if ([self.delegate respondsToSelector:@selector(sendValue:andTag:)]) {
-                [self.delegate sendValue:value andTag:tag];
-            }
-            
-        };
-        
+   
+}
+
+-(void)sliderMoveEnd:(CGFloat)slider andTag:(NSInteger)tag{
+    NSLog(@"%.0f===%ld",slider,tag);
+    //滑动结束时才设置EQ的值
+    if ([self.delegate respondsToSelector:@selector(moveEnd:tag:)]) {
+        [self.delegate moveEnd:slider tag:tag];
     }
 }
 
@@ -149,6 +153,8 @@
     gradientLayer.mask = maskLayer;
     [superview.layer addSublayer:gradientLayer];
     [superview.layer addSublayer:curveLayer];
+    
+//    [self bringSubviewToFront:self.slider];
     
 }
 
@@ -253,36 +259,46 @@
     return points;
 }
 
-
--(void)drawRect:(CGRect)rect{
-    self.xArray = [NSMutableArray arrayWithObjects:@"30",@"100",@"500",@"1K",@"10K", nil];
+-(void)makeDataX{
+    self.xArray = [NSMutableArray arrayWithObjects:@"80",@"250",@"500",@"1K",@"3K",@"7K",@"10K", nil];
     self.yArray = [NSMutableArray arrayWithObjects:@"30",@"100",@"500",@"1K",@"10K", nil];
-//    self.pointArray = [NSMutableArray arrayWithObjects:@"30",@"100",@"500",@"1K",@"10K", nil];
+    //    self.pointArray = [NSMutableArray arrayWithObjects:@"30",@"100",@"500",@"1K",@"10K", nil];
     
     [self makeX];
-    
-//    [self makeY];
-
-
 }
+
+//-(void)drawRect:(CGRect)rect{
+//    self.xArray = [NSMutableArray arrayWithObjects:@"30",@"60",@"250",@"500",@"1K", nil];
+//    self.yArray = [NSMutableArray arrayWithObjects:@"30",@"100",@"500",@"1K",@"10K", nil];
+////    self.pointArray = [NSMutableArray arrayWithObjects:@"30",@"100",@"500",@"1K",@"10K", nil];
+//
+//    [self makeX];
+//
+////    [self makeY];
+//
+//}
 -(void)makeX{
     UIView *view = [UIView new];
-    [self addSubview:view];
-    view.frame = CGRectMake(0, 300, 340, 1);
+//    [self addSubview:view];
+    view.frame = CGRectMake(0, 300, self.width, 1);
     view.backgroundColor = [UIColor lightGrayColor];
-    CGFloat h = 340 / self.xArray.count;
+    CGFloat h = self.width / self.xArray.count;
     for (int i = 0; i < self.xArray.count; i++) {
+        CGFloat gap = fabs(contentWidth / MAX(self.xArray.count - 1, 0));
+        CGFloat pX = i * gap;
+        
         UILabel *label = [UILabel new];
         label.text = self.xArray[i];
         [self addSubview:label];
-        label.font = [UIFont systemFontOfSize:20];
-        label.textColor = [UIColor blackColor];
-        label.textAlignment = NSTextAlignmentLeft;
-        label.frame = CGRectMake(  i * h, 300, 40, 20);
+        label.font = [UIFont systemFontOfSize:17];
+        label.textColor = [UIColor colorWithHexString:@"#FFFFFF"];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.frame = CGRectMake(  i * h , 300 + 20, 40, 20);
+        label.centerX = pX;
         
-        
-        UIView *lineV = [[UIView alloc]initWithFrame:CGRectMake( i* h, 0, 1, 300)];
-        lineV.backgroundColor = [UIColor lightGrayColor];
+        UIView *lineV = [[UIView alloc]initWithFrame:CGRectMake( i* h , 0, 1, 300)];
+        lineV.centerX = pX;
+        lineV.backgroundColor = [[UIColor colorWithHexString:@"#232323"] colorWithAlphaComponent:0.6];
         [self addSubview:lineV];
     }
     

@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol KSChartViewDelegate <NSObject>
 
 -(void)sendValue:(CGFloat)value andTag:(NSInteger)tag;
+//滑动结束才设置EQ的值
+-(void)moveEnd:(CGFloat)value tag:(NSInteger)tag;
 
 @end
 

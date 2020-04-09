@@ -31,13 +31,16 @@
     [formatter setMaximumFractionDigits:2];
     [formatter setMinimumFractionDigits:2];
     _numberFormatter = formatter;
-    self.valuePopView = [[SOValuePopView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+    self.valuePopView = [[SOValuePopView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
     self.valuePopView.textColor = [UIColor redColor];
 //    self.valuePopView.backgroundColor = [UIColor redColor];
     [self addSubview:self.valuePopView];
-    _uiSlider = [[SOTrackingSlider alloc] initWithFrame:CGRectMake(50, 0, frame.size.width - 50, 50)];
+    _uiSlider = [[SOTrackingSlider alloc] initWithFrame:CGRectMake(20, 0, frame.size.width - 20, 10)];
     _uiSlider.delegate = self;
-    [_uiSlider setThumbImage:[UIImage imageNamed:@"圆形"] forState:UIControlStateNormal];
+     UIImage *norImage = [UIImage imageNamed:@"滑块"];
+    [_uiSlider setThumbImage:[self OriginImage:norImage scaleToSize:CGSizeMake(43, 17)] forState:UIControlStateNormal];
+    
+ 
     _uiSlider.isShowTitle = YES;
     _uiSlider.titleStyle = TopTitleStyle;
     _uiSlider.minimumValue = 0;
@@ -99,5 +102,19 @@
 // 解决在UIScrollView中滑动冲突的问题
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event{
     return CGRectContainsPoint(self.uiSlider.frame, point);
+}
+
+-(UIImage*) OriginImage:(UIImage*)image scaleToSize:(CGSize)size{
+      if([[UIScreen mainScreen] scale] == 2.0) {
+             UIGraphicsBeginImageContextWithOptions(size, NO, 2.0);
+         } else {
+             UIGraphicsBeginImageContext(size);
+         }
+       UIGraphicsBeginImageContextWithOptions(size, NO, [[UIScreen mainScreen] scale]);
+    [image drawInRect:CGRectMake(0,0, size.width, size.height)];
+    UIImage* scaledImage =UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return scaledImage;
+    
 }
 @end

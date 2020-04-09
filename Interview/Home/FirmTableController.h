@@ -10,9 +10,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+
+
 @interface FirmTableController : BaseViewController
 @property (nonatomic,assign) BOOL isDataEndpointAvailable;
-
 @property (nonatomic,strong) NSString *fileName;
 @property (strong, nonatomic) UILabel *fileNameLabel;
 @property (strong, nonatomic) UILabel * timeLeftLabel;
@@ -22,6 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,copy)NSString *dleSizeTextField;
 @property (nonatomic,assign) BOOL rwcpSwitch;
 @property (assign, nonatomic)BOOL dleSwitch;
+
+@property(nonatomic,assign)BOOL isUpdateScanFirst;//更新第一次扫描,扫到就停止
+@property(nonatomic,assign)BOOL isUpdateScanSecond;//更新第2次扫描,扫到就停止
 
 @end
 

@@ -13,6 +13,10 @@
 /*! @brief slider的thumbView */
 @property (nonatomic, strong) UIView *thumbView;
 @property(nonatomic, strong) UILabel *sliderValueLabel;//滑块下面的值
+
+@property (nonatomic, strong) CAGradientLayer *gradientLayer;
+@property (nonatomic, strong) NSArray * colors;//颜色数组
+
 @end
 
 @implementation SOTrackingSlider
@@ -21,10 +25,11 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-
     }
     return self;
 }
+
+
 
 #pragma mark - subclassed
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event{
@@ -72,16 +77,19 @@
         //滑块的响应事件
         [self addTarget:self action:@selector(sliderAction:) forControlEvents:UIControlEventValueChanged];
         self.continuous = YES;// 设置可连续变化
-        
+       
         // 当前值label
         self.sliderValueLabel = [[UILabel alloc] init];
         self.sliderValueLabel.textAlignment = NSTextAlignmentCenter;
-        self.sliderValueLabel.backgroundColor = [UIColor redColor];
+//        self.sliderValueLabel.backgroundColor = [UIColor redColor];
         self.sliderValueLabel.font = [UIFont systemFontOfSize:14];
         self.sliderValueLabel.textColor = [UIColor orangeColor];
         self.sliderValueLabel.text = [NSString stringWithFormat:@"%.f", self.value];
          self.sliderValueLabel.transform = CGAffineTransformMakeRotation(1.57079633);
         [self addSubview:self.sliderValueLabel];
+       
+       
+        
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             UIImageView *slideImage = (UIImageView *)[self.subviews lastObject];
@@ -100,6 +108,19 @@
                 
             }];
         });
+        
+        
+        CAGradientLayer *layer=[CAGradientLayer layer];
+        layer.frame= self.sliderValueLabel.frame;
+
+      [layer setColors:@[(id)[UIColor redColor].CGColor, (id)[UIColor blueColor].CGColor]];
+      [self.layer addSublayer:layer];
+        layer.locations = @[@(-0.2), @(-0.1), @(0)];
+        [layer setStartPoint:CGPointMake(0, 0)];
+        
+         [layer setStartPoint:CGPointMake(0, 1)];
+       
+      
     }
 }
 - (void)sliderAction:(UISlider*)slider{

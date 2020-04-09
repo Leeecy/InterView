@@ -87,6 +87,7 @@
 }
 
 - (void)didDiscoverPeripheral:(CSRPeripheral *)peripheral {
+    NSLog(@"来了一次%@",peripheral.peripheral.name);
     if (![self foundDevice:peripheral.peripheral.identifier]) {
         [self.devices addObject:peripheral];
     }

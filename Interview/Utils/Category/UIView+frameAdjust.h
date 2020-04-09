@@ -22,6 +22,13 @@
 - (CGFloat)width;
 - (void)setWidth:(CGFloat)width;
 
+// top
+- (CGFloat)top;
+- (void)setTop:(CGFloat)top;
+- (CGFloat)left;
+- (void)setLeft:(CGFloat)left;
+- (CGFloat)bottom;
+- (void)setBottom:(CGFloat)bottom ;
 // 高
 - (CGFloat)height;
 - (void)setHeight:(CGFloat)height;

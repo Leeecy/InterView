@@ -22,8 +22,11 @@
 #import "CLButton.h"
 #import "TicketManager.h"
 #import <objc/runtime.h>
-#import "HomeManager/CLPerson.h"
 #import "MathUtil.h"
+#import "NSObject+Extension.h"
+#import "HYRadix.h"
+#import "NSString+Extension.h"
+#import <Test/Test.h>
 
 typedef NS_ENUM(NSUInteger, GaiaCommandUpdate) {
     GaiaUpdate_Unknown                          = 0x00,
@@ -71,80 +74,150 @@ typedef NS_ENUM(NSUInteger, GaiaCommandUpdate) {
 
 @property (nonatomic, strong) NSMutableArray *titles;
 @property (nonatomic, strong) NSMutableArray *classNames;
+@property(nonatomic,strong)NSString *defaultVersion;
+@property(nonatomic,strong)NSString *leftVersion;
+@property(nonatomic,strong)NSString *rightVersion;
 
-
+@property (nonatomic) NSDictionary *supportedServices;
 @end
+#define GATTDeviceInformationService    @"180A"
+#define GATTBatteryService              @"180F"
+#define GATTHeartRateService            @"180D"
+#define GATTImmediateAlertService       @"1802"
+#define GATTLinkLossService             @"1803"
+#define GATTAlertNotificationService    @"1811"
+#define GaiaServiceUUID                 @"00001100-D102-11E1-9B23-00025B00A5A5"
+#define BATTERY_LEVEL_MAX               3700
+#define GATTCharacteristicFormat        @"2904"
+#define GAIALocalBatteryLevel           271
+#define FMPDescString @"Allow external devices to find this phone."
+#define FindMyPhoneId                   @"FindMyPhone"
+#define FindMe                          @"FindMe"
 
 @implementation CLHomeViewController
-//- (void) viewWillDisappear:(BOOL)animated {
-//    [super viewWillDisappear:animated];
-//
-//    if (self.timer) {
-//        [self.timer invalidate];
-//        self.timer = nil;
-//    }
-//}
-//-(void)viewWillAppear:(BOOL)animated{
-//    [super viewWillAppear:animated];
-//    if (!self.timer) {
-//        self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(showMsg) userInfo:nil repeats:YES];
-//    }
-//}
+-(void)viewWillAppear:(BOOL)animated{
+    [CLPerson eat];
+}
 
-//MARK:- view #
-
--(void)sendDataCommand:(GaiaCommandUpdate)command{
+-(void)adjustNum{
     
-    //方法2，直接拼接data
-    NSMutableData *data = [NSMutableData data];
-    //表头
-    char head1 = 0x00;
-    [data appendBytes:&head1 length:1];
-    //长度
-    char length = 0x03;
-    //    [data appendBytes:&length length:1];
-   
-    switch (command) {
-        case GaiaUpdate_Unknown:{
-            //获取电池管理状态
-            char num = GaiaUpdate_Unknown;
-            [data appendBytes:&num length:1];
-        } break;
+    NSString *testNum = @"90924670";
+    NSString *first = [testNum substringToIndex:1];
+    NSString *two = [testNum substringWithRange:NSMakeRange(1, 2)];
+    NSString *three = [testNum substringFromIndex:3];
+    NSLog(@"%@--%@---%@",first,two,three);
+    if ([first isEqualToString:@"9"]) {
+        if ([two isEqualToString:@"10"] && [three intValue] >= 24671) {
+            NSLog(@"不需要升级");
+        }else{
             
-        case GaiaUpdate_StartRequest:{
-            
-        } break;
-            
-        default:
-            break;
+            if ([two isEqualToString:@"10"] || [two isEqualToString:@"09"] ||[two isEqualToString:@"11"]) {
+                NSLog(@"需要升级");
+            }else{
+               NSLog(@"不需要升级");
+            }
+        }
     }
-    //命令字
-    char cmd = 0x01;
-    [data appendBytes:&cmd length:1];
     
-    //灯泡的亮度
-    int lightness = 40;
-
-    [data appendData:[MathUtil convertHexStrToData:[self to16:lightness]]];//这一步是把亮度40转化为16进制字符串，然后16进制字符串转化为NSData。下面粘上这一部分转换的方法
-    
-    NSLog(@"data===%@",data);
-    
+    NSLog(@"大于 %d",[three intValue] >= 4);
+}
+// 获取当前时间戳
+- (NSString *)getCurrentTimestamp {
+    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:0]; // 获取当前时间0秒后的时间
+    NSTimeInterval time = [date timeIntervalSince1970];// *1000 是精确到毫秒(13位),不乘就是精确到秒(10位)
+    NSString *timeString = [NSString stringWithFormat:@"%.0f", time];
+    return timeString;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSString *str222= @"abcdefhifh";
+    NSLog(@"-----=%@===%@",[str222 substringWithRange:NSMakeRange(str222.length-8, 4)],[str222 substringWithRange:NSMakeRange(str222.length-4, 4)]);
+    
+    NSString *str4 = [HYRadix hy_convertToDecimalFromHexadecimal:@"32"];
+     NSString *str5 = [HYRadix hy_convertToDecimalFromHexadecimal:@"7f"];
+    
+    int a111 = [str4 intValue] & [str5 intValue];
+    NSLog(@"a111==%d",a111);
+        self.supportedServices = @{
+        GaiaServiceUUID:
+            @[@"Update Service", @"This service can update the software on the connected device."]
+        };
+    
+    NSLog(@"supportedServices==%@",self.supportedServices);
+    
+    int a11 = 100;
+    int b11 = 127;
+    int a1q = a11 & b11;
+    NSLog(@"a1==%d",a1q);
+    NSString *time2 = [NSString getCurrentTimestamp];
+     NSString *time1 = [HYRadix hy_convertToHexadecimalFromDecimal:[NSString getCurrentTimestamp]];
+    NSLog(@"time==%@ ==%@",time1,time2);
+    NSString *str = [NSObject getTempStr:@"KC331-R_ble"];
+    NSLog(@"str==%@",str);
+    NSString *versionStr = @"2102";
+    NSLog(@"versionStr==%@",[versionStr substringWithRange:NSMakeRange(2, 2)]); 
+    
+    
+    [self adjustNum];
+//    [self testGroup];
+    NSString *text = @"000a000b";
+    self.leftVersion = [text substringToIndex:4];
+    self.rightVersion = [text substringFromIndex:4];
+    
+    NSLog(@"%@---%@",self.leftVersion,self.rightVersion);
+     
+    NSString *aaa= [HYRadix hy_convertToDecimalFromHexadecimal:self.leftVersion];
+    NSLog(@"---%@",aaa);
+    CGFloat floa1 = round(292*12/71) ;
+    CGFloat floa2 = round(292*12/71 -12);
+   
+    int a1  = [NSObject getTempEqValue:8 firstFloat:12 otherFloat:-36];
+    int b1 = [NSObject getOffexY:@"0a" firstFloat:292 otherFloat:8];
+     NSLog(@" b==%d %f--%f ==%f",b1,floa1,floa2,floa1 -floa2);
 //    dispatch_sync(dispatch_get_main_queue(), ^(void){
 //        NSLog(@"这里死锁了");
 //    });
     
     [self sendDataCommand:GaiaUpdate_Unknown];
     
+    int a , b ,c ,d;
+    a= 3 ;
+    b =3; //默认版本
+    c= 3;
+    d = 1;
+    
+    if (b>=a && b>=c) {
+        NSLog(@"需要更新两个");
+    }else if(b >= a || b>=c){
+        NSLog(@"需要更新1个");
+    }else{
+        NSLog(@"不需要更新");
+    }
+    
+    self.defaultVersion = @"000a";
+    
+    int abc = (int)strtoul([self.defaultVersion UTF8String], 0,16);
+    
+    NSInteger defau =  [self.defaultVersion integerValue];
+    NSLog(@"defau=%ld",defau);
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    
+   NSArray *firstName = [defaults objectForKey:@"ProductCode"];
+//      NSLog(@"%@",firstName);
+    
+    
+    
+    
+
     
 //    NSArray *showLevels = @[@(12), @(7), @(-9),@(15),@(26),@(-6)];
     
 //    NSLog(@"suit=%ld", [self getMinValueShowLevel:showLevels mapZoomLevel:-5]);
     self.titles = @[].mutableCopy;
     self.classNames = @[].mutableCopy;
-    [self addCell:@"TextView添加placehold" class:@"TextViewController"];
+    [self addCell:@"searchVT" class:@"SearchViewController"];
+    [self addCell:@"slider" class:@"SliderViewController"];
+    [self addCell:@"添加button" class:@"ButtonTagsViewController"];
     [self addCell:@"寻找view父视图+Label字体显示优先级" class:@"CommonViewController"];
     [self addCell:@"app启动性能优化+事件传递链和响应链" class:@"AppLaunchController"];
     [self addCell:@"核心动画" class:@"CoreAnimateController"];
@@ -158,6 +231,12 @@ typedef NS_ENUM(NSUInteger, GaiaCommandUpdate) {
     [self addCell:@"固件升级弹出" class:@"FirmTableController"];
     [self addCell:@"各种弹窗" class:@"PopTableController"];
     [self addCell:@"BabyBluetooth" class:@"BabyBluetoothController"];
+    
+    [self addCell:@"Button" class:@"ButtonViewController"];
+     [self addCell:@"隐私协议" class:@"ProtrocolViewController"];
+     [self addCell:@"TeviChart" class:@"TeviChartViewController"];
+    [self addCell:@"VT搜索页面" class:@"AddViewController"];
+    
     [self.tableView reloadData];
     
     dispatch_queue_t queue1 = dispatch_get_global_queue(0, 0);
@@ -174,13 +253,13 @@ typedef NS_ENUM(NSUInteger, GaiaCommandUpdate) {
     
     
     printMethodNamesOfClass(object_getClass([CLPerson class]));
-    __block int a = 0;
-    while (a < 5) {
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            a++;
-        });
-        
-    }
+//    __block int a = 0;
+//    while (a < 5) {
+//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//            a++;
+//        });
+//
+//    }
     //NSLog(@"%d",a); //a至少大于5
     /**死锁1 同步添加任务需要主队列中任务打印4和6都执行完毕 主队列是串行队列需要5打印才执行6 相互等待，造成死锁*
      NSLog(@"=================4");
@@ -216,8 +295,62 @@ typedef NS_ENUM(NSUInteger, GaiaCommandUpdate) {
     //    [self test1];
     //    [self test2];
 }
+//MARK:- view #
 
+-(void)sendDataCommand:(GaiaCommandUpdate)command{
+    
+    //方法2，直接拼接data
+    NSMutableData *data = [NSMutableData data];
+    //表头
+    char head1 = 0x00;
+    [data appendBytes:&head1 length:1];
+    //长度
+    char length = 0x03;
+        
+    [data appendBytes:&length length:1];
+    char send[18] = {0x00,0x09,0x00,0x03,0x00,0xa0,0x00,0x08,0x01,0x40,0x00,0x03,0x00,0x90,0x00,0x04,0x01,0x40};
+     NSData *sendData = [NSData dataWithBytes:send length:18];
+    NSLog(@"data==%@",sendData);
+   
+    switch (command) {
+        case GaiaUpdate_Unknown:{
+            //获取电池管理状态
+            char num = GaiaUpdate_Unknown;
+            [data appendBytes:&num length:1];
+        } break;
+            
+        case GaiaUpdate_StartRequest:{
+            
+        } break;
+            
+        default:
+            break;
+    }
+    //命令字
+    char cmd = 0x01;
+    [data appendBytes:&cmd length:1];
+    
+    //灯泡的亮度
+    int lightness = 40;
 
+    [data appendData:[MathUtil convertHexStrToData:[self to16:lightness]]];//这一步是把亮度40转化为16进制字符串，然后16进制字符串转化为NSData。下面粘上这一部分转换的方法
+    
+//    NSLog(@"data===%@",data);
+    
+}
+
+-(void)testGroup{
+    dispatch_group_t group  = dispatch_group_create();
+    dispatch_group_async(group,dispatch_get_global_queue(0, 0), ^{
+        
+        NSLog(@"11111!!!");
+        
+    });
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        //网络请求完毕 回到主线程更新UI 或者做些其它的操作
+        NSLog(@"group所有请求完毕!!!");
+    });
+}
 -(void)test{
     NSLog(@"test");
     
@@ -424,17 +557,13 @@ void printMethodNamesOfClass(Class cls){
                 int temp = [ary1[j] intValue];
                 ary1[j] = ary1[j+1];
                 ary1[j+1] = @(temp);
-                
                 isSort = false;
-                
             }
         }
-        
         if (isSort) {
             break;
         }
     }
-    
     NSLog(@"%@",ary1);
 }
 

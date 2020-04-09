@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface KSUpdateFailView : UIView
 @property(nonatomic,strong)NSArray * btnArr;
 -(instancetype)initWithFrame:(CGRect)frame btnArray:(NSArray *)btnArr;
+
 @property (nonatomic, copy) void(^onButtonTouchUpFail)(KSUpdateFailView *alertView, NSInteger buttonIndex);
 - (void)close;
 

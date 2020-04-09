@@ -29,4 +29,16 @@
 
 #endif
 
+
+#define ArialBoldFont(a) [UIFont fontWithName:@"Arial-BoldMT" size:a]
+#define EQSliderHeight 280
+
+#define chartVOfferX 40
+
+//eq滑块的文字
+typedef enum : NSUInteger{
+    KSEqTopTitleStyle,
+    KSEqBottomTitleStyle
+}EQTitleStyle;
+
 #endif /* PrefixHeader_pch */

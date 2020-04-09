@@ -44,12 +44,14 @@
 @property(nonatomic,strong)NSString *firstMac;
 @property(nonatomic,assign)BOOL isReconnectSecond;
 @property(nonatomic,strong)CSRPeripheral *secondPeripheral;
+
 @end
 
 @implementation FirmTableController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.devices = [NSMutableArray array];
     self.otherChosen = [NSMutableArray array];
     self.supportedServices = @{ GaiaServiceUUID:
@@ -68,13 +70,10 @@
     if (self.isReconnectSecond) {
         
         
-        if (![self.secondPeripheral isConnected]) {
-            NSLog(@"第一个耳机断了连上第二个didDisconnectFromPeripheral");
-            [[CSRConnectionManager sharedInstance] addDelegate:self];
-            CBUUID *deviceInfoUUID = [CBUUID UUIDWithString:@"AE86"];
-            NSArray *array = @[deviceInfoUUID];
-            [[CSRConnectionManager sharedInstance] startScan:array];
-        }
+//        if (![self.secondPeripheral isConnected]) {
+//            NSLog(@"第一个耳机断了连上第二个didDisconnectFromPeripheral");
+//            [[CSRConnectionManager sharedInstance] connectPeripheral:self.secondPeripheral];
+//        }
         
     }else{
         NSLog(@"The device disconnected ==%@",peripheral);
@@ -85,6 +84,9 @@
 - (void)didDiscoverPeripheral:(CSRPeripheral *)peripheral {
     
     if (self.isReconnectSecond) {
+        if (self.isUpdateScanSecond) {
+            return;
+        }
         NSString *secondMac = [self hexadecimalString:peripheral.advertisementData[@"kCBAdvDataManufacturerData"]];
         NSLog(@"secondMac==%@",secondMac);
         if (! [secondMac isEqualToString:self.firstMac]){
@@ -99,11 +101,16 @@
             } else {
                 [self discoveredPripheralDetails];
             }
+            self.isUpdateScanSecond = YES;
             [[CSRConnectionManager sharedInstance]stopScan];
+            
         }
     }else{
+        if (self.isUpdateScanFirst) {
+            return;
+        }
         self.chosenPeripheral = peripheral;
-        
+        NSLog(@"Firstperi==%@",peripheral);
         if ([peripheral.peripheral isEqual:[CSRConnectionManager sharedInstance].connectedPeripheral.peripheral]) {
             NSLog(@"green");
             [self discoveredPripheralDetails];
@@ -117,6 +124,7 @@
                 [self discoveredPripheralDetails];
             }
         }
+        self.isUpdateScanFirst = YES;
         [self.devices addObject:peripheral];
         NSLog(@"devices==%@",self.devices);
         [[CSRConnectionManager sharedInstance] stopScan];
@@ -397,7 +405,7 @@
     
     NSLog(@"++++++start");
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"ota_cc"ofType:@"bin"];
+    NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"KB522_3020_6.3.2_2002_20191202"ofType:@"bin"];
     if (self.dleSwitch && [CSRConnectionManager sharedInstance].connectedPeripheral.isDataLengthExtensionSupported){
         NSUInteger value = self.dleSizeTextField.integerValue;
         NSUInteger maxValue = [CSRConnectionManager sharedInstance].connectedPeripheral.maximumWriteLength;
@@ -475,7 +483,7 @@
 #pragma mark CSRUpdateManager delegate methods
 
 - (void)confirmRequired {
-    if (self.otherChosen.count > 0) {
+    if (self.isReconnectSecond) {
         self.hideBusyView = YES;
         [[CSRBusyViewController sharedInstance] hideBusy];
          [self hideBusy];
@@ -595,7 +603,7 @@
     self.title = [NSString stringWithFormat:@"%.2f%% Complete", value];
     self.timeLeftLabel.text = eta;
 //    self.progressL.text = [NSString stringWithFormat:@"%.0f%%", value];
-    if (self.otherChosen.count > 0) {
+    if (self.isReconnectSecond) {
         
         NSLog(@"value=====%f",value*0.5);
         self.progressL.text = [NSString stringWithFormat:@"%.0f%%", value * 0.5 + 50];
@@ -630,34 +638,15 @@
        
     }else{
         self.hideBusyView = YES;
+        [[CSRConnectionManager sharedInstance] disconnectPeripheral];
         [[CSRBusyViewController sharedInstance] hideBusy];
          [self hideBusy];
-        [[CSRConnectionManager sharedInstance] addDelegate:self];
         self.isReconnectSecond = YES;
         NSLog(@"第一个耳机更新完了");
         [[CSRConnectionManager sharedInstance] addDelegate:self];
         CBUUID *deviceInfoUUID = [CBUUID UUIDWithString:@"AE86"];
         NSArray *array = @[deviceInfoUUID];
         [[CSRConnectionManager sharedInstance] startScan:array];
-        
-        
-        /**接着更新另外一个耳机
-        for (CSRPeripheral * secondPeri in self.devices) {
-            if (![secondPeri.peripheral.name isEqualToString:self.chosenPeripheral.peripheral.name]) {
-                [self.otherChosen addObject:secondPeri];
-                
-                NSLog(@"second ==%@",secondPeri);
-                if (![secondPeri isConnected]) {
-                    NSLog(@"secondIsNotConnected");
-                    [[CSRConnectionManager sharedInstance] connectPeripheral:secondPeri];
-                    
-                }else{
-                    NSLog(@"secondisConnected");
-                    [self discoveredPripheralDetails];
-                }
-            }
-        }
-         */
         
     }
     
@@ -773,31 +762,33 @@
 }
 
 - (void)didUpdateStatus:(NSString *)value {
-    [[CSRBusyViewController sharedInstance] setStatus:value];
-//    [self.statusLabel setText:value];
-//    NSLog(@"status==%@",self.statusLabel.text);
+    if (self.isReconnectSecond) {
+        [[CSRBusyViewController sharedInstance] setStatus:value];
+    }else{
+        [self.statusLabel setText:value];
+        NSLog(@"status==%@",self.statusLabel.text);
+    }
+
 }
 
 - (void)didWarmBoot {
     if (self.isReconnectSecond) {
-//        CSRBusyViewController *busy = [[CSRBusyViewController alloc]init];
-//        [self.navigationController pushViewController:busy animated:YES];
-//
-    }else{
         CSRBusyViewController *busy = [[CSRBusyViewController alloc]init];
         [self.navigationController pushViewController:busy animated:YES];
+
+    }else{
         
-//        [[NSNotificationCenter defaultCenter]
-//         removeObserver:self
-//         name:CancelPressedNotification
-//         object:nil];
-//        [[CSRConnectionManager sharedInstance] removeDelegate:self];
-//
-//        [self showBusy];
-//        [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
-//        self.statusLabel = [[UILabel alloc]init];
-//        self.statusLabel.text = @"";
-//        [self.view addSubview:self.statusLabel];
+        [[NSNotificationCenter defaultCenter]
+         removeObserver:self
+         name:CancelPressedNotification
+         object:nil];
+        [[CSRConnectionManager sharedInstance] removeDelegate:self];
+        
+        [self showBusy];
+        [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+        self.statusLabel = [[UILabel alloc]init];
+        self.statusLabel.text = @"";
+        [self.view addSubview:self.statusLabel];
        
     }
 }

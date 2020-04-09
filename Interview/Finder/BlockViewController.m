@@ -29,7 +29,7 @@ NSMallocBlock   存储于堆区
  在arc下copy、strong修饰的block没有区别
  */
 #import "BlockViewController.h"
-
+#import "CLUpdateAlert.h"
 @interface BlockViewController ()
 @property (nonatomic, copy) void(^block)();
 
@@ -41,11 +41,32 @@ NSMallocBlock   存储于堆区
     [super viewDidLoad];
     self.view.backgroundColor =  [UIColor whiteColor];
     [self test1];
+//    UISwitch *aswitch = [[UISwitch alloc]initWithFrame:CGRectMake(100, 200, 40, 20)];
+//     aswitch.onTintColor = [UIColor orangeColor];
+//
+//
+//     [aswitch setOn:YES];
+//     [aswitch addTarget:self action:@selector(switchTouched:) forControlEvents:UIControlEventValueChanged];
+//      aswitch.transform = CGAffineTransformMakeScale(0.6, 0.6);
+//     [self.view addSubview:aswitch];
+    
+    
+  
+    
     
 }
 
 - (void)test1
 {
+    
+    NSArray *arr1 = @[NSLocalizedString(@"Cancel", nil),NSLocalizedString(@"Update now", nil)];
+             //boundingRectWithSize: 方法只是取得字符串的size, 如果字符串中包含\n\r 这样的字符，也只会把它当成字符来计算
+             NSString *content = @"1、Fixed some known bugs \n2、Improve the problem of unstable connection pairing  \n3、please place the earphone in the receiving range of this device < 50cm";
+             
+             CLUpdateAlert * updateView = [[CLUpdateAlert alloc]initWithFrame:kKeyWindow.frame content:content btnArray:arr1];
+      
+      [kKeyWindow addSubview:updateView];
+    
     __block int i = 0;
     void (^block1)() = ^{
         //此处若不引用外部变量i，则block1是静态block，若引用，则为栈block

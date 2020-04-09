@@ -12,6 +12,7 @@
 #import <objc/message.h>
 #import "BTLibrary.h"
 #import "GaiaLibrary.h"
+#import "KSWavesAnimation.h"
 #define GaiaServiceUUID             @"00001100-D102-11E1-9B23-00025B00A5A5"
 @interface TextViewController ()<UITextViewDelegate,CSRConnectionManagerDelegate,CBCentralManagerDelegate,CBPeripheralDelegate>
 @property(nonatomic,strong)NSMutableArray *discoverPeripherals;
@@ -24,12 +25,45 @@
 
 @property(nonatomic,strong)NSMutableArray *otherPeripherals;
 @property(nonatomic,strong)NSMutableArray *secondPeripherals;
+
+@property(strong,nonatomic)KSWavesAnimation *progressV;
 @end
 
 @implementation TextViewController
-
+-(IBAction)change1:(UIButton*)sender{
+    [self.progressV stop];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    CGFloat width = (ScreenWidth - 83)*0.5;
+    CGFloat height = (ScreenHeight - 83)*0.5;
+    self.progressV = [[KSWavesAnimation alloc]initWithFrame:CGRectMake(width, height, 83, 83)];
+//    _rippleView = [[RippleView alloc] initWithFrame:CGRectMake(width, height, 83, 83)];
+    
+//    [self.view addSubview:_rippleView];
+    [self.view addSubview:self.progressV];
+//    [_rippleView startRipplrWithShowAnimation];
+    
+    UILabel *textL = [[UILabel alloc]initWithFrame:CGRectMake(30, ScreenHeight-49 -14, ScreenWidth -30*2, 14)];
+    textL.text = @"请确保您的产品已打开且处于此设备的接收范围内<50cm";
+    textL.textColor = [UIColor colorWithHexString:@"#46464E"];
+    textL.font = [UIFont systemFontOfSize:12];
+    textL.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:textL];
+    
+    
+    UIButton *cancel1 = [[UIButton alloc]initWithFrame:CGRectMake(100, 130, 80, 50)];
+    cancel1.backgroundColor = [UIColor redColor];
+    [cancel1 addTarget:self action:@selector(change1:) forControlEvents:(UIControlEventTouchUpInside)];
+    [cancel1 setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
+    cancel1.titleLabel.font = [UIFont systemFontOfSize:14];
+    [cancel1 setTitle:@"取消转圈" forState:(UIControlStateNormal)];
+    [cancel1 setTitleColor:[UIColor colorFromHexStr:@"#888888"] forState:(UIControlStateNormal)];
+    [self.view addSubview:cancel1];
+    
+    
+    
      self.devices = [NSMutableArray array];
     self.otherPeripherals = [NSMutableArray array];
     self.discoverPeripherals = [NSMutableArray array];
@@ -70,6 +104,7 @@
     [[CSRConnectionManager sharedInstance] stopScan];
     [[CSRConnectionManager sharedInstance] removeDelegate:self];
     [super viewWillDisappear:animated];
+    [self.progressV stop];
 }
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {

@@ -22,6 +22,8 @@ NS_ASSUME_NONNULL_END
 
 + (void)hideLoadingInView:(UIView *)view;
 
+
+
 @end
 
 @interface CircleView : UIView

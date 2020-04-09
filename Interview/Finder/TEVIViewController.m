@@ -139,7 +139,7 @@
 - (void) newValue:(SXCircleView*)slider{
     _currentAngle = slider.angle;
     _currentAngle = (int)[self getMinValueShowLevel:self.volumeArr mapZoomLevel:_currentAngle];
-    [self.circleView changeAngle:_currentAngle];
+    [self.circleView changeAngle:slider.angle];
     [self.circleView setNeedsDisplay];
     NSLog(@"newValue:%d",_currentAngle);
     //    [self writeDataWtihAngle:_currentAngle];

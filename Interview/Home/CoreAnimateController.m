@@ -185,13 +185,17 @@
     [self.cView setLineWidth:6.f];
     [self.cView setLineColr:[UIColor redColor]];
     
-    SOValueTrackingSlider *slider = [[SOValueTrackingSlider alloc] initWithFrame:CGRectMake(70, 150, 200, 50)];
-    slider.maxmumTrackTintColor = [UIColor redColor];
-    slider.minimumTrackTintColor = [UIColor greenColor];
-    slider.isVertical = YES;
-    slider.delegate = self;
+    for (int i =0; i<10; i++) {
+        SOValueTrackingSlider *slider = [[SOValueTrackingSlider alloc] initWithFrame:CGRectMake(-100+30*i,300, 300, 40)];
+        slider.maxmumTrackTintColor = [UIColor redColor];
+        slider.minimumTrackTintColor = [UIColor greenColor];
+        slider.isVertical = YES;
+        slider.delegate = self;
+        
+        [self.view addSubview:slider];
+    }
     
-    [self.view addSubview:slider];
+   
     
 
     
@@ -231,14 +235,16 @@
     
     UIBezierPath *path3 = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(375/2-100, 500, 200, 200)];
     CABasicAnimation *animation1 = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-    animation1.duration = 3.0;
+    animation1.duration = 6.0;
     animation1.fromValue = @(0);
     animation1.toValue = @(1);
-    animation1.repeatCount = 100;
+    animation1.repeatCount = 2;
+    
     CAShapeLayer *layer3 = [self createShapeLayer:[UIColor clearColor]];
     layer3.strokeColor = [UIColor orangeColor].CGColor;
+    layer3.fillColor = [UIColor lightGrayColor].CGColor;
     layer3.path = path3.CGPath;
-    layer3.lineWidth = 25.0;
+    layer3.lineWidth = 2.0;
     //圆的起始位置，默认为0
     layer3.strokeStart = 0;
     //圆的结束位置，默认为1，如果值为0.75，则显示3/4的圆

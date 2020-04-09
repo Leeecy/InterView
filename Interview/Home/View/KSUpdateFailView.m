@@ -33,17 +33,26 @@
             make.height.mas_equalTo(121);
         }];
         
+        UIImageView *bgImg = [[UIImageView alloc]init];
+        bgImg.image = [UIImage imageNamed:@"图层 801 拷贝 2"];
+        [self.promptView addSubview:bgImg];
+        
+        [bgImg mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.promptView);
+        }];
+        
+        
         UILabel *tipL = [[UILabel alloc]init];
-        tipL.text = @"更新失败";
+        tipL.text = @"更新に失敗";
         tipL.textColor = [UIColor colorWithHexString:@"#282828"];
         tipL.font = [UIFont systemFontOfSize:16];
         [self.promptView addSubview:tipL];
         [tipL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.promptView.mas_centerX).offset(10);
             make.top.equalTo(promptView.mas_top).offset(31);
-            make.size.mas_equalTo(CGSizeMake(70, 16));
+            make.height.mas_equalTo(16);
         }];
-        
+        [tipL sizeToFit];
         UIImageView *icon = [[UIImageView alloc]init];
         icon.image = [UIImage imageNamed:@"失败"];
         [self.promptView addSubview:icon];

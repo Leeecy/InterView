@@ -142,7 +142,7 @@
             maxValue = [CSRConnectionManager sharedInstance].connectedPeripheral.maximumWriteWithoutResponseLength;
         }
 
-        self.dleSizeTextField = @"64";
+        self.dleSizeTextField = @"128";
 
         if ([CSRConnectionManager sharedInstance].connectedPeripheral.isDataLengthExtensionSupported) {
             [self enableMTU:true];
@@ -184,7 +184,7 @@
     self.hud.label.text = NSLocalizedString(@"正在更新...", @"HUD loading title");
     
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-     NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"ota_cc"ofType:@"bin"];
+     NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"KB522_EARBAD_OTA_20191016"ofType:@"bin"];
     if (self.dleSwitch && [CSRConnectionManager sharedInstance].connectedPeripheral.isDataLengthExtensionSupported){
         NSUInteger value = self.dleSizeTextField.integerValue;
         NSUInteger maxValue = [CSRConnectionManager sharedInstance].connectedPeripheral.maximumWriteLength;
@@ -308,28 +308,29 @@
 - (void)confirmRequired {
     self.hideBusyView = YES;
     [[CSRBusyViewController sharedInstance] hideBusy];
+    [[CSRGaiaManager sharedInstance] commitConfirm:YES];
     
-    UIAlertController *alert = [UIAlertController
-                                alertControllerWithTitle:@"Finalise Update"
-                                message:@"Would you like to complete the upgrade?"
-                                preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okButton = [UIAlertAction
-                               actionWithTitle:@"OK"
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction * action) {
-                                   [[CSRGaiaManager sharedInstance] commitConfirm:YES];
-                               }];
-    UIAlertAction *cancelActionButton = [UIAlertAction
-                                         actionWithTitle:@"Cancel"
-                                         style:UIAlertActionStyleDefault
-                                         handler:^(UIAlertAction * action) {
-                                             [[CSRGaiaManager sharedInstance] commitConfirm:NO];
-                                         }];
+//    UIAlertController *alert = [UIAlertController
+//                                alertControllerWithTitle:@"Finalise Update"
+//                                message:@"Would you like to complete the upgrade?"
+//                                preferredStyle:UIAlertControllerStyleAlert];
+//    UIAlertAction *okButton = [UIAlertAction
+//                               actionWithTitle:@"OK"
+//                               style:UIAlertActionStyleDefault
+//                               handler:^(UIAlertAction * action) {
+//                                   [[CSRGaiaManager sharedInstance] commitConfirm:YES];
+//                               }];
+//    UIAlertAction *cancelActionButton = [UIAlertAction
+//                                         actionWithTitle:@"Cancel"
+//                                         style:UIAlertActionStyleDefault
+//                                         handler:^(UIAlertAction * action) {
+//                                             [[CSRGaiaManager sharedInstance] commitConfirm:NO];
+//                                         }];
+//
+//    [alert addAction:okButton];
+//    [alert addAction:cancelActionButton];
     
-    [alert addAction:okButton];
-    [alert addAction:cancelActionButton];
-    
-    [self presentViewController:alert animated:YES completion:nil];
+//    [self presentViewController:alert animated:YES completion:nil];
 }
 - (void)confirmForceUpgrade {
     UIAlertController *alert = [UIAlertController
@@ -457,27 +458,8 @@
 }
 
 - (void)confirmTransferRequired {
-    UIAlertController *alert = [UIAlertController
-                                alertControllerWithTitle:@"File transfer complete"
-                                message:@"Would you like to proceed?"
-                                preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okButton = [UIAlertAction
-                               actionWithTitle:@"OK"
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction * action) {
-                                   [[CSRGaiaManager sharedInstance] updateTransferComplete];
-                               }];
-    UIAlertAction *cancelActionButton = [UIAlertAction
-                                         actionWithTitle:@"Cancel"
-                                         style:UIAlertActionStyleDefault
-                                         handler:^(UIAlertAction * action) {
-                                             [[CSRGaiaManager sharedInstance] updateTransferAborted];
-                                         }];
+    [[CSRGaiaManager sharedInstance] updateTransferComplete];
     
-    [alert addAction:okButton];
-    [alert addAction:cancelActionButton];
-    
-    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)confirmBatteryOkay {

@@ -20,6 +20,12 @@
     self.titles = @[].mutableCopy;
     self.classNames = @[].mutableCopy;
     [self addCell:@"失败弹窗" class:@"Pop1ViewController"];
+    [self addCell:@"成功弹窗" class:@"Pop2ViewController"];
+    [self addCell:@"进度条" class:@"Pop3ViewController"];
+    [self addCell:@"圆形进度条" class:@"Pop4ViewController"];
+    [self addCell:@"带背景图的成功弹窗" class:@"Pop5ViewController"];
+    [self addCell:@"gif" class:@"GifViewController"];
+    [self addCell:@"按键弹窗" class:@"KeyPopViewController"];
     [self.tableView reloadData];
 }
 

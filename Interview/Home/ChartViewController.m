@@ -9,71 +9,56 @@
 #import "ChartViewController.h"
 #import "GQYVerticalSlider.h"
 #import "KSChartView.h"
-
+#import "KSEqSlider.h"
 @interface ChartViewController ()<KSChartViewDelegate>
 @property(strong,nonatomic)KSChartView *chartV ;
-@property(assign,nonatomic)CGFloat value5;
-@property(assign,nonatomic)CGFloat value4;
-@property(assign,nonatomic)CGFloat value3;
-@property(assign,nonatomic)CGFloat value2;
-@property(assign,nonatomic)CGFloat value1;
-@property(strong,nonatomic)NSMutableArray *values;
 
+@property(strong,nonatomic)NSMutableArray *values;
+@property(nonatomic,strong)KSEqSlider *slider;
 @end
 
 @implementation ChartViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupSlider];
     self.view.backgroundColor = [UIColor whiteColor];
-    _value1 = 80;
-    _value2 = 250;
-    _value3 = 80;
-    _value4 = 120;
-    _value5 = 160;
     [self drawChart];
-    
+}
 
-    GQYVerticalSlider *slider = [[GQYVerticalSlider alloc]initWithFrame:CGRectMake(100, 200, 10, 200)];
-    //    [slider sizeToFit];
-    [self.view addSubview:slider];
-    slider.titleStyle = TopTitleStyle;
-    slider.maximumValue = 300;
-    slider.minimumValue = 0;
+-(void)setupSlider{
+    CGFloat sliderH = 1;
+   CGFloat sliderW = 300;
+   CGFloat sliderX = 50;
+   CGFloat sliderY = 100;
+   self.slider = [[KSEqSlider alloc] init];
 
-    
-    slider.touchSliderValueChange = ^(CGFloat value,BOOL isEnd,NSInteger tag) {
-        NSLog(@"%f",value);
-        slider.sliderValueLabel.text = [NSString stringWithFormat:@"%.f%%",value];
-    };
-    [slider setValue:88 animated:YES];
-    
-    
-    UISlider *slider1 = [[UISlider alloc]init];
-    slider1.frame = CGRectMake(100, 100, 100, 20);
-    slider1.maximumValue =300;
-    slider1.minimumValue = 0;
-    slider1.value = 40;
-    slider1.maximumTrackTintColor = [UIColor blueColor];
-    slider1.minimumTrackTintColor = [UIColor redColor];
-    [slider1 addTarget:self action:@selector(sliderValue:) forControlEvents:(UIControlEventValueChanged)];
-    [self.view addSubview:slider1];
+   CGFloat value = 0.5;
+   self.slider.isShowTitle = YES;
+    self.slider.titleStyle = KSEqTopTitleStyle;
+   self.slider.value = value;
+
+//   self.slider.delegate = self;
+//        [self.slider addTarget:self action:@selector(_sliderValueDidChanged:) forControlEvents:UIControlEventValueChanged];
+   [self.view addSubview:self.slider];
+    self.slider.frame = CGRectMake(sliderX, sliderY, sliderW, sliderH);
 }
 
 -(void)drawChart{
     [self.chartV removeFromSuperview];
-    self.values = [[NSMutableArray alloc] initWithObjects:@(_value1), @(_value2), @(_value3),@(_value4),@(_value5),nil];
+    self.values = [[NSMutableArray alloc] initWithObjects:@(0), @(300), @(50), @(20), @(90) ,@(270), @(100),nil];
     
     //    [self.chartV removeFromSuperview];
     
-    self.chartV = [[KSChartView alloc]initWithFrame:CGRectMake(50, 300, 340, 300) values:self.values curveColor:[UIColor greenColor] curveWidth:4.0 topGradientColor:[UIColor redColor] bottomGradientColor:[UIColor whiteColor] minY:1 maxY:1 topPadding:300];
+    self.chartV = [[KSChartView alloc]initWithFrame:CGRectMake(30, 200, ScreenWidth,300) values:self.values curveColor:[UIColor greenColor] curveWidth:4.0 topGradientColor:[UIColor redColor] bottomGradientColor:[UIColor whiteColor] minY:1 maxY:1 topPadding:300];
     self.chartV.delegate = self;
     [self.view addSubview:self.chartV];
+    
+//    self.chartV.backgroundColor = [UIColor orangeColor];
 }
 
 -(IBAction)sliderValue:(UISlider*)sender{
     NSLog(@"value ---%f",sender.value);
-    _value1 = sender.value;
     
     [self drawChart];
 }
