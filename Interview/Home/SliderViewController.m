@@ -8,6 +8,8 @@
 
 #import "SliderViewController.h"
 #import "YTSliderView.h"
+#import "BatteryBarView.h"
+#import "BatteryView.h"
 @interface SliderViewController ()<YTSliderViewDelegate>
 
 @end
@@ -16,24 +18,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor lightGrayColor];
+    self.view.backgroundColor = [UIColor blackColor];
+//    [self testSlider];
+//    BatteryBarView *barView = [[BatteryBarView alloc]initWithFrame:CGRectMake(40.f, 160.f, 36, 16)];
+//    [self.view addSubview:barView];
     
-//    YTSliderSetting *setting_v = [YTSliderSetting defaultSetting];
-//    YTSliderView *slider_v = [[YTSliderView alloc]initWithFrame:CGRectMake(100, 400, 120, 30) setting:setting_v];
-//    slider_v.currentPercent = 0.2;
-//    slider_v.tag = 1000;
-//    slider_v.delegate = self;
-//    [self.view addSubview:slider_v];
+    BatteryView *battY = [[BatteryView alloc]initWithFrame:CGRectMake(50, 220, 150, 140)];
+//    battY.transform = CGAffineTransformMakeRotation(-M_PI*0.5);
+    [self.view addSubview:battY];
+}
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
+   BatteryBarView *barView = self.view.subviews.lastObject;
+   barView.batteryPower = [self randomNumber];
+   
+}
+- (NSUInteger)randomNumber{
+    return arc4random_uniform(100) + 1;
     
-//    YTSliderSetting *setting = [YTSliderSetting defaultSetting];
-//    YTSliderView *slider_a = [[YTSliderView alloc]initWithFrame:CGRectMake(100, 300, 120, 20) setting:setting];
-//    slider_a.anchorPercent = 0.5;
-//    slider_a.tag = 3000;
-//    slider_a.delegate = self;
-//    [self.view addSubview:slider_a];
-//
-//
+}
+-(void)testSlider{
     YTSliderSetting *setting_h = [YTSliderSetting verticalSetting];
     YTSliderView *slider_h = [[YTSliderView alloc]initWithFrame:CGRectMake(100, 100, 10, 400) setting:setting_h];
     slider_h.anchorPercent = 0;

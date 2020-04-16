@@ -128,8 +128,19 @@ typedef NS_ENUM(NSUInteger, GaiaCommandUpdate) {
     NSString *timeString = [NSString stringWithFormat:@"%.0f", time];
     return timeString;
 }
+-(void) callMe {
+    //...
+}
+-(void) callMeWithParam:(id)obj {
+    //...
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+   
+    
+    double newCurrent =(double)(4  + 10) / 10 ;
+    NSLog(@"newCurrent==%f",newCurrent);
     NSString *str222= @"abcdefhifh";
     NSLog(@"-----=%@===%@",[str222 substringWithRange:NSMakeRange(str222.length-8, 4)],[str222 substringWithRange:NSMakeRange(str222.length-4, 4)]);
     
@@ -207,15 +218,14 @@ typedef NS_ENUM(NSUInteger, GaiaCommandUpdate) {
     
     
     
-    
-
-    
 //    NSArray *showLevels = @[@(12), @(7), @(-9),@(15),@(26),@(-6)];
     
 //    NSLog(@"suit=%ld", [self getMinValueShowLevel:showLevels mapZoomLevel:-5]);
     self.titles = @[].mutableCopy;
     self.classNames = @[].mutableCopy;
+    [self addCell:@"转场动画" class:@"TranslationController"];
     [self addCell:@"searchVT" class:@"SearchViewController"];
+    [self addCell:@"VT搜索页面" class:@"AddViewController"];
     [self addCell:@"slider" class:@"SliderViewController"];
     [self addCell:@"添加button" class:@"ButtonTagsViewController"];
     [self addCell:@"寻找view父视图+Label字体显示优先级" class:@"CommonViewController"];
@@ -235,7 +245,7 @@ typedef NS_ENUM(NSUInteger, GaiaCommandUpdate) {
     [self addCell:@"Button" class:@"ButtonViewController"];
      [self addCell:@"隐私协议" class:@"ProtrocolViewController"];
      [self addCell:@"TeviChart" class:@"TeviChartViewController"];
-    [self addCell:@"VT搜索页面" class:@"AddViewController"];
+    
     
     [self.tableView reloadData];
     

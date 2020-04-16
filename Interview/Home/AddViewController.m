@@ -8,12 +8,14 @@
 
 #import "AddViewController.h"
 #import "CLAddHeaderCollectionCell.h"
-
-
+#import "KSBatteryModel.h"
+#import "InterScaleViewController.h"
+#import "UIViewController+HHTransition.h"
 @interface AddViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property(strong,nonatomic)UILabel *myHead;
 @property (strong , nonatomic)UICollectionView *collectionView;
 @property(assign,nonatomic)NSInteger ItemCount;
+@property(nonatomic,copy)NSArray *arr;
 @end
 
 @implementation AddViewController
@@ -22,6 +24,8 @@
     [super viewDidLoad];
     self.ItemCount = 3;
     self.view.backgroundColor = [UIColor blackColor];
+    self.arr = @[@"图层 2530 拷贝",@"图层 2565",@"图层 2566"];
+    
     
     [self setupUI];
     [self setupColl];
@@ -40,7 +44,9 @@
     _collectionView = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:layout];
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
-    _collectionView.frame = CGRectMake(0, 200, ScreenWidth, ScreenHeight - 300 );
+    CGFloat topHeight;
+    topHeight =  iPhoneX ? 200:140;
+    _collectionView.frame = CGRectMake(0, topHeight, ScreenWidth, ScreenHeight - topHeight -100 );
     _collectionView.showsVerticalScrollIndicator = NO;        //注册
     self.collectionView.backgroundColor = [UIColor clearColor];
     [_collectionView registerClass:[CLAddHeaderCollectionCell class] forCellWithReuseIdentifier:identifier_CLAddHeaderCollectionCell];
@@ -57,10 +63,12 @@
 //    cancelButton.layer.cornerRadius = 3;
 //    cancelButton.layer.maskedCorners = YES;
     [cancelButton addTarget:self action:@selector(addClicked:) forControlEvents:UIControlEventTouchUpInside];
+    CGFloat bottomHeight;
+    bottomHeight =  iPhoneX ? 100:60;
     [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
 
         make.centerX.equalTo(self.view);
-        make.bottom.equalTo(self.view.mas_bottom).offset(-100);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-bottomHeight);
       make.size.mas_equalTo(CGSizeMake(236, 31));
     }];
 }
@@ -79,11 +87,18 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
      CLAddHeaderCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier_CLAddHeaderCollectionCell forIndexPath:indexPath];
     cell.backgroundColor = [UIColor clearColor];
-    
+    cell.batteryM.headerImgName = self.arr[indexPath.item];
     return cell;
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     return CGSizeMake((ScreenWidth )/2, (ScreenWidth )/2);
+}
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    NSLog(@"item==%ld",indexPath.item);
+    InterScaleViewController *interScale = [InterScaleViewController new];
+    interScale.imageName = [UIImage imageNamed:@"mid_bg"];
+    [self.navigationController hh_pushViewController:interScale style:AnimationStyleScale];
+    
 }
 #pragma mark - <UICollectionViewDelegateFlowLayout>
 #pragma mark - X间距
