@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CLAddHeaderCollectionCell : UICollectionViewCell
 @property(nonatomic,strong)KSBatteryModel *batteryM;
+@property (strong , nonatomic)UIImageView *bgImage;
 @end
 
 NS_ASSUME_NONNULL_END

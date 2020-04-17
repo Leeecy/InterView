@@ -45,7 +45,20 @@
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.midView);
     }];
+    UIView *bottomV = [[UIView alloc]initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, 260)];
+    [self.view addSubview:bottomV];
     
+    UIImageView *img = [[UIImageView alloc]initWithFrame:bottomV.bounds];
+       
+    self.bottomImg = img;
+    img.image = [UIImage imageNamed:@"bottom_bg"];
+    [bottomV addSubview:self.bottomImg];
+   
+   [UIView animateWithDuration:0.3  animations:^{
+       bottomV.frame = CGRectMake(0, ScreenHeight-260, ScreenWidth, 260);
+   } completion:^(BOOL finished) {
+       
+   }];
     
 //    UILabel *label = [UILabel new];
 //    self.alertLabel = label;
@@ -66,16 +79,7 @@
         
         [self.view layoutIfNeeded];
     }];
-    UIImageView *img = [[UIImageView alloc]initWithFrame:CGRectMake(0, ScreenHeight-226, ScreenWidth, 226)];;
-    
-    self.bottomImg = img;
-    CATransition *transition = [CATransition animation];
-    transition.duration = 0.5;
-    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    transition.type = kCATransitionFade;
-    [img.layer addAnimation:transition forKey:@"a"];
-    img.image = [UIImage imageNamed:@"bottom_bg"];
-    [self.view addSubview:self.bottomImg];
+   
 }
 
 //需要实现

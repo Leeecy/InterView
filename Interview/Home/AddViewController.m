@@ -11,11 +11,12 @@
 #import "KSBatteryModel.h"
 #import "InterScaleViewController.h"
 #import "UIViewController+HHTransition.h"
-@interface AddViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface AddViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UINavigationControllerDelegate,UIViewControllerAnimatedTransitioning>
 @property(strong,nonatomic)UILabel *myHead;
 @property (strong , nonatomic)UICollectionView *collectionView;
 @property(assign,nonatomic)NSInteger ItemCount;
 @property(nonatomic,copy)NSArray *arr;
+@property(nonatomic,strong)NSIndexPath *indexPath;
 @end
 
 @implementation AddViewController
@@ -25,7 +26,7 @@
     self.ItemCount = 3;
     self.view.backgroundColor = [UIColor blackColor];
     self.arr = @[@"图层 2530 拷贝",@"图层 2565",@"图层 2566"];
-    
+    self.navigationController.delegate = self;
     
     [self setupUI];
     [self setupColl];
@@ -86,6 +87,8 @@
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
      CLAddHeaderCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier_CLAddHeaderCollectionCell forIndexPath:indexPath];
+    self.indexPath = [NSIndexPath indexPathForRow:0 inSection:indexPath.section];
+
     cell.backgroundColor = [UIColor clearColor];
     cell.batteryM.headerImgName = self.arr[indexPath.item];
     return cell;
@@ -95,9 +98,9 @@
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"item==%ld",indexPath.item);
-    InterScaleViewController *interScale = [InterScaleViewController new];
-    interScale.imageName = [UIImage imageNamed:@"mid_bg"];
-    [self.navigationController hh_pushViewController:interScale style:AnimationStyleScale];
+//    InterScaleViewController *interScale = [InterScaleViewController new];
+//    interScale.imageName = [UIImage imageNamed:@"mid_bg"];
+//    [self.navigationController hh_pushViewController:interScale style:AnimationStyleScale];
     
 }
 #pragma mark - <UICollectionViewDelegateFlowLayout>
@@ -108,5 +111,23 @@
 #pragma mark - Y间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     return 30;
+}
+#pragma mark - UIViewControllerAnimatedTransitioning
+// MARK: 设置代理
+-(id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC {
+    return self;
+}
+
+//// MARK: 设置动画时间
+- (NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext {
+    return 1.0f;
+}
+-(void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
+    CLAddHeaderCollectionCell *cell = (CLAddHeaderCollectionCell*)[self.collectionView cellForItemAtIndexPath:self.indexPath];
+    UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    UIView *toView = [toVC valueForKeyPath:@"bgImage"];
+    UIView *fromView = cell.bgImage;
+    UIView *containerView = [transitionContext containerView];
+//    UIView *snapShotView = [[UIImageView alloc]initWithImage:cell.bgimageView.image];
 }
 @end

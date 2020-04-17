@@ -10,7 +10,7 @@
 #import "KSBatteryView.h"
 #import "KSBatteryModel.h"
 @interface CLAddHeaderCollectionCell()
-@property (strong , nonatomic)UIImageView *bgImage;
+
 @property(strong,nonatomic)UIImageView *headerImg;
 @property(strong,nonatomic)UILabel *headerName;
 @property(strong,nonatomic)UIView *batteryView;
