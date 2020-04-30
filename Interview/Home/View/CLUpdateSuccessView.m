@@ -109,17 +109,18 @@
     return self;
 }
 -(IBAction)dialogButtonTouchUpInside:(UIButton*)sender{
-//    if (self.onButtonTouchUpFail) {
-//        self.onButtonTouchUpFail(self, sender.tag);
-//    }
+    if (self.onButtonSuccess) {
+        self.onButtonSuccess(self, sender.tag);
+    }
 }
 // 点击提示框视图以外的其他地方时隐藏弹框
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
     CGPoint point = [[touches anyObject] locationInView:self];
+    
     point = [self.promptView.layer convertPoint:point fromLayer:self.layer];
     if (![self.promptView.layer containsPoint:point]) {
-        self.hidden = YES;
+        self.hidden = NO;
     }
     
 }

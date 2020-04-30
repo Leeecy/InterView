@@ -11,23 +11,26 @@
 #import "KSBatteryModel.h"
 #import "InterScaleViewController.h"
 #import "UIViewController+HHTransition.h"
-@interface AddViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UINavigationControllerDelegate,UIViewControllerAnimatedTransitioning>
+@interface AddViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UINavigationControllerDelegate,UIViewControllerAnimatedTransitioning,CLAddHeaderCellDelegate>
 @property(strong,nonatomic)UILabel *myHead;
 @property (strong , nonatomic)UICollectionView *collectionView;
 @property(assign,nonatomic)NSInteger ItemCount;
 @property(nonatomic,copy)NSArray *arr;
 @property(nonatomic,strong)NSIndexPath *indexPath;
+@property(nonatomic,strong)CLAddHeaderCollectionCell *addCell;
 @end
 
 @implementation AddViewController
-
+-(void)viewWillAppear:(BOOL)animated{
+    self.navigationController.delegate = self;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.ItemCount = 3;
     self.view.backgroundColor = [UIColor blackColor];
     self.arr = @[@"图层 2530 拷贝",@"图层 2565",@"图层 2566"];
-    self.navigationController.delegate = self;
-    
+//    self.navigationController.delegate = self;
     [self setupUI];
     [self setupColl];
     [self setupBottomBtn];
@@ -88,9 +91,10 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
      CLAddHeaderCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier_CLAddHeaderCollectionCell forIndexPath:indexPath];
     self.indexPath = [NSIndexPath indexPathForRow:0 inSection:indexPath.section];
-
+    cell.delegate = self;
     cell.backgroundColor = [UIColor clearColor];
-    cell.batteryM.headerImgName = self.arr[indexPath.item];
+    cell.headerName.text = self.arr[indexPath.item];
+  
     return cell;
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -98,10 +102,10 @@
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"item==%ld",indexPath.item);
-//    InterScaleViewController *interScale = [InterScaleViewController new];
-//    interScale.imageName = [UIImage imageNamed:@"mid_bg"];
-//    [self.navigationController hh_pushViewController:interScale style:AnimationStyleScale];
-    
+
+//    CLAddHeaderCollectionCell *cell = (CLAddHeaderCollectionCell*)[self.collectionView cellForItemAtIndexPath:self.indexPath];
+//    NSLog(@"cell===%@===",cell.headerName.text);
+//    [self.navigationController pushViewController:interScale animated:YES];
 }
 #pragma mark - <UICollectionViewDelegateFlowLayout>
 #pragma mark - X间距
@@ -112,22 +116,71 @@
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     return 30;
 }
+
 #pragma mark - UIViewControllerAnimatedTransitioning
 // MARK: 设置代理
 -(id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC {
+    NSLog(@"----from==%@ ---tovc==%@",fromVC,toVC);
     return self;
 }
 
 //// MARK: 设置动画时间
 - (NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext {
-    return 1.0f;
+    return 2.f;
+}
+-(void)cellDidClick:(CLAddHeaderCollectionCell *)cell{
+    self.addCell = cell;
+    NSIndexPath *index = [self.collectionView indexPathForCell:cell];
+    cell.transform = CGAffineTransformMakeScale(0.9, 0.9);
+    InterScaleViewController *interScale = [InterScaleViewController new];
+//    interScale.bgImage = [self imageFromView];
+    interScale.addCell = cell;
+    interScale.imageName = @"WechatIMG14";
+    [self.navigationController pushViewController:interScale animated:YES];
+    NSLog(@"cellDidClick===%@",self.addCell.headerName.text);
+}
+- (UIImage *)imageFromView {
+    
+    UIGraphicsBeginImageContext(self.view.frame.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [self.view.layer renderInContext:context];
+    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return theImage;
 }
 -(void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
-    CLAddHeaderCollectionCell *cell = (CLAddHeaderCollectionCell*)[self.collectionView cellForItemAtIndexPath:self.indexPath];
+    NSLog(@"cell===%@",self.addCell.headerName.text);
     UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    UIView *toView = [toVC valueForKeyPath:@"bgImage"];
-    UIView *fromView = cell.bgImage;
+    UIView *toView = [toVC valueForKeyPath:@"headerImageView"];
+    UIView *fromView = self.addCell.bgImage;
     UIView *containerView = [transitionContext containerView];
-//    UIView *snapShotView = [[UIImageView alloc]initWithImage:cell.bgimageView.image];
+    UIView *snapShotView = [[UIImageView alloc]initWithImage:self.addCell.bgImage.image];
+     snapShotView.frame = [containerView convertRect:fromView.frame fromView:fromView.superview];
+    fromView.hidden = YES;
+    
+    //跳转过程切圆角
+    snapShotView.layer.cornerRadius  = 10;
+    snapShotView.layer.masksToBounds = YES;
+    
+    toVC.view.frame = [transitionContext finalFrameForViewController:toVC];
+    toVC.view.alpha = 0;
+    toView.hidden = YES;
+    [containerView addSubview:toVC.view];
+    [containerView addSubview:snapShotView];
+    
+    [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.0f usingSpringWithDamping:0.7f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveLinear animations:^{
+           [containerView layoutIfNeeded];
+           toVC.view.alpha = 1.0f;
+           snapShotView.frame = [containerView convertRect:toView.frame fromView:toView.superview];
+          
+       } completion:^(BOOL finished) {
+           toView.hidden = NO;
+           fromView.hidden = NO;
+           [snapShotView removeFromSuperview];
+           [self.collectionView reloadData];
+           [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
+       }];
+    
 }
 @end

@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class CLAddHeaderCollectionCell;
 @interface InterScaleViewController : UIViewController
 
-@property (nonatomic, strong) UIImage *imageName;
-
+@property (strong, nonatomic) UIImage *bgImage;
+@property (strong, nonatomic) NSString *imageName;
+@property(nonatomic,strong)CLAddHeaderCollectionCell *addCell;
 @end

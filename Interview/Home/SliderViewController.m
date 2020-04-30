@@ -10,8 +10,15 @@
 #import "YTSliderView.h"
 #import "BatteryBarView.h"
 #import "BatteryView.h"
-@interface SliderViewController ()<YTSliderViewDelegate>
-
+#import "KSProgressTimeView.h"
+#import "PopModel.h"
+@interface SliderViewController ()<YTSliderViewDelegate,KSProgressTimeViewDelegate>
+@property (nonatomic ,weak)KSProgressTimeView *progressView;
+@property(nonatomic,strong) UILabel *descLab;
+@property(nonatomic,strong)UIView *batteryBgV;
+@property(nonatomic,strong)UISlider *slider;
+@property(nonatomic,assign)int batteryNum;//电池电量
+@property(nonatomic,assign)int batteryHeight;//电池高度
 @end
 
 @implementation SliderViewController
@@ -19,18 +26,94 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
+    self.batteryNum = 20;
+    self.batteryHeight = self.batteryNum  * 0.5;
+    [self setSlider];
+    
+    [PopModel alertWithMessage:@"连接失败"];
 //    [self testSlider];
 //    BatteryBarView *barView = [[BatteryBarView alloc]initWithFrame:CGRectMake(40.f, 160.f, 36, 16)];
 //    [self.view addSubview:barView];
     
-    BatteryView *battY = [[BatteryView alloc]initWithFrame:CGRectMake(50, 220, 150, 140)];
+//    BatteryView *battY = [[BatteryView alloc]initWithFrame:CGRectMake(50, 220, 150, 140)];
 //    battY.transform = CGAffineTransformMakeRotation(-M_PI*0.5);
+    BatteryView *battY = [[BatteryView alloc]initWithFrame:CGRectMake(50, 400, 20, 50)];
+//    battY.backgroundColor = [UIColor greenColor];
     [self.view addSubview:battY];
+    
+    CGFloat batteryX =50.5;
+    UIView *batteryView = [[UIView alloc]initWithFrame:CGRectMake(batteryX,450 -self.batteryNum*0.5-1, 20-1, self.batteryNum*0.5)];
+    batteryView.layer.cornerRadius = 2;
+    batteryView.backgroundColor = [UIColor orangeColor];
+    [self.view addSubview:batteryView];
+    self.batteryBgV = batteryView;
+    
+     KSProgressTimeView *view=[[KSProgressTimeView alloc]initWithFrame:CGRectMake(50, 200, ScreenWidth-50*2, 30)];
+     view.layer.borderColor=[UIColor blackColor].CGColor;
+    view.layer.borderWidth=2;
+    //计时条背景色   timing bar background color
+    view.backgroundColor=[UIColor blackColor];
+    //计时条颜色     timing bar  color
+    view.timeCountColor=[UIColor blackColor];
+    view.originTimeFrequency=50;
+    view.timeInterval=1;
+    view.delegate=self;
+    view.totalTimeFrequency=50;
+    //计时栏颜色     timing lab  color
+    view.timeCountLabColor=[UIColor blackColor];
+    [self.view addSubview:view];
+    self.progressView =view;
+    
+    UILabel *descLab=[[UILabel alloc]init];
+    descLab.font=[UIFont systemFontOfSize:10];
+    descLab.textAlignment=NSTextAlignmentCenter;
+    descLab.textColor = [UIColor redColor];
+    [self.view addSubview:descLab];
+    self.descLab = descLab;
+   
+    [descLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(150);
+        make.height.mas_equalTo(20);
+        make.top.equalTo(view.mas_bottom).offset(5);
+        make.centerX.equalTo(self.view);
+    }];
+    
+//    [self startRun];
+}
+-(void)setSlider{
+    /// 创建Slider 设置Frame
+       UISlider *slider = [[UISlider alloc] initWithFrame:CGRectMake((ScreenWidth - 247) * .5f, 500, 247, 50)];
+       self.slider = slider;
+       /// 添加Slider
+       [self.view addSubview:slider];
+    slider.minimumValue = 0.0;
+     slider.maximumValue = 30.0;
+    slider.value = 10;
+    [slider addTarget:self action:@selector(sliderValueDidChanged:) forControlEvents:UIControlEventValueChanged];
+
+}
+-(void)sliderValueDidChanged:(UISlider*)slider{
+    NSLog(@"slideValue==%.f",slider.value);
+    int value = (int)slider.value;
+    self.batteryBgV.y = 450 -self.batteryNum*0.5 -1 - value;
+    self.batteryBgV.height = self.batteryNum*0.5 + value;
+}
+
+-(void)startRun{
+    [self.progressView KSProgramTimerStart];
+}
+-(void)timeChange:(NSString *)text{
+    NSLog(@"text = %@",text);
+    self.descLab.text = text;
+
+}
+-(void)KSProgressTimeUp:(KSProgressTimeView *)KSProgressTimeView{
+    NSLog(@"time over");
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
-   BatteryBarView *barView = self.view.subviews.lastObject;
-   barView.batteryPower = [self randomNumber];
+//   BatteryBarView *barView = self.view.subviews.lastObject;
+//   barView.batteryPower = [self randomNumber];
    
 }
 - (NSUInteger)randomNumber{

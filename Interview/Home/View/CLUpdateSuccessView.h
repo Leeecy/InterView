@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CLUpdateSuccessView : UIView
 -(instancetype)initWithFrame:(CGRect)frame btnArray:(NSArray *)btnArr;
 - (void)close;
-
+@property (nonatomic, copy) void(^onButtonSuccess)(CLUpdateSuccessView *alertView, NSInteger buttonIndex);
 @end
 
 NS_ASSUME_NONNULL_END

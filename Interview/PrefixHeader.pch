@@ -34,7 +34,7 @@
 #define EQSliderHeight 280
 
 #define chartVOfferX 40
-
+#define COLOR_WHITE [UIColor whiteColor]
 //eq滑块的文字
 typedef enum : NSUInteger{
     KSEqTopTitleStyle,

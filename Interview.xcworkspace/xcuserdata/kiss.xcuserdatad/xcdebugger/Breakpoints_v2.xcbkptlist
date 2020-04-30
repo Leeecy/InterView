@@ -24,23 +24,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "DC82E40D-066F-41AE-85F7-EB3261F93685"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Interview/Home/UpdateViewController.m"
-            timestampString = "592383347.19647"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "360"
-            endingLineNumber = "360"
-            landmarkName = "-okayRequired"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "9E48331C-607F-42CB-8A17-21A2F519210E"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -373,23 +356,6 @@
             startingLineNumber = "81"
             endingLineNumber = "81"
             landmarkName = "-sendGaiaCommand:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "70F8717F-AB41-4A24-8AE7-FE71D824D0B4"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Interview/Home/BabyBluetoothController.m"
-            timestampString = "591264509.268888"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
-            landmarkName = "-didDisconnectFromPeripheral:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

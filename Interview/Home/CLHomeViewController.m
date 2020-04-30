@@ -138,6 +138,17 @@ typedef NS_ENUM(NSUInteger, GaiaCommandUpdate) {
 - (void)viewDidLoad {
     [super viewDidLoad];
    
+    short int x;
+    char x0,x1;
+    x=0x1122;
+    x0=((char*)&x)[0]; //低地址单元
+    x1=((char*)&x)[1]; //高地址单元
+    if (x0 == 0x11) {
+        NSLog(@"大端");
+    }
+    else if (x0==0x22){
+        NSLog(@"小端");
+    }
     
     double newCurrent =(double)(4  + 10) / 10 ;
     NSLog(@"newCurrent==%f",newCurrent);
@@ -226,12 +237,13 @@ typedef NS_ENUM(NSUInteger, GaiaCommandUpdate) {
     [self addCell:@"转场动画" class:@"TranslationController"];
     [self addCell:@"searchVT" class:@"SearchViewController"];
     [self addCell:@"VT搜索页面" class:@"AddViewController"];
-    [self addCell:@"slider" class:@"SliderViewController"];
+    [self addCell:@"slider + 进度条" class:@"SliderViewController"];
+    [self addCell:@"测试蓝牙工具类" class:@"BLETestViewController"];
     [self addCell:@"添加button" class:@"ButtonTagsViewController"];
     [self addCell:@"寻找view父视图+Label字体显示优先级" class:@"CommonViewController"];
     [self addCell:@"app启动性能优化+事件传递链和响应链" class:@"AppLaunchController"];
     [self addCell:@"核心动画" class:@"CoreAnimateController"];
-    [self addCell:@"固件更新动画" class:@"OTAFirmController"];
+    [self addCell:@"蓝牙定时扫描" class:@"OTAFirmController"];
     
     [self addCell:@"Alert" class:@"AlertViewController"];
     

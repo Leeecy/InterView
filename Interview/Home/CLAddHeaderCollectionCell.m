@@ -12,7 +12,7 @@
 @interface CLAddHeaderCollectionCell()
 
 @property(strong,nonatomic)UIImageView *headerImg;
-@property(strong,nonatomic)UILabel *headerName;
+
 @property(strong,nonatomic)UIView *batteryView;
 
 @property(nonatomic,strong)UIImageView *leftImageV;
@@ -38,7 +38,10 @@
 - (void)setUpUI{
     _bgImage = [[UIImageView alloc] init];
     _bgImage.contentMode = UIViewContentModeScaleAspectFit;
-    _bgImage.image = [UIImage imageNamed:@"圆角矩形 4 拷贝 6"];
+    _bgImage.layer.cornerRadius  = 10;
+    _bgImage.layer.masksToBounds = YES;
+
+    _bgImage.image = [UIImage imageNamed:@"WechatIMG14"];//mid_bg
     [self addSubview:_bgImage];
     
     _headerImg = [[UIImageView alloc] init];
@@ -48,7 +51,7 @@
     [_headerImg sizeToFit];
     
     _headerName = [[UILabel alloc]init];
-    _headerName.text = @"TE-D01G";
+    
     _headerName.textColor = [UIColor blackColor];
     [self addSubview:_headerName];
     
@@ -144,6 +147,12 @@
 -(void)setBatteryM:(KSBatteryModel *)batteryM{
     _batteryM = batteryM;
     _headerImg.image = [UIImage imageNamed:batteryM.headerImgName];
+    _headerName.text = batteryM.headerImgName;
 }
-
+-(void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    if ([self.delegate respondsToSelector:@selector(cellDidClick:)]) {
+        [self.delegate cellDidClick:self];
+    }
+    NSLog(@"touchesEnded");
+}
 @end

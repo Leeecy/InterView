@@ -19,7 +19,9 @@
     [super viewDidLoad];
     NSArray *arr1 = @[@"完成"];
     CLUpdateSuccessView * success = [[CLUpdateSuccessView alloc]initWithFrame:kKeyWindow.frame btnArray:arr1];
-   
+    success.onButtonSuccess = ^(CLUpdateSuccessView * _Nonnull alertView, NSInteger buttonIndex) {
+        [alertView close];
+    };
      [kKeyWindow addSubview:success];
 }
 
