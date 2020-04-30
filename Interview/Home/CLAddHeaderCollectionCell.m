@@ -41,7 +41,7 @@
     _bgImage.layer.cornerRadius  = 10;
     _bgImage.layer.masksToBounds = YES;
 
-    _bgImage.image = [UIImage imageNamed:@"WechatIMG14"];//mid_bg
+//    _bgImage.image = [UIImage imageNamed:@"WechatIMG14"];//mid_bg
     [self addSubview:_bgImage];
     
     _headerImg = [[UIImageView alloc] init];

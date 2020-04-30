@@ -13,7 +13,7 @@
 #import "UIViewController+HHTransition.h"
 @interface AddViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UINavigationControllerDelegate,UIViewControllerAnimatedTransitioning,CLAddHeaderCellDelegate>
 @property(strong,nonatomic)UILabel *myHead;
-@property (strong , nonatomic)UICollectionView *collectionView;
+
 @property(assign,nonatomic)NSInteger ItemCount;
 @property(nonatomic,copy)NSArray *arr;
 @property(nonatomic,strong)NSIndexPath *indexPath;
@@ -131,10 +131,15 @@
 -(void)cellDidClick:(CLAddHeaderCollectionCell *)cell{
     self.addCell = cell;
     NSIndexPath *index = [self.collectionView indexPathForCell:cell];
+    
+      CLAddHeaderCollectionCell *cell1 =  (CLAddHeaderCollectionCell*)[self.collectionView cellForItemAtIndexPath:index];
+    NSLog(@"cell1---%@",cell1.headerName.text);
+    
     cell.transform = CGAffineTransformMakeScale(0.9, 0.9);
     InterScaleViewController *interScale = [InterScaleViewController new];
-//    interScale.bgImage = [self imageFromView];
+    interScale.bgImage = [self imageFromView];
     interScale.addCell = cell;
+    interScale.selectIndexPath = index;
     interScale.imageName = @"WechatIMG14";
     [self.navigationController pushViewController:interScale animated:YES];
     NSLog(@"cellDidClick===%@",self.addCell.headerName.text);
@@ -155,6 +160,7 @@
     UIView *toView = [toVC valueForKeyPath:@"headerImageView"];
     UIView *fromView = self.addCell.bgImage;
     UIView *containerView = [transitionContext containerView];
+    
     UIView *snapShotView = [[UIImageView alloc]initWithImage:self.addCell.bgImage.image];
      snapShotView.frame = [containerView convertRect:fromView.frame fromView:fromView.superview];
     fromView.hidden = YES;
@@ -169,18 +175,29 @@
     [containerView addSubview:toVC.view];
     [containerView addSubview:snapShotView];
     
-    [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.0f usingSpringWithDamping:0.7f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveLinear animations:^{
-           [containerView layoutIfNeeded];
-           toVC.view.alpha = 1.0f;
-           snapShotView.frame = [containerView convertRect:toView.frame fromView:toView.superview];
-          
-       } completion:^(BOOL finished) {
-           toView.hidden = NO;
-           fromView.hidden = NO;
-           [snapShotView removeFromSuperview];
-           [self.collectionView reloadData];
-           [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
-       }];
+//    [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.0f usingSpringWithDamping:0.7f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveLinear animations:^{
+//           [containerView layoutIfNeeded];
+//           toVC.view.alpha = 1.0f;
+//           snapShotView.frame = [containerView convertRect:toView.frame fromView:toView.superview];
+//
+//       } completion:^(BOOL finished) {
+//           toView.hidden = NO;
+//           fromView.hidden = NO;
+//           [snapShotView removeFromSuperview];
+//           [self.collectionView reloadData];
+//           [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
+//       }];
     
+    [UIView animateWithDuration:1.2 animations:^{
+        [containerView layoutIfNeeded];
+                 toVC.view.alpha = 1.0f;
+                 snapShotView.frame = [containerView convertRect:toView.frame fromView:toView.superview];
+    } completion:^(BOOL finished) {
+        toView.hidden = NO;
+        fromView.hidden = NO;
+        [snapShotView removeFromSuperview];
+        [self.collectionView reloadData];
+        [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
+    }];
 }
 @end

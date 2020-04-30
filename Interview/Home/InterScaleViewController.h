@@ -13,4 +13,5 @@
 @property (strong, nonatomic) UIImage *bgImage;
 @property (strong, nonatomic) NSString *imageName;
 @property(nonatomic,strong)CLAddHeaderCollectionCell *addCell;
+@property (strong, nonatomic) NSIndexPath *selectIndexPath;
 @end

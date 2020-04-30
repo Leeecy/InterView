@@ -136,6 +136,7 @@
 		4A8AA649245916F200BAD693 /* PopModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8AA648245916F200BAD693 /* PopModel.m */; };
 		4A8AA64E24597A9800BAD693 /* CLBLEManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8AA64D24597A9800BAD693 /* CLBLEManager.m */; };
 		4A8AA652245A598F00BAD693 /* BLETestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8AA651245A598F00BAD693 /* BLETestViewController.m */; };
+		4A8AA655245ACF2300BAD693 /* KSTitleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8AA653245ACF2300BAD693 /* KSTitleButton.m */; };
 		4AA27DF923AB4BAD003ADFC7 /* GifViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AA27DF823AB4BAD003ADFC7 /* GifViewController.m */; };
 		4AA27DFE23AB4C9A003ADFC7 /* gif.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4AA27DFD23AB4C9A003ADFC7 /* gif.gif */; };
 		4AC25CAF23628EE7000B442D /* CLSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AC25CAE23628EE7000B442D /* CLSlider.m */; };
@@ -455,6 +456,8 @@
 		4A8AA64F24597AC000BAD693 /* CLBLEConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CLBLEConst.h; sourceTree = "<group>"; };
 		4A8AA650245A598F00BAD693 /* BLETestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLETestViewController.h; sourceTree = "<group>"; };
 		4A8AA651245A598F00BAD693 /* BLETestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLETestViewController.m; sourceTree = "<group>"; };
+		4A8AA653245ACF2300BAD693 /* KSTitleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSTitleButton.m; sourceTree = "<group>"; };
+		4A8AA654245ACF2300BAD693 /* KSTitleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSTitleButton.h; sourceTree = "<group>"; };
 		4AA27DF723AB4BAD003ADFC7 /* GifViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GifViewController.h; sourceTree = "<group>"; };
 		4AA27DF823AB4BAD003ADFC7 /* GifViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GifViewController.m; sourceTree = "<group>"; };
 		4AA27DFD23AB4C9A003ADFC7 /* gif.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif.gif; sourceTree = "<group>"; };
@@ -792,6 +795,8 @@
 				4AEDA0CA239BB389002E54EC /* YTSliderSetting.m */,
 				4AEDA0CB239BB389002E54EC /* YTSliderView.h */,
 				4AEDA0CD239BB38A002E54EC /* YTSliderView.m */,
+				4A8AA654245ACF2300BAD693 /* KSTitleButton.h */,
+				4A8AA653245ACF2300BAD693 /* KSTitleButton.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1529,6 +1534,7 @@
 				4A578C882448334300D7AAC3 /* AnimationBackBegin.m in Sources */,
 				F5CFB33322E2DBFF00C81E26 /* UserInfoHeader.m in Sources */,
 				F5C7006422F02E43002F5C31 /* ZghChartController.m in Sources */,
+				4A8AA655245ACF2300BAD693 /* KSTitleButton.m in Sources */,
 				F5CFB34A22E3029500C81E26 /* SliderView.m in Sources */,
 				F5CFB30922E16DA600C81E26 /* CLTipViewController.m in Sources */,
 				4A347AA82306A800007FCD76 /* QTIGaiaClassicCommand.m in Sources */,

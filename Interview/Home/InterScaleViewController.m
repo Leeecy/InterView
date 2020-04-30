@@ -12,7 +12,8 @@
 #import "AddViewController.h"
 #import "CLAddHeaderCollectionCell.h"
 #import "SliderViewController.h"
-@interface InterScaleViewController ()<UIGestureRecognizerDelegate,UIViewControllerAnimatedTransitioning,UINavigationControllerDelegate>
+#import "KSTitleButton.h"
+@interface InterScaleViewController ()<UIGestureRecognizerDelegate,UIViewControllerAnimatedTransitioning,UINavigationControllerDelegate,KSTitleButtonDelegate>
 
 @property (nonatomic, strong) UIImageView *imageView_;
 @property (nonatomic, strong) UILabel *alertLabel;
@@ -21,7 +22,8 @@
 
 @property (strong, nonatomic) UIImageView *headerImageView; // 大图
 @property (strong, nonatomic) UIImageView *bgImageView;     // 上个页面截图
-
+@property (strong, nonatomic) UIView *bottomView;
+@property(strong,nonatomic)NSArray *titleArray;
 @end
 
 @implementation InterScaleViewController
@@ -29,7 +31,7 @@
     [super viewWillAppear:animated];
 
     [self.navigationController setNavigationBarHidden:YES animated:YES];
-
+    self.navigationController.delegate = self;
 }
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -39,11 +41,13 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.titleArray = @[NSLocalizedString(@"按键设置", nil),NSLocalizedString(@"通用设置", nil),NSLocalizedString(@"EQ", nil),NSLocalizedString(@"固件更新", nil)] ;
+    
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
-    self.navigationController.delegate = self;
+    
     
     self.view.backgroundColor = [UIColor blackColor];
-    NSLog(@"cell==%@",self.addCell);
+    NSLog(@"cell==%@",self.addCell.headerName);
     CGFloat TOPMagin = iPhoneX ? 120 :40 ;//
     
     self.midView = [[UIView alloc]init];
@@ -86,27 +90,23 @@
     img.image = [UIImage imageNamed:@"bottom_bg"];
     [bottomV addSubview:self.bottomImg];
    
-    [UIView animateWithDuration:0.3  animations:^{
+    self.bottomView = bottomV;
+    
+    [UIView animateWithDuration:0.2  animations:^{
        bottomV.frame = CGRectMake(0, ScreenHeight-260, ScreenWidth, 260);
    } completion:^(BOOL finished) {
        
    }];
-    //testbtn
-   UIButton *btn1 = [[UIButton alloc]init];
-   [btn1 setImage:[UIImage imageNamed:@"失败"] forState:(UIControlStateNormal)];
-   [btn1 addTarget:self action:@selector(testClick:) forControlEvents:(UIControlEventTouchUpInside)];
-   [bottomV addSubview:btn1];
-   [btn1 mas_makeConstraints:^(MASConstraintMaker *make) {
-       make.right.equalTo(self.view.mas_right).offset(-34);
-       make.bottom.equalTo(self.view.mas_bottom).offset(-50);
-       make.size.mas_equalTo(CGSizeMake(20, 20));
-   }];
-
+    KSTitleButton *titleV = [[KSTitleButton alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth - 40, 200) TitleArr:self.titleArray LineNumber:2 ColumnsNumber:2 EdgeInsetsStyle:LZHEdgeInsetsStyleTop ImageTitleSpace:5 isUpdate:NO isFemale:NO];
+    titleV.delegate = self;
+//    self.titleV = titleV;
+    [self.bottomView addSubview:titleV];
+    
 }
-
--(IBAction)testClick:(UIButton*)sender{
+-(void)clickBTnIndex:(KSTitleViewStyle)style Title:(NSString *)title{
     [self.navigationController pushViewController:[SliderViewController new] animated:YES];
 }
+
 -(IBAction)deleteClick:(UIButton*)sender{
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -125,7 +125,7 @@
 #pragma mark - UIViewControllerAnimatedTransitioning
 
 -(NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext{
-    return 1.0f;
+    return 0.4;
 }
 
 -(void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
@@ -135,8 +135,10 @@
     UIView *fromView = [fromVC valueForKeyPath:@"headerImageView"];
     toVC.view.frame = [transitionContext finalFrameForViewController:toVC];
    
-    UIView *originView = self.addCell.bgImage;
+    CLAddHeaderCollectionCell *cell =  (CLAddHeaderCollectionCell*)[toVC.collectionView cellForItemAtIndexPath:self.selectIndexPath];
     
+    UIView *originView = cell.bgImage;
+    NSLog(@"回去的cell=%@",self.addCell.headerName.text);
     UIView *snapShotView = [fromView snapshotViewAfterScreenUpdates:NO];
     snapShotView.layer.masksToBounds = YES;
     snapShotView.layer.cornerRadius = 15;
@@ -148,9 +150,10 @@
     [containerView insertSubview:toVC.view belowSubview:fromVC.view];
     [containerView addSubview:snapShotView];
     
-    [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0 usingSpringWithDamping:1.f initialSpringVelocity:1.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+    [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0 usingSpringWithDamping:1 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
            [containerView layoutIfNeeded];
-           fromVC.view.alpha = 0.0f;
+           fromVC.view.alpha = 0.5f;
+        [self.bottomView removeFromSuperview];
            snapShotView.layer.cornerRadius = 15;
            snapShotView.frame = [containerView convertRect:originView.frame fromView:originView.superview];
         

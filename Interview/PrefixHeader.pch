@@ -40,5 +40,20 @@ typedef enum : NSUInteger{
     KSEqTopTitleStyle,
     KSEqBottomTitleStyle
 }EQTitleStyle;
+typedef NS_ENUM(NSUInteger, KSEdgeInsetsStyle) {
+    LZHEdgeInsetsStyleTop, // image在上，label在下
+    LZHEdgeInsetsStyleLeft, // image在左，label在右
+    LZHEdgeInsetsStyleBottom, // image在下，label在上
+    LZHEdgeInsetsStyleRight // image在右，label在左
+};
+#define kMaxY(Y) CGRectGetMaxY(Y)
+#define kMaxX(X) CGRectGetMaxX(X)
+//首页四个
+typedef NS_ENUM(NSUInteger, KSTitleViewStyle) {
+    KSKeyConfigStyle,
+    KSGeneralSetStyle, //
+    KSEQGainStyle, //
+    KSFirmwareUpdateStyle //
+};
 
 #endif /* PrefixHeader_pch */
