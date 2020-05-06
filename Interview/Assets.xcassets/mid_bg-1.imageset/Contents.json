@@ -1,17 +1,16 @@
 {
   "images" : [
     {
-      "filename" : "图层 2566.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "图层 2566@2x.png",
+      "filename" : "mid_bg@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "图层 2566@3x.png",
+      "filename" : "mid_bg@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

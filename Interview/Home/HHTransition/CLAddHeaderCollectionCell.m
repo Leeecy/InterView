@@ -5,13 +5,13 @@
 //  Created by cl on 2020/3/16.
 //  Copyright © 2020 cl. All rights reserved.
 //
-
+//PushTransitionDemo
 #import "CLAddHeaderCollectionCell.h"
 #import "KSBatteryView.h"
 #import "KSBatteryModel.h"
 @interface CLAddHeaderCollectionCell()
 
-@property(strong,nonatomic)UIImageView *headerImg;
+
 
 @property(strong,nonatomic)UIView *batteryView;
 
@@ -37,11 +37,11 @@
 }
 - (void)setUpUI{
     _bgImage = [[UIImageView alloc] init];
-    _bgImage.contentMode = UIViewContentModeScaleAspectFit;
+    _bgImage.contentMode = UIViewContentModeScaleAspectFill;
     _bgImage.layer.cornerRadius  = 10;
     _bgImage.layer.masksToBounds = YES;
-
-//    _bgImage.image = [UIImage imageNamed:@"WechatIMG14"];//mid_bg
+    NSString *name = @"mid_bg-1";//
+    _bgImage.image = [UIImage imageNamed:@"WechatIMG14"];//mid_bg
     [self addSubview:_bgImage];
     
     _headerImg = [[UIImageView alloc] init];
@@ -110,7 +110,7 @@
     [_bgImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self);
         make.top.mas_equalTo(self).mas_offset(30);
-        make.width.mas_equalTo(self).multipliedBy(0.85);
+        make.width.mas_equalTo(self.width* 0.85);
         make.height.mas_equalTo(self.width * 0.75);
     }];
     

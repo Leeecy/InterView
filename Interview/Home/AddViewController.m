@@ -94,7 +94,8 @@
     cell.delegate = self;
     cell.backgroundColor = [UIColor clearColor];
     cell.headerName.text = self.arr[indexPath.item];
-  
+    cell.headerImg.image = [UIImage imageNamed:self.arr[indexPath.item]];
+    
     return cell;
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -126,23 +127,25 @@
 
 //// MARK: 设置动画时间
 - (NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext {
-    return 2.f;
+    return 1;
 }
 -(void)cellDidClick:(CLAddHeaderCollectionCell *)cell{
     self.addCell = cell;
     NSIndexPath *index = [self.collectionView indexPathForCell:cell];
     
       CLAddHeaderCollectionCell *cell1 =  (CLAddHeaderCollectionCell*)[self.collectionView cellForItemAtIndexPath:index];
-    NSLog(@"cell1---%@",cell1.headerName.text);
+    NSLog(@"进去的cell---%@",cell1.headerName.text);
     
     cell.transform = CGAffineTransformMakeScale(0.9, 0.9);
     InterScaleViewController *interScale = [InterScaleViewController new];
     interScale.bgImage = [self imageFromView];
     interScale.addCell = cell;
     interScale.selectIndexPath = index;
+    interScale.headerName = self.arr[index.item];
     interScale.imageName = @"WechatIMG14";
+    interScale.bottomName = @"bottom_bg";
     [self.navigationController pushViewController:interScale animated:YES];
-    NSLog(@"cellDidClick===%@",self.addCell.headerName.text);
+    NSLog(@"点击进去的cell===%@",self.addCell.headerName.text);
 }
 - (UIImage *)imageFromView {
     
@@ -156,13 +159,17 @@
 }
 -(void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
     NSLog(@"cell===%@",self.addCell.headerName.text);
+     NSIndexPath *index = [self.collectionView indexPathForCell:self.addCell];
+    
     UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     UIView *toView = [toVC valueForKeyPath:@"headerImageView"];
     UIView *fromView = self.addCell.bgImage;
     UIView *containerView = [transitionContext containerView];
     
     UIView *snapShotView = [[UIImageView alloc]initWithImage:self.addCell.bgImage.image];
+    
      snapShotView.frame = [containerView convertRect:fromView.frame fromView:fromView.superview];
+    
     fromView.hidden = YES;
     
     //跳转过程切圆角
@@ -172,6 +179,24 @@
     toVC.view.frame = [transitionContext finalFrameForViewController:toVC];
     toVC.view.alpha = 0;
     toView.hidden = YES;
+    
+    
+//耳机图片
+    UIImageView * earImage = [[UIImageView alloc]init];
+    earImage.image = [UIImage imageNamed:self.arr[index.item]];
+    earImage.contentMode = UIViewContentModeScaleAspectFit;
+    [snapShotView addSubview:earImage];
+        CGFloat headTop = iPhoneX ? 180 : 140;
+    [earImage mas_makeConstraints:^(MASConstraintMaker *make) {
+       make.centerX.equalTo(snapShotView.mas_centerX);
+       make.size.mas_equalTo(CGSizeMake(126, 192));
+       make.top.equalTo(snapShotView.mas_top).offset(headTop);
+    }];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        NSLog(@"frame==%@  %@ %@",NSStringFromCGRect(earImage.frame),NSStringFromCGRect(snapShotView.frame),NSStringFromCGRect(containerView.frame));
+    });
+    
     [containerView addSubview:toVC.view];
     [containerView addSubview:snapShotView];
     
@@ -188,10 +213,16 @@
 //           [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
 //       }];
     
-    [UIView animateWithDuration:1.2 animations:^{
+    [UIView animateWithDuration:1 animations:^{
         [containerView layoutIfNeeded];
                  toVC.view.alpha = 1.0f;
                  snapShotView.frame = [containerView convertRect:toView.frame fromView:toView.superview];
+//         [earImage mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.centerX.equalTo(snapShotView.mas_centerX);
+//            make.size.mas_equalTo(CGSizeMake(126, 192));
+//            make.top.equalTo(snapShotView.mas_top).offset(headTop);
+//         }];
+        
     } completion:^(BOOL finished) {
         toView.hidden = NO;
         fromView.hidden = NO;

@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong , nonatomic)UIImageView *bgImage;
 @property(nonatomic,copy)NSArray *imageArr;
 @property(strong,nonatomic)UILabel *headerName;
+@property(strong,nonatomic)UIImageView *headerImg;
 @property (nonatomic , weak) id<CLAddHeaderCellDelegate>delegate;
 //@property (nonatomic, weak) CLAddHeaderCollectionCell *cell;
 @end

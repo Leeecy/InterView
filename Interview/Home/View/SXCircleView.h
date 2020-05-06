@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 //- (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(nullable UIEvent *)event;
 ////解决滑动改变的问题
 //- (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(nullable UIEvent *)event;
--(id)initWithFrame:(CGRect)frame lineWidth:(CGFloat)lineWidth circleAngle:(CGFloat)circleAngle imageName:(NSString *)imageName;
+-(id)initWithFrame:(CGRect)frame lineWidth:(CGFloat)lineWidth circleAngle:(CGFloat)circleAngle productModel:(NSString *)model imageWidth:(CGFloat)imgWidth;
 
 @property (nonatomic,setter=changeAngle:) int angle;
 

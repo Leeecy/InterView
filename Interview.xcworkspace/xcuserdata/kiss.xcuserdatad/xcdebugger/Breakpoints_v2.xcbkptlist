@@ -393,5 +393,85 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "34670A58-DD4C-4D23-8F68-46F5D537EE06"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Interview/Home/PopVC/WXSTransition/WXSTransitionManager.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
+            landmarkName = "-backSysTransitionAnimationWithType:context:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "34D3F551-5202-4C8D-9DD3-0687D65CCCF2"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Interview/Home/PopVC/WXSTransition/WXSTransitionManager+ViewMoveAnimation.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
+            landmarkName = "-viewMoveBackWithType:andContext:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "34D3F551-5202-4C8D-9DD3-0687D65CCCF2 - bc7301fc2ca0b860"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[WXSTransitionManager(ViewMoveAnimation) viewMoveBackWithType:andContext:]"
+                  moduleName = "Interview"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kiss/Desktop/Interview/Interview/Home/PopVC/WXSTransition/WXSTransitionManager+ViewMoveAnimation.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "128"
+                  endingLineNumber = "128"
+                  offsetFromSymbolStart = "1802">
+               </Location>
+               <Location
+                  uuid = "34D3F551-5202-4C8D-9DD3-0687D65CCCF2 - d0160304da099d84"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__75-[WXSTransitionManager(ViewMoveAnimation) viewMoveBackWithType:andContext:]_block_invoke_3"
+                  moduleName = "Interview"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kiss/Desktop/Interview/Interview/Home/PopVC/WXSTransition/WXSTransitionManager+ViewMoveAnimation.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "128"
+                  endingLineNumber = "128"
+                  offsetFromSymbolStart = "12">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "093B63A0-B375-402F-8EE4-73C930CD26B2"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Interview/Home/PopVC/WXSTransition/WXSTransitionManager+SpreadAnimation.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
+            landmarkName = "-pointSpreadNextWithContext:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

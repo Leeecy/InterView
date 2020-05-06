@@ -26,6 +26,7 @@
     [self addCell:@"带背景图的成功弹窗" class:@"Pop5ViewController"];
     [self addCell:@"gif" class:@"GifViewController"];
     [self addCell:@"按键弹窗" class:@"KeyPopViewController"];
+    [self addCell:@"转场1" class:@"AddPopViewController"];
     [self.tableView reloadData];
 }
 

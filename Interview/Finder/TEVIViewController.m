@@ -78,8 +78,8 @@
         make.size.mas_equalTo(CGSizeMake(51, 29));
     }];
     
-    self.circleView = [[SXCircleView alloc]initWithFrame:CGRectMake(23,100, ScreenWidth -23*2, ScreenWidth -23*2) lineWidth:2 circleAngle:240 imageName:@"qian"];
-    [headerView addSubview:self.circleView];
+//    self.circleView = [[SXCircleView alloc]initWithFrame:CGRectMake(23,100, ScreenWidth -23*2, ScreenWidth -23*2) lineWidth:2 circleAngle:240 imageName:@"qian"];
+//    [headerView addSubview:self.circleView];
     
     self.circleView.angle = -210 + _originVolume * VolumeNum;
     

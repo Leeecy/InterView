@@ -14,33 +14,39 @@
 #define ToDeg(rad)        ( (180.0 * (rad)) / M_PI )
 
 #define   degreesToRadians(degrees)  ((M_PI * degrees)/ 180)
-
+#define RoundWidth 6
 @interface SXCircleView(){
     CGFloat radius;
 }
+@property(assign,nonatomic)CGFloat imgWidth;
+
 @property(assign,nonatomic)CGFloat lineWidth;
 @property(assign,nonatomic)CGFloat startAngle;
 @property(assign,nonatomic)CGFloat endAngle;
 @property(strong,nonatomic)UIImageView *imagev;
 @property(assign,nonatomic)CGFloat maxY;
 
+@property(nonatomic,strong)NSString *productModel;
+
 @end
 
 @implementation SXCircleView
 
--(id)initWithFrame:(CGRect)frame lineWidth:(CGFloat)lineWidth circleAngle:(CGFloat)circleAngle imageName:(NSString *)imageName{
+-(id)initWithFrame:(CGRect)frame lineWidth:(CGFloat)lineWidth circleAngle:(CGFloat)circleAngle productModel:(nonnull NSString *)model imageWidth:(CGFloat)imgWidth{
     if ([super initWithFrame:frame]) {
         // 线宽
+        self.imgWidth = imgWidth;
         _lineWidth = lineWidth;
 //        _angle = 100;
         // 半径
-        radius = self.frame.size.width/2 - _lineWidth/2 - lineWidth*2;
+        radius = (self.frame.size.width - 4)/2 - _lineWidth/2 - _lineWidth*imgWidth - 1;
         // 圆起点（角度）
         self.startAngle = -((circleAngle - 180)/2 + 180);
         // 圆终点 (角度)
         self.endAngle = (circleAngle - 180)/2;
         self.angle = self.startAngle;
-        self.imagev.image = [UIImage imageNamed:imageName];
+//        self.imagev.image = [UIImage imageNamed:imageName];
+        self.productModel = model;
         self.backgroundColor = [UIColor clearColor];
     }
     return self;
@@ -48,11 +54,21 @@
 
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
+    NSString *startImgName;
+    NSString *endImgName;
+    if ([self.productModel isEqualToString:@"0003"]) {
+        endImgName = @"#E6C8C6";
+        startImgName = @"#C4E2DD";
+    }else{
+        startImgName = @"#E8E8E8";
+        endImgName = @"#F48E36";
+    }
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     //1.绘制灰色的背景
     CGContextAddArc(context, self.frame.size.width/2, self.frame.size.height/2, radius, degreesToRadians(self.startAngle),degreesToRadians(self.endAngle) , 0);
-    [[UIColor colorWithHexString:@"#E8E8E8"] setStroke];
+    
+    [[UIColor colorWithHexString:startImgName] setStroke];
     CGContextSetLineWidth(context, _lineWidth);
     CGContextSetLineCap(context, kCGLineCapRound);
     CGContextDrawPath(context, kCGPathStroke);
@@ -66,9 +82,9 @@
     // 设置线条端点为圆角
     CGContextSetLineCap(context, kCGLineCapRound);
     
-    [[UIColor colorWithHexString:@"#F48E36"] setStroke];
-    CGContextDrawPath(context, kCGPathStroke);
+    [[UIColor colorWithHexString:endImgName] setStroke];
     
+    CGContextDrawPath(context, kCGPathStroke);
     
     //使用rgb颜色空间
 //    CGColorSpaceRef colorSpace=CGColorSpaceCreateDeviceRGB();
@@ -112,17 +128,36 @@
 
     
     //3.绘制拖动小块
-    CGPoint handleCenter =  [self pointFromAngle: (self.angle)];
-    CGContextSetShadowWithColor(context, CGSizeMake(0, 0), 4,[UIColor orangeColor].CGColor);
-    [[UIColor whiteColor] setStroke];
-    CGContextSetLineWidth(context, _lineWidth*2);
-    CGContextAddEllipseInRect(context, CGRectMake(handleCenter.x, handleCenter.y, _lineWidth*2, _lineWidth*2));
-    CGContextDrawPath(context, kCGPathStroke);
+    if ([self.productModel isEqualToString:@"0003"]) {
+        CGPoint handleCenter =  [self pointFromAngle: (self.angle)];
+            CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
+        //    CGContextSetShadowWithColor(context, CGSizeMake(0, 0), _imgWidth,[UIColor colorWithHexString:@"#E6C8C6"].CGColor);
+            [[UIColor colorFromHexStr:@"#E6C8C6"] setStroke];
+            CGContextSetLineWidth(context, 2);
+            CGContextAddEllipseInRect(context, CGRectMake(handleCenter.x, handleCenter.y, _lineWidth*_imgWidth+RoundWidth, _lineWidth*_imgWidth+RoundWidth));
+            CGContextDrawPath(context, kCGPathFillStroke);
+    }else{
+            CGPoint handleCenter =  [self pointFromAngle: (self.angle)];
+            CGContextSetShadowWithColor(context, CGSizeMake(0, 0), _imgWidth,[UIColor colorWithHexString:@"#A6461C"].CGColor);
+            [[UIColor whiteColor] setStroke];
+            CGContextSetLineWidth(context, _lineWidth*_imgWidth);
+            CGContextAddEllipseInRect(context, CGRectMake(handleCenter.x, handleCenter.y, _lineWidth*_imgWidth, _lineWidth*_imgWidth));
+            CGContextDrawPath(context, kCGPathStroke);
+    }
+
+    
+    
 }
 
 -(CGPoint)pointFromAngle:(int)angleInt{
     //中心点
-    CGPoint centerPoint = CGPointMake(self.frame.size.width/2 - _lineWidth , self.frame.size.height/2 - _lineWidth );
+    int roundWidth;
+    if ([self.productModel isEqualToString:@"0003"]) {
+        roundWidth = RoundWidth;
+    }else{
+        roundWidth = 0;
+    }
+    CGPoint centerPoint = CGPointMake(self.frame.size.width/2 - (_lineWidth*_imgWidth + roundWidth)/2 , self.frame.size.height/2 - (_lineWidth *_imgWidth + roundWidth)/2);
     
     //根据角度得到圆环上的坐标
     CGPoint result;
@@ -158,7 +193,7 @@
     if (distanceBetweenPoints>= radius - 50 && distanceBetweenPoints <= radius+ 20) {
         [self movehandle:lastPoint];
     }
-    
+    self.imgWidth = 4;
     [self sendActionsForControlEvents:UIControlEventTouchUpInside];
 
 }
@@ -215,6 +250,7 @@
     }
     
     //发送值改变事件
+    self.imgWidth = 5;
     [self sendActionsForControlEvents:UIControlEventValueChanged];
     return YES;
 }
