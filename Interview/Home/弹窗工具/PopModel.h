@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 顶部横幅弹窗
 */
 + (void)alertWithMessage:(NSString *)message;
++ (void)alertWithDismiss;
 @end
 
 NS_ASSUME_NONNULL_END

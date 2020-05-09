@@ -26,6 +26,7 @@
     
     __block UIView *view = [[UIView alloc] init];
     view.frame = CGRectMake(0, - HEIGHT_IPHONEX_BOTTOM_WHITE, ScreenWidth, HEIGHT_IPHONEX_BOTTOM_WHITE);
+    
     view.backgroundColor = [UIColor colorFromHexStr:@"#F1A5A5"];
     if (vc.navigationController.navigationBarHidden) {
         [vc.view addSubview:view];
@@ -80,5 +81,8 @@
     }
     
     return vc;
+}
++ (void)alertWithDismiss{
+    NSLog(@"%@",[[self topViewController].view subviews]);
 }
 @end

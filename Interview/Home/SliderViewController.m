@@ -32,6 +32,10 @@
     [self setSlider];
     
     [PopModel alertWithMessage:@"连接失败"];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [PopModel alertWithDismiss];
+    });
 //    [self testSlider];
 //    BatteryBarView *barView = [[BatteryBarView alloc]initWithFrame:CGRectMake(40.f, 160.f, 36, 16)];
 //    [self.view addSubview:barView];
