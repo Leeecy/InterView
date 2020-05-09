@@ -9,7 +9,9 @@
 #import "OTAFirmController.h"
 #import "OTAAlertView.h"
 #import <CoreBluetooth/CoreBluetooth.h>
-@interface OTAFirmController ()<CBCentralManagerDelegate,CBPeripheralDelegate>{
+#import "BluetoothCell.h"
+#import "CLBLETestController.h"
+@interface OTAFirmController ()<CBCentralManagerDelegate,CBPeripheralDelegate,UITableViewDataSource,UITableViewDelegate>{
     //这里保存这个可以写的特性，便于后面往这个特性中写数据
     CBCharacteristic *_chatacter;//--------------外设的可写特性，全局保存，方便使用
     
@@ -24,13 +26,18 @@
 @property(strong,nonatomic) CBCentralManager *centerManager;//--------中心设备管理器
 
 @property(strong,nonatomic) NSMutableArray *peripherals;//------------所有蓝牙外设
+@property (nonatomic ,strong)NSArray *dataSource;
+@property (nonatomic ,strong)UITableView *tableView;
 @end
 
 @implementation OTAFirmController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"蓝牙列表";
     self.view.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:self.tableView];
+    _dataSource = @[@"",@"已连接设备",@"其他设备"];
    //初始化蓝牙manager
    [self initCBCentralManager];
     
@@ -39,8 +46,25 @@
 //
 //        [self scan:nil];
 //    }];
-    
 }
+#pragma mark ===== lazyLoad  =====
+-(UITableView *)tableView{
+    if (!_tableView){
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, SafeAreaTopHeight, ScreenWidth, ScreenHeight - SafeAreaTopHeight - SafeAreaBottomHeight) style:UITableViewStylePlain];
+        _tableView.backgroundColor = [UIColor whiteColor];
+        _tableView.dataSource = self;
+        _tableView.delegate = self;
+        _tableView.showsVerticalScrollIndicator = NO;
+        _tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 5)];
+        _tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 10)];
+        _tableView.showsVerticalScrollIndicator = NO;
+        if (@available (iOS 11,*)) {
+            _tableView.estimatedRowHeight = 0;
+        }
+    }
+    return _tableView;
+}
+
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -115,7 +139,6 @@
 }
 -(void)contentPeripheral:(CBPeripheral *)peripheral withIndexPath:(NSIndexPath *)indexPath//点击cell，连接外设
 {
-    [self connectPeripheral:peripheral];
     
 //    //点击cell数据已替换，刷新列表
     [self changeCurrentPeripheralState];
@@ -128,26 +151,132 @@
         
     }
 }
-//第四步：连接蓝牙设备
-- (void)connectPeripheral:(CBPeripheral *)peripheral
-{
-    [self.centerManager connectPeripheral:peripheral options:@{CBConnectPeripheralOptionNotifyOnDisconnectionKey:@(YES)}];
-    /*
-     CBConnectPeripheralOptionNotifyOnDisconnectionKey
-     在程序被挂起时，断开连接显示Alert提醒框
-     */
-    // 设置外设的代理是为了后面查询外设的服务和外设的特性，以及特性中的数据。
-    [peripheral setDelegate:self];
+#pragma mark -- table view delegate/datasource method
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return _dataSource.count;
 }
-- (void)cancelPeripheral:(CBPeripheral *)peripheral//点击断开，取消当前连接
-{
-    if (!peripheral) {
-        return;
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (section == _dataSource.count - 1){
+        return self.peripherals.count;
     }
-    [self.centerManager cancelPeripheralConnection:peripheral];
-    _currentPeripheral = nil;
+    return 1;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 50;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 50;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0){
+        static NSString * str = @"PrintVC0_cell";
+        UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:str];
+        if (!cell)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:str];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor = [UIColor whiteColor];
+   
+        }
+        
+        return cell;
+    }
+    else
+    {
+        static NSString * str = @"PrintVC1_cell";
+        BluetoothCell * cell = [tableView dequeueReusableCellWithIdentifier:str];
+        if (!cell)
+        {
+            cell = [[BluetoothCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:str];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor = [UIColor whiteColor];
+            
+        }
+        
+        //    NSDictionary *dict = @{@"peripheral":peripheral,@"locolName":locolName,@"peripheralName":peripheralName,@"advertisementData":advertisementData,@"RSSI":RSSI};
+        if (self.peripherals.count > 0)
+        {
+            CBPeripheral *peripheral = nil;
+            NSString *peripheralStr = nil;
+            if (indexPath.section == 1)//已连接设备
+            {
+                peripheral = _currentPeripheral[@"peripheral"];
+                peripheralStr = _currentPeripheral[@"locolName"];
+                peripheralStr = peripheralStr.length <= 0 ? _currentPeripheral[@"peripheralName"] : peripheralStr;
+                peripheralStr = peripheralStr.length <= 0 ? [peripheral.identifier UUIDString] : peripheralStr;
+                
+                cell.cancel_Block = ^(UITableViewCell *cell) {
+                  
+//                    [self cancelPeripheral:peripheral];
+                };
+            }
+            else//其他设备
+            {
+                peripheral = self.peripherals[indexPath.row][@"peripheral"];
+                peripheralStr = self.peripherals[indexPath.row][@"locolName"];
+                peripheralStr = peripheralStr.length <= 0 ? self.peripherals[indexPath.row][@"peripheralName"] : peripheralStr;
+                peripheralStr = peripheralStr.length <= 0 ? [peripheral.identifier UUIDString] : peripheralStr;
+            }
+            
+            cell.deviceNameL.text = peripheralStr;
+            
+            //
+            if (peripheral.state == CBPeripheralStateConnected && indexPath.section == 1)
+            {
+                cell.stateL.text = @"已连接";
+                cell.cancelBtn.hidden = NO;
+            }
+            else
+            {
+                cell.stateL.text = @"未连接";
+                cell.cancelBtn.hidden = YES;
+            }
+        }
+        //reframe
+        if (indexPath.section == 2)
+             cell.stateL.hidden = YES;
+        else
+            cell.stateL.hidden = NO;
+        
+        return cell;
+    }
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    //刷新cell
+    if (indexPath.section == 0)
+        return;
+    else if (indexPath.section == 1)
+    {
+        if (_currentPeripheral != nil)//点击"已连接设备"连接时，不需要替换数据源
+        {
+            CBPeripheral *peripheral = _currentPeripheral[@"peripheral"];
+            
+            [self contentPeripheral:peripheral withIndexPath:indexPath];
+        }
+    }
+    else
+    {
+        NSDictionary *dict = [self.peripherals objectAtIndex:indexPath.row];
+        CBPeripheral *peripheral = dict[@"peripheral"];
+       
+        // 连接某个蓝牙外设
+        if (dict){
+            CLBLETestController *test = [[CLBLETestController alloc]init];
+            test.centralManager = self.centerManager;
+            test.myPeripheral = peripheral;
+            [self.navigationController pushViewController:test animated:YES];
+        }
+    }
+    
+    //滑动到顶部
+    [tableView setContentOffset:CGPointMake(0,0) animated:YES];
+    tableView.scrollsToTop = YES;
 }
 #pragma mark
 #pragma mark  =====  CBCentralManagerDelegate  =====

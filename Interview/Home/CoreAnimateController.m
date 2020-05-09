@@ -114,7 +114,7 @@
         _bgLayer.frame = self.bounds;
         _bgLayer.fillColor = [UIColor clearColor].CGColor;
         _bgLayer.lineWidth = 2.f;
-        _bgLayer.strokeColor = [UIColor grayColor].CGColor;
+        _bgLayer.strokeColor = [UIColor greenColor].CGColor;
         _bgLayer.strokeStart = 0.f;//路径开始位置 按百分比
         _bgLayer.strokeEnd = 1.f;
         _bgLayer.path = _path.CGPath;
@@ -220,9 +220,9 @@
     //每次动画的持续时间
     animation.duration = 5;
     //动画起始位置
-    animation.fromValue = @(0);
+    animation.fromValue = @(-M_PI_2);//@(0);
     //动画结束位置
-    animation.toValue = @(1);
+    animation.toValue = @(1.5*M_PI);//@(1);
     //动画重复次数
     animation.repeatCount = 100;
     CAShapeLayer *layer2 = [self createShapeLayer:[UIColor orangeColor]];
@@ -233,7 +233,9 @@
     //    layer.strokeEnd = 0;
     [layer2 addAnimation:animation forKey:@"strokeEndAnimation"];
     
-    UIBezierPath *path3 = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(375/2-100, 500, 200, 200)];
+    
+    
+    UIBezierPath *path3 = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(375/2-100, 500, 20, 20)];
     CABasicAnimation *animation1 = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
     animation1.duration = 6.0;
     animation1.fromValue = @(0);
@@ -242,7 +244,7 @@
     
     CAShapeLayer *layer3 = [self createShapeLayer:[UIColor clearColor]];
     layer3.strokeColor = [UIColor orangeColor].CGColor;
-    layer3.fillColor = [UIColor lightGrayColor].CGColor;
+    layer3.fillColor = [UIColor whiteColor].CGColor;
     layer3.path = path3.CGPath;
     layer3.lineWidth = 2.0;
     //圆的起始位置，默认为0

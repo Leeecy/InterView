@@ -28,12 +28,22 @@
 //     hud.label.text = NSLocalizedString(@"正在搜索",nil);
 //
 //    hud.progress = 0.5;
+    UIView *customView = [[UIView alloc]initWithFrame:CGRectMake(0, 100, 30, 30)];
+    customView.backgroundColor = [UIColor clearColor];
+    SSProgressHUD *hud = [[SSProgressHUD alloc]initWithCustomView:customView];
     
-    [self showLoadingText:@"正在搜索"];
-       __weak typeof(self) weakSelf = self;
-       dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-           [weakSelf hideHUD];
-       });
+    hud.backgroundColor = [UIColor clearColor];
+    [hud showLoading];
+    
+//    [self showLoadingText:@"正在搜索"];
+//       __weak typeof(self) weakSelf = self;
+//       dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//           [weakSelf hideHUDAnimated:YES finished:^{
+//               NSLog(@"finish");
+//           }];
+//       });
+//
+    
 }
 
 @end

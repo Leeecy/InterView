@@ -92,6 +92,7 @@
 		4A3DE63C2386716F0052A3C2 /* ProtrocolViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A3DE63B2386716F0052A3C2 /* ProtrocolViewController.m */; };
 		4A3DE6482387ADE10052A3C2 /* policy.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4A3DE6472387ADE10052A3C2 /* policy.txt */; };
 		4A48A31C22F3BB82002EE420 /* ChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A48A31B22F3BB82002EE420 /* ChartViewController.m */; };
+		4A5044412463AD9E00625783 /* ImageTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5044402463AD9E00625783 /* ImageTool.m */; };
 		4A520E9023B4A42C001D4B86 /* TeviChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A520E8F23B4A42C001D4B86 /* TeviChartViewController.m */; };
 		4A520E9423B4ABEC001D4B86 /* CLChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A520E9323B4ABEC001D4B86 /* CLChartView.m */; };
 		4A520E9723B4B863001D4B86 /* KSEqSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A520E9523B4B863001D4B86 /* KSEqSlider.m */; };
@@ -144,6 +145,11 @@
 		4AC4F79E245034490075DB40 /* Mine_photo_define@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AC4F799245034490075DB40 /* Mine_photo_define@2x.png */; };
 		4AC4F79F245034490075DB40 /* Mine_photo_define@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AC4F79A245034490075DB40 /* Mine_photo_define@3x.png */; };
 		4ACC07B624483FD800C7CBA7 /* TranslationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ACC07B524483FD800C7CBA7 /* TranslationController.m */; };
+		4AD524DA24664301005C013F /* BluetoothCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AD524D924664301005C013F /* BluetoothCell.m */; };
+		4AD524DD2466439D005C013F /* CLBLETestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AD524DC2466439D005C013F /* CLBLETestController.m */; };
+		4AD524E024664494005C013F /* Factory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AD524DF24664494005C013F /* Factory.m */; };
+		4AD524EE2466A7F7005C013F /* CoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AD524ED2466A7F7005C013F /* CoreView.m */; };
+		4AD524F12466AC8B005C013F /* XWHud.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AD524EF2466AC8B005C013F /* XWHud.m */; };
 		4ADD0BEA242DD9DA000D36FF /* AddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ADD0BE8242DD9DA000D36FF /* AddViewController.m */; };
 		4ADD0BEB242DD9DA000D36FF /* CLAddHeaderCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ADD0BE9242DD9DA000D36FF /* CLAddHeaderCollectionCell.m */; };
 		4AEDA0C9239BAEF4002E54EC /* SliderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AEDA0C8239BAEF4002E54EC /* SliderViewController.m */; };
@@ -172,6 +178,8 @@
 		4AFE0D802461189800058425 /* WXSTransitionManager+ViewMoveAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AFE0D6B2461189800058425 /* WXSTransitionManager+ViewMoveAnimation.m */; };
 		4AFE0D812461189800058425 /* WXSTransitionProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AFE0D6D2461189800058425 /* WXSTransitionProperty.m */; };
 		4AFE0D842461192400058425 /* DetailPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AFE0D832461192400058425 /* DetailPopViewController.m */; };
+		4AFE0D882462569A00058425 /* TransTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AFE0D872462569A00058425 /* TransTestController.m */; };
+		4AFE0D8B2462638F00058425 /* TransSecondController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AFE0D8A2462638F00058425 /* TransSecondController.m */; };
 		4AFED5E8242F238B004C4F7C /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AFED5E7242F238B004C4F7C /* SearchViewController.m */; };
 		F5C7006422F02E43002F5C31 /* ZghChartController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5C7006322F02E43002F5C31 /* ZghChartController.m */; };
 		F5C7006622F0314D002F5C31 /* JTChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = F5C7006522F0314D002F5C31 /* JTChartView.m */; };
@@ -387,6 +395,8 @@
 		4A3DE6472387ADE10052A3C2 /* policy.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = policy.txt; sourceTree = "<group>"; };
 		4A48A31A22F3BB82002EE420 /* ChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChartViewController.h; sourceTree = "<group>"; };
 		4A48A31B22F3BB82002EE420 /* ChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChartViewController.m; sourceTree = "<group>"; };
+		4A50443F2463AD9E00625783 /* ImageTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageTool.h; sourceTree = "<group>"; };
+		4A5044402463AD9E00625783 /* ImageTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageTool.m; sourceTree = "<group>"; };
 		4A520E8E23B4A42C001D4B86 /* TeviChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TeviChartViewController.h; sourceTree = "<group>"; };
 		4A520E8F23B4A42C001D4B86 /* TeviChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TeviChartViewController.m; sourceTree = "<group>"; };
 		4A520E9223B4ABEC001D4B86 /* CLChartView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CLChartView.h; sourceTree = "<group>"; };
@@ -488,6 +498,16 @@
 		4AC4F79A245034490075DB40 /* Mine_photo_define@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Mine_photo_define@3x.png"; sourceTree = "<group>"; };
 		4ACC07B424483FD800C7CBA7 /* TranslationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TranslationController.h; sourceTree = "<group>"; };
 		4ACC07B524483FD800C7CBA7 /* TranslationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TranslationController.m; sourceTree = "<group>"; };
+		4AD524D824664301005C013F /* BluetoothCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BluetoothCell.h; sourceTree = "<group>"; };
+		4AD524D924664301005C013F /* BluetoothCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BluetoothCell.m; sourceTree = "<group>"; };
+		4AD524DB2466439D005C013F /* CLBLETestController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CLBLETestController.h; sourceTree = "<group>"; };
+		4AD524DC2466439D005C013F /* CLBLETestController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CLBLETestController.m; sourceTree = "<group>"; };
+		4AD524DE24664493005C013F /* Factory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Factory.h; sourceTree = "<group>"; };
+		4AD524DF24664494005C013F /* Factory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Factory.m; sourceTree = "<group>"; };
+		4AD524EC2466A7F7005C013F /* CoreView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreView.h; sourceTree = "<group>"; };
+		4AD524ED2466A7F7005C013F /* CoreView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreView.m; sourceTree = "<group>"; };
+		4AD524EF2466AC8B005C013F /* XWHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XWHud.m; sourceTree = "<group>"; };
+		4AD524F02466AC8B005C013F /* XWHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XWHud.h; sourceTree = "<group>"; };
 		4ADD0BE6242DD9DA000D36FF /* AddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddViewController.h; sourceTree = "<group>"; };
 		4ADD0BE7242DD9DA000D36FF /* CLAddHeaderCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLAddHeaderCollectionCell.h; sourceTree = "<group>"; };
 		4ADD0BE8242DD9DA000D36FF /* AddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddViewController.m; sourceTree = "<group>"; };
@@ -545,6 +565,10 @@
 		4AFE0D702461189800058425 /* WXSTypedefConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXSTypedefConfig.h; sourceTree = "<group>"; };
 		4AFE0D822461192400058425 /* DetailPopViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailPopViewController.h; sourceTree = "<group>"; };
 		4AFE0D832461192400058425 /* DetailPopViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailPopViewController.m; sourceTree = "<group>"; };
+		4AFE0D862462569A00058425 /* TransTestController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TransTestController.h; sourceTree = "<group>"; };
+		4AFE0D872462569A00058425 /* TransTestController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TransTestController.m; sourceTree = "<group>"; };
+		4AFE0D892462638F00058425 /* TransSecondController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TransSecondController.h; sourceTree = "<group>"; };
+		4AFE0D8A2462638F00058425 /* TransSecondController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TransSecondController.m; sourceTree = "<group>"; };
 		4AFED5E6242F238B004C4F7C /* SearchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		4AFED5E7242F238B004C4F7C /* SearchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		C4EE4D44554B665C01884857 /* Pods-Interview.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Interview.release.xcconfig"; path = "Target Support Files/Pods-Interview/Pods-Interview.release.xcconfig"; sourceTree = "<group>"; };
@@ -973,6 +997,32 @@
 			path = HHTransition;
 			sourceTree = "<group>";
 		};
+		4AD524E124664498005C013F /* BLEVC */ = {
+			isa = PBXGroup;
+			children = (
+				4A1E79A22318F2E900063544 /* OTAFirmController.h */,
+				4A1E79A32318F2E900063544 /* OTAFirmController.m */,
+				4AD524DE24664493005C013F /* Factory.h */,
+				4AD524DF24664494005C013F /* Factory.m */,
+				4AD524D824664301005C013F /* BluetoothCell.h */,
+				4AD524D924664301005C013F /* BluetoothCell.m */,
+				4AD524DB2466439D005C013F /* CLBLETestController.h */,
+				4AD524DC2466439D005C013F /* CLBLETestController.m */,
+			);
+			path = BLEVC;
+			sourceTree = "<group>";
+		};
+		4AD524EB2466A7DC005C013F /* 核心动画 */ = {
+			isa = PBXGroup;
+			children = (
+				4AD524F02466AC8B005C013F /* XWHud.h */,
+				4AD524EF2466AC8B005C013F /* XWHud.m */,
+				4AD524EC2466A7F7005C013F /* CoreView.h */,
+				4AD524ED2466A7F7005C013F /* CoreView.m */,
+			);
+			path = "核心动画";
+			sourceTree = "<group>";
+		};
 		4AF5B7702440024600B9C5F0 /* batteryView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1030,6 +1080,19 @@
 				4AFE0D702461189800058425 /* WXSTypedefConfig.h */,
 			);
 			path = WXSTransition;
+			sourceTree = "<group>";
+		};
+		4AFE0D852462568000058425 /* 转场测试vc */ = {
+			isa = PBXGroup;
+			children = (
+				4AFE0D862462569A00058425 /* TransTestController.h */,
+				4AFE0D872462569A00058425 /* TransTestController.m */,
+				4AFE0D892462638F00058425 /* TransSecondController.h */,
+				4AFE0D8A2462638F00058425 /* TransSecondController.m */,
+				4A50443F2463AD9E00625783 /* ImageTool.h */,
+				4A5044402463AD9E00625783 /* ImageTool.m */,
+			);
+			path = "转场测试vc";
 			sourceTree = "<group>";
 		};
 		81E94AC0A2CFFC6528CC8293 /* Pods */ = {
@@ -1124,14 +1187,14 @@
 				F5CFB2E322E16D0B00C81E26 /* AppLaunchController.m */,
 				F5CFB2E822E16D0C00C81E26 /* CommonViewController.h */,
 				F5CFB2E722E16D0C00C81E26 /* CommonViewController.m */,
-				4A1E79A22318F2E900063544 /* OTAFirmController.h */,
-				4A1E79A32318F2E900063544 /* OTAFirmController.m */,
+				4AD524E124664498005C013F /* BLEVC */,
 				4A1E79BE231E59F200063544 /* FirmTableController.h */,
 				4A1E79BF231E59F200063544 /* FirmTableController.m */,
 				F5C7005D22F02580002F5C31 /* ZghChartController.h */,
 				F5C7006322F02E43002F5C31 /* ZghChartController.m */,
 				F5CFB2E922E16D0C00C81E26 /* CoreAnimateController.h */,
 				F5CFB2E622E16D0C00C81E26 /* CoreAnimateController.m */,
+				4AD524EB2466A7DC005C013F /* 核心动画 */,
 				F5CFB2E522E16D0C00C81E26 /* TextViewController.h */,
 				F5CFB2E422E16D0B00C81E26 /* TextViewController.m */,
 				F5C7006722F03823002F5C31 /* AlertViewController.h */,
@@ -1156,6 +1219,7 @@
 				4ACC07B524483FD800C7CBA7 /* TranslationController.m */,
 				4AC4F794245033D10075DB40 /* TransDetailViewController.h */,
 				4AC4F795245033D10075DB40 /* TransDetailViewController.m */,
+				4AFE0D852462568000058425 /* 转场测试vc */,
 				4A8AA64B24597A8000BAD693 /* 蓝牙模块 */,
 				4A8AA64A245916F800BAD693 /* 弹窗工具 */,
 				4A1034E62456CDFE00C9429A /* 进度条View */,
@@ -1491,6 +1555,7 @@
 				4A24D60D22F40E0800DB230E /* SZUtils.m in Sources */,
 				F5CFB33A22E2E43300C81E26 /* User.m in Sources */,
 				F5CFB30E22E16DA600C81E26 /* UIViewController+NavigationTip.m in Sources */,
+				4AD524DA24664301005C013F /* BluetoothCell.m in Sources */,
 				4A578C98244833FC00D7AAC3 /* InterScaleViewController.m in Sources */,
 				4A347A9B2306A800007FCD76 /* CSRBLEUtil.m in Sources */,
 				4A578C8F2448334300D7AAC3 /* AnimationWaveBegin.m in Sources */,
@@ -1503,12 +1568,14 @@
 				4AFE0D842461192400058425 /* DetailPopViewController.m in Sources */,
 				4AFE0D712461189800058425 /* WXSTransitionManager+SpreadAnimation.m in Sources */,
 				4AFE0D7A2461189800058425 /* WXSPercentDrivenInteractiveTransition.m in Sources */,
+				4AD524EE2466A7F7005C013F /* CoreView.m in Sources */,
 				4A347AA02306A800007FCD76 /* QTIDataProvider.m in Sources */,
 				4A578C892448334300D7AAC3 /* AnimationTildEnd.m in Sources */,
 				4A64FF90239E5CFF00BEEDAB /* KSEQCustomView.m in Sources */,
 				4A347AA92306A800007FCD76 /* CSRGaiaGattCommand.m in Sources */,
 				4A347A992306A800007FCD76 /* CSRPeripheral.m in Sources */,
 				4A1339FB23602CA000DEF3EA /* KSSegmentEqView.m in Sources */,
+				4AFE0D8B2462638F00058425 /* TransSecondController.m in Sources */,
 				4A520E9023B4A42C001D4B86 /* TeviChartViewController.m in Sources */,
 				4A2F5F1023347933003E9B3E /* BabyBluetoothController.m in Sources */,
 				4A2F5F0523335B98003E9B3E /* KSBaseViewCell.m in Sources */,
@@ -1522,6 +1589,7 @@
 				F5CFB32422E2051A00C81E26 /* FinderViewController.m in Sources */,
 				F5CFB33E22E2E6F200C81E26 /* UIImage+Extension.m in Sources */,
 				4A578C8D2448334300D7AAC3 /* UIViewController+HHTransition.m in Sources */,
+				4AD524F12466AC8B005C013F /* XWHud.m in Sources */,
 				4ADD0BEA242DD9DA000D36FF /* AddViewController.m in Sources */,
 				4A520E9423B4ABEC001D4B86 /* CLChartView.m in Sources */,
 				4A347AA72306A800007FCD76 /* CSRGaia.m in Sources */,
@@ -1543,11 +1611,13 @@
 				F5CFB30C22E16DA600C81E26 /* LJConnectorA.m in Sources */,
 				F5CFB2DF22E16CF600C81E26 /* CLButton.m in Sources */,
 				F5CFB31C22E16E3500C81E26 /* CommomSuperFind.m in Sources */,
+				4A5044412463AD9E00625783 /* ImageTool.m in Sources */,
 				4A578C8B2448334300D7AAC3 /* AnimationFadeBegin.m in Sources */,
 				4AFE0D7C2461189800058425 /* WXSTransitionManager+CoverAnimation.m in Sources */,
 				4A143AD32330702000465920 /* MathUtil.m in Sources */,
 				4A194FF7230E6A15005E1F4A /* KSControlFirstCell.m in Sources */,
 				4A85C8F12376AC0B00D6FCCB /* WZBSwitch.m in Sources */,
+				4AD524DD2466439D005C013F /* CLBLETestController.m in Sources */,
 				4A347AA32306A800007FCD76 /* QTIAccessory.m in Sources */,
 				4A578C822448334300D7AAC3 /* AnimationTopBackBegin.m in Sources */,
 				4AFE0D802461189800058425 /* WXSTransitionManager+ViewMoveAnimation.m in Sources */,
@@ -1591,6 +1661,7 @@
 				4A1E79DA2325E8D800063544 /* Pop1ViewController.m in Sources */,
 				F5CFB32D22E2D5F400C81E26 /* ProfileViewController.m in Sources */,
 				4A578C932448334300D7AAC3 /* AnimationTransitionBegin.m in Sources */,
+				4AFE0D882462569A00058425 /* TransTestController.m in Sources */,
 				4A578C872448334300D7AAC3 /* AnimationTiltBegin.m in Sources */,
 				F5CFB30A22E16DA600C81E26 /* CLTestViewController.m in Sources */,
 				4A347AA12306A800007FCD76 /* QTIL2CAPChannel.m in Sources */,
@@ -1638,6 +1709,7 @@
 				4AFE0D752461189800058425 /* WXSTransitionManager+PageAnimation.m in Sources */,
 				4A1E79C0231E59F200063544 /* FirmTableController.m in Sources */,
 				4A8AA649245916F200BAD693 /* PopModel.m in Sources */,
+				4AD524E024664494005C013F /* Factory.m in Sources */,
 				4AFE0D7E2461189800058425 /* WXSTransitionManager.m in Sources */,
 				4AEDA0C9239BAEF4002E54EC /* SliderViewController.m in Sources */,
 				4A578C8E2448334300D7AAC3 /* VCInteractionDelegate.m in Sources */,

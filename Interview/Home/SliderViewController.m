@@ -12,6 +12,7 @@
 #import "BatteryView.h"
 #import "KSProgressTimeView.h"
 #import "PopModel.h"
+
 @interface SliderViewController ()<YTSliderViewDelegate,KSProgressTimeViewDelegate>
 @property (nonatomic ,weak)KSProgressTimeView *progressView;
 @property(nonatomic,strong) UILabel *descLab;

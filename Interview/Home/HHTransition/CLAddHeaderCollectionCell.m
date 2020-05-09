@@ -9,6 +9,7 @@
 #import "CLAddHeaderCollectionCell.h"
 #import "KSBatteryView.h"
 #import "KSBatteryModel.h"
+#import "ImageTool.h"
 @interface CLAddHeaderCollectionCell()
 
 
@@ -17,7 +18,6 @@
 
 @property(nonatomic,strong)UIImageView *leftImageV;
 @property(nonatomic,strong)UILabel *leftL;
-
 @property(nonatomic,strong)UIImageView *rightImageV;
 @property(nonatomic,strong)UILabel *rightL;
 @property(nonatomic,strong)KSBatteryView *batteryleftV;
@@ -38,8 +38,9 @@
 - (void)setUpUI{
     _bgImage = [[UIImageView alloc] init];
     _bgImage.contentMode = UIViewContentModeScaleAspectFill;
-    _bgImage.layer.cornerRadius  = 10;
-    _bgImage.layer.masksToBounds = YES;
+    
+    [ImageTool cuttingImageView:self.bgImage cuttingDirection:UIRectCornerAllCorners cornerRadii:10 borderWidth:0 borderColor:[UIColor clearColor] backgroundColor:[UIColor clearColor]];
+    
     NSString *name = @"mid_bg-1";//
     _bgImage.image = [UIImage imageNamed:@"WechatIMG14"];//mid_bg
     [self addSubview:_bgImage];
@@ -155,4 +156,5 @@
     }
     NSLog(@"touchesEnded");
 }
+
 @end

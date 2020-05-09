@@ -55,5 +55,9 @@ typedef NS_ENUM(NSUInteger, KSTitleViewStyle) {
     KSEQGainStyle, //
     KSFirmwareUpdateStyle //
 };
+//16进制颜色给色方法
+#define UIColorFromHex(s)  [UIColor colorWithRed:(((s & 0xFF0000) >> 16))/255.0 green:(((s &0xFF00) >>8))/255.0 blue:((s & 0xFF))/255.0 alpha:1.0]
+#define SystemBlack UIColorFromHex(0x333333)    //黑色
+#define SystemGray UIColorFromHex(0x999999)     //灰色
 
 #endif /* PrefixHeader_pch */

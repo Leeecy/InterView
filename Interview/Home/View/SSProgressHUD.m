@@ -10,7 +10,7 @@
 #import <objc/runtime.h>
 #define SSProgressHUDTextMaxWidth ([UIScreen mainScreen].bounds.size.width * 0.75)
 
-static const CGFloat kDuration = 1.f; //圆圈动画的时间
+static const CGFloat kDuration = 2.5f; //圆圈动画的时间
 static const CGFloat kLineWidth = 2.f;//圆圈动画线的宽度
 static const CGFloat kTextLabelFont = 15.f;//提示文字的字体大小
 static const CGFloat kArcRadius = 20.f;//圆圈的半径
@@ -760,7 +760,7 @@ static const CGFloat kLoadAndTextSpace = 10.f; //圆圈和文字的间隔
 
 - (void)showText:(NSString *)text maskType:(SSProgressHUDMaskType)maskType finished:(void(^ __nullable)(void))finished {
     SSProgressHUD *hud = [self showHUDWithMode:SSProgressHUDModeText text:text tag:0 maskType:maskType];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [hud hideViewAnimated:YES completion:finished];
     });
 }

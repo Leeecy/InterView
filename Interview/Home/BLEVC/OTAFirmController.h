@@ -6,11 +6,11 @@
 //  Copyright © 2019 cl. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OTAFirmController : BaseViewController
+@interface OTAFirmController : UIViewController
 
 @end
 

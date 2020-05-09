@@ -55,19 +55,18 @@
         [self.midView addSubview:self.circleView];
     }];
     
-    
 
-       self.earImage = [[UIImageView alloc]init];
-       self.earImage.image = [UIImage imageNamed:self.headerName];
-       self.earImage.contentMode = UIViewContentModeScaleAspectFit;
-       [self.midView addSubview:self.earImage];
-        CGFloat headTop = iPhoneX ? 180 : 140;
-       [self.earImage mas_makeConstraints:^(MASConstraintMaker *make) {
-           make.centerX.equalTo(self.midView.mas_centerX);
-           make.size.mas_equalTo(CGSizeMake(126, 192));
-           make.top.equalTo(self.midView.mas_top).offset(headTop);
-       }];
-   
+//       self.earImage = [[UIImageView alloc]init];
+//       self.earImage.image = [UIImage imageNamed:self.headerName];
+//       self.earImage.contentMode = UIViewContentModeScaleAspectFit;
+//       [self.midView addSubview:self.earImage];
+//        CGFloat headTop = iPhoneX ? 180 : 140;
+//       [self.earImage mas_makeConstraints:^(MASConstraintMaker *make) {
+//           make.centerX.equalTo(self.midView.mas_centerX);
+//           make.size.mas_equalTo(CGSizeMake(126, 192));
+//           make.top.equalTo(self.midView.mas_top).offset(headTop);
+//       }];
+//
     
     UIView *bottomV = [[UIView alloc]initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, 260)];
         [self.view addSubview:bottomV];

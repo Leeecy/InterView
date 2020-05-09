@@ -9,6 +9,18 @@
 #import "UIView+frameAdjust.h"
 
 @implementation UIView (frameAdjust)
+- (CGFloat) right
+{
+    return self.frame.origin.x + self.frame.size.width;
+}
+
+- (void) setRight: (CGFloat) newright
+{
+    CGFloat delta = newright - (self.frame.origin.x + self.frame.size.width);
+    CGRect newframe = self.frame;
+    newframe.origin.x += delta ;
+    self.frame = newframe;
+}
 
 - (CGFloat)x{
     return self.frame.origin.x;

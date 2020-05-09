@@ -18,6 +18,8 @@
 - (CGFloat)y;
 - (void)setY:(CGFloat)y;
 
+@property CGFloat right;
+
 // 宽
 - (CGFloat)width;
 - (void)setWidth:(CGFloat)width;

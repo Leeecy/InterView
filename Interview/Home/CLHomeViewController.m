@@ -234,6 +234,7 @@ typedef NS_ENUM(NSUInteger, GaiaCommandUpdate) {
 //    NSLog(@"suit=%ld", [self getMinValueShowLevel:showLevels mapZoomLevel:-5]);
     self.titles = @[].mutableCopy;
     self.classNames = @[].mutableCopy;
+    [self addCell:@"跳转动画测试" class:@"TransTestController"];
     [self addCell:@"转场动画" class:@"TranslationController"];
     [self addCell:@"searchVT" class:@"SearchViewController"];
     [self addCell:@"VT搜索页面" class:@"AddViewController"];
@@ -243,7 +244,7 @@ typedef NS_ENUM(NSUInteger, GaiaCommandUpdate) {
     [self addCell:@"寻找view父视图+Label字体显示优先级" class:@"CommonViewController"];
     [self addCell:@"app启动性能优化+事件传递链和响应链" class:@"AppLaunchController"];
     [self addCell:@"核心动画" class:@"CoreAnimateController"];
-    [self addCell:@"蓝牙定时扫描" class:@"OTAFirmController"];
+    [self addCell:@"蓝牙跳转连接测试" class:@"OTAFirmController"];
     
     [self addCell:@"Alert" class:@"AlertViewController"];
     
