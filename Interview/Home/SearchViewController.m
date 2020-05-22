@@ -20,6 +20,12 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor blackColor];
     [self annularDeterminateExample];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSMutableArray *array1 = [userDefaults objectForKey:@"theArrayKey"];
+     
+     NSLog(@"array1==%@",array1);
+    
 }
 
 -(void)annularDeterminateExample{

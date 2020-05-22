@@ -12,27 +12,39 @@
 #import "BatteryView.h"
 #import "KSProgressTimeView.h"
 #import "PopModel.h"
-
-@interface SliderViewController ()<YTSliderViewDelegate,KSProgressTimeViewDelegate>
+#import "KSBatteryVertical.h"
+@interface SliderViewController ()<YTSliderViewDelegate,KSProgressTimeViewDelegate,alertPopDelegate>
 @property (nonatomic ,weak)KSProgressTimeView *progressView;
 @property(nonatomic,strong) UILabel *descLab;
 @property(nonatomic,strong)UIView *batteryBgV;
 @property(nonatomic,strong)UISlider *slider;
 @property(nonatomic,assign)int batteryNum;//电池电量
 @property(nonatomic,assign)int batteryHeight;//电池高度
+
+@property(nonatomic,strong)KSBatteryVertical *verticalV;
 @end
 
 @implementation SliderViewController
-
+-(void)viewWillAppear:(BOOL)animated{
+    PopModel *pop = [PopModel sharevView];
+    pop.delegate = self;
+}
+-(void)alertisConnecting{
+    NSLog(@"alertisConnecting");
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
+    
     self.batteryNum = 20;
     self.batteryHeight = self.batteryNum  * 0.5;
     [self setSlider];
+    self.verticalV = [[KSBatteryVertical alloc]initWithFrame:CGRectMake(100, 280, 5, 10) num:5];
+    [self.view addSubview:self.verticalV];
     
-    [PopModel alertWithMessage:@"连接失败"];
-    
+    [PopModel alertWithMessage:@"连接失败" maskType:AlertMaskTypeBlack];
+    PopModel *pop = [PopModel sharevView];
+    pop.delegate = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [PopModel alertWithDismiss];
     });
@@ -84,6 +96,8 @@
     }];
     
 //    [self startRun];
+    
+    [self setupBottomBtn];
 }
 -(void)setSlider{
     /// 创建Slider 设置Frame
@@ -152,5 +166,25 @@
         NSLog(@"3000Tag percent%f",percent);
     }
 }
+-(void)addClicked{
+    NSLog(@"1111111");
+}
+-(void)setupBottomBtn{
+    UIButton *cancelButton = [[UIButton alloc] init];
+    [self.view addSubview:cancelButton];
 
+    [cancelButton setTitle:NSLocalizedString(@"+添加新耳机", nil)  forState:UIControlStateNormal];
+    [cancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [cancelButton.titleLabel setFont:[UIFont systemFontOfSize:16]];
+//    cancelButton.backgroundColor = [UIColor redColor];
+    [cancelButton addTarget:self action:@selector(addClicked) forControlEvents:UIControlEventTouchUpInside];
+    CGFloat bottomHeight;
+    bottomHeight =  iPhoneX ? SafeAreaBottomHeight+44:44;
+    [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.view.mas_right).offset(-22);
+        make.left.equalTo(self.view.mas_left).offset(22);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-bottomHeight);
+        make.height.mas_equalTo(41);
+    }];
+}
 @end

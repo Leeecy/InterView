@@ -121,10 +121,12 @@
 		4A578C952448334300D7AAC3 /* QuadrantRecognise.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A578C7A2448334300D7AAC3 /* QuadrantRecognise.m */; };
 		4A578C98244833FC00D7AAC3 /* InterScaleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A578C97244833FC00D7AAC3 /* InterScaleViewController.m */; };
 		4A5D602C23989D57006909EA /* KSEQSliderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D602B23989D57006909EA /* KSEQSliderViewController.m */; };
+		4A64091324738C680001D8AB /* CHLUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A64091224738C680001D8AB /* CHLUUID.m */; };
 		4A64FF86239E49ED00BEEDAB /* ButtonTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A64FF85239E49ED00BEEDAB /* ButtonTagsViewController.m */; };
 		4A64FF8A239E4A6B00BEEDAB /* CLTagsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A64FF89239E4A6B00BEEDAB /* CLTagsModel.m */; };
 		4A64FF8D239E4CF200BEEDAB /* KSAPPUserSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A64FF8B239E4CF200BEEDAB /* KSAPPUserSetting.m */; };
 		4A64FF90239E5CFF00BEEDAB /* KSEQCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A64FF8E239E5CFF00BEEDAB /* KSEQCustomView.m */; };
+		4A661639246E226E00FFB881 /* KSBatteryVertical.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A661638246E226E00FFB881 /* KSBatteryVertical.m */; };
 		4A736BF8235598C5003887C0 /* KSWavesAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A736BF7235598C5003887C0 /* KSWavesAnimation.m */; };
 		4A736BFB23559F97003887C0 /* RippleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A736BFA23559F97003887C0 /* RippleView.m */; };
 		4A736C0E2356F49B003887C0 /* KB522_OTA_20191016.bin in Resources */ = {isa = PBXBuildFile; fileRef = 4A736C0D2356F49B003887C0 /* KB522_OTA_20191016.bin */; };
@@ -454,6 +456,8 @@
 		4A578C97244833FC00D7AAC3 /* InterScaleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InterScaleViewController.m; sourceTree = "<group>"; };
 		4A5D602A23989D57006909EA /* KSEQSliderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSEQSliderViewController.h; sourceTree = "<group>"; };
 		4A5D602B23989D57006909EA /* KSEQSliderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSEQSliderViewController.m; sourceTree = "<group>"; };
+		4A64091124738C680001D8AB /* CHLUUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLUUID.h; sourceTree = "<group>"; };
+		4A64091224738C680001D8AB /* CHLUUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLUUID.m; sourceTree = "<group>"; };
 		4A64FF84239E49ED00BEEDAB /* ButtonTagsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ButtonTagsViewController.h; sourceTree = "<group>"; };
 		4A64FF85239E49ED00BEEDAB /* ButtonTagsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ButtonTagsViewController.m; sourceTree = "<group>"; };
 		4A64FF88239E4A6B00BEEDAB /* CLTagsModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CLTagsModel.h; sourceTree = "<group>"; };
@@ -462,6 +466,8 @@
 		4A64FF8C239E4CF200BEEDAB /* KSAPPUserSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSAPPUserSetting.h; sourceTree = "<group>"; };
 		4A64FF8E239E5CFF00BEEDAB /* KSEQCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSEQCustomView.m; sourceTree = "<group>"; };
 		4A64FF8F239E5CFF00BEEDAB /* KSEQCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSEQCustomView.h; sourceTree = "<group>"; };
+		4A661637246E226E00FFB881 /* KSBatteryVertical.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KSBatteryVertical.h; sourceTree = "<group>"; };
+		4A661638246E226E00FFB881 /* KSBatteryVertical.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KSBatteryVertical.m; sourceTree = "<group>"; };
 		4A736BF6235598C4003887C0 /* KSWavesAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSWavesAnimation.h; sourceTree = "<group>"; };
 		4A736BF7235598C5003887C0 /* KSWavesAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSWavesAnimation.m; sourceTree = "<group>"; };
 		4A736BF923559F97003887C0 /* RippleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RippleView.h; sourceTree = "<group>"; };
@@ -1028,6 +1034,8 @@
 			children = (
 				4AF5B77824404EE600B9C5F0 /* KSBatteryView.h */,
 				4AF5B77724404EE600B9C5F0 /* KSBatteryView.m */,
+				4A661637246E226E00FFB881 /* KSBatteryVertical.h */,
+				4A661638246E226E00FFB881 /* KSBatteryVertical.m */,
 				4AF5B7722440025800B9C5F0 /* BatteryBarView.h */,
 				4AF5B7712440025800B9C5F0 /* BatteryBarView.m */,
 				4AF5B774244015D200B9C5F0 /* BatteryView.h */,
@@ -1308,6 +1316,8 @@
 				4A147E3A23715A88003E41E4 /* NSObject+Extension.m */,
 				4A2E2AAB237EB2BC003BACC9 /* HYRadix.h */,
 				4A2E2AAC237EB2BC003BACC9 /* HYRadix.m */,
+				4A64091124738C680001D8AB /* CHLUUID.h */,
+				4A64091224738C680001D8AB /* CHLUUID.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1581,6 +1591,7 @@
 				4A2F5F0523335B98003E9B3E /* KSBaseViewCell.m in Sources */,
 				4A2B5C7B234C29E9001BA0AE /* SOValuePopView.m in Sources */,
 				F5CFB34222E2EEF500C81E26 /* HttpTool.m in Sources */,
+				4A64091324738C680001D8AB /* CHLUUID.m in Sources */,
 				4ADD0BEB242DD9DA000D36FF /* CLAddHeaderCollectionCell.m in Sources */,
 				F5CFB2CB22E0D79C00C81E26 /* CLHomeViewController.m in Sources */,
 				4A578C812448334300D7AAC3 /* AnimationTopBackImageView.m in Sources */,
@@ -1623,6 +1634,7 @@
 				4AFE0D802461189800058425 /* WXSTransitionManager+ViewMoveAnimation.m in Sources */,
 				F5CFB34522E2F9F000C81E26 /* NSString+Extension.m in Sources */,
 				4A0F374A23BDC73E000880A8 /* KeyPopViewController.m in Sources */,
+				4A661639246E226E00FFB881 /* KSBatteryVertical.m in Sources */,
 				F5CFB31B22E16E3500C81E26 /* CharReverse.m in Sources */,
 				4AC4F793245030750075DB40 /* TransViewCell.m in Sources */,
 				4A578C922448334300D7AAC3 /* AnimationErectEnd.m in Sources */,

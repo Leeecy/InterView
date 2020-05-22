@@ -27,7 +27,7 @@
 #import "HYRadix.h"
 #import "NSString+Extension.h"
 #import <Test/Test.h>
-
+#import "CHLUUID.h"
 typedef NS_ENUM(NSUInteger, GaiaCommandUpdate) {
     GaiaUpdate_Unknown                          = 0x00,
     GaiaUpdate_StartRequest                     = 0x01,
@@ -99,8 +99,9 @@ typedef NS_ENUM(NSUInteger, GaiaCommandUpdate) {
     [CLPerson eat];
 }
 
+
+
 -(void)adjustNum{
-    
     NSString *testNum = @"90924670";
     NSString *first = [testNum substringToIndex:1];
     NSString *two = [testNum substringWithRange:NSMakeRange(1, 2)];
@@ -134,10 +135,90 @@ typedef NS_ENUM(NSUInteger, GaiaCommandUpdate) {
 -(void) callMeWithParam:(id)obj {
     //...
 }
+-(void)testDic{
+    NSMutableDictionary *temDic = [NSMutableDictionary dictionary];
+    NSMutableArray *tempArr= [NSMutableArray array];
+    NSMutableArray *removeArr= [NSMutableArray array];
+    NSArray *arr = @[@"03095b111133",@"000266144422",@"00025b00ff34",@"00125b00ffb1"];
+     NSMutableArray *arr1 = [NSMutableArray array];
+    [arr1 addObjectsFromArray:arr];
+     NSDictionary *dic = @{
+         @"00025b111111":@[
+             @"00025b111111",
+             @"00025b884422"
+         ],
+         @"000266144421":@[
+             @"000266144421",
+             @"000266144422"
+         ],
+         @"00125b00ffb1":@[
+             @"00125b00ffb1",
+             @"00025b00ff34"]
+                          ,@"03095b111133":@[
+             @"03095b111133",
+             @"03095b111134"]
+     };
+    NSLog(@"dic=%@ arr=%@",dic,arr1);
+    NSArray *arr2 ;
+    [dic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, NSArray*  _Nonnull obj, BOOL * _Nonnull stop) {
+        if ([arr1 containsObject:obj[0]] && [arr1 containsObject:obj[1]]) {
+            NSLog(@"是一对%@",arr1);
+            [removeArr addObject:obj[0]];
+            [removeArr addObject:obj[1]];
+            [tempArr addObject:obj];
+        }else{
+            NSLog(@"不是一对");
+        }
+    }];
+    
+    for (NSString * str in removeArr) {
+        if ([arr1 containsObject:str]) {
+            [arr1 removeObject:str];
+        }
+    }
+    
+    for (NSArray *tem in tempArr) {
+        [temDic setObject:tem forKey:tem[0]];
+    }
 
+    for (NSString *str  in arr1) {
+        
+        [temDic setObject:@[str] forKey:str];
+    }
+    
+    NSLog(@"arr1==%@ tempArr=%@ \n tempDic=%@",arr1,tempArr,temDic);
+    NSArray *ar1 = [temDic objectForKey:@"03095b111133"];
+    NSLog(@"%lu",(unsigned long)ar1.count);
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-   
+    //DE2CD68A-CB64-4E73-8BD4-1C0CD60BA180
+    NSLog(@"----%@",[CHLUUID obtainUUID]);
+//    [self testDic];
+    
+    /**
+    NSMutableArray *mutableCopyArray;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+ 
+    NSMutableArray *array = [NSMutableArray array];
+     NSMutableArray *mutableArr = [NSMutableArray arrayWithArray:[userDefaults objectForKey:@"theArrayKey"]];
+    
+    [userDefaults objectForKey:@"theArrayKey"];
+    if (mutableArr.count) {
+         //重要步骤操作mutableCopyArray
+        mutableCopyArray = [mutableArr mutableCopy];
+    }else{
+        mutableCopyArray = [array mutableCopy];
+    }
+    
+//    NSMutableArray *array = [userDefaults objectForKey:@"theArrayKey"];
+    if (![mutableCopyArray containsObject:@"some new value"]) {
+        [mutableCopyArray addObject:@"some new value"];
+    }
+    
+    [userDefaults setObject: mutableCopyArray forKey:@"theArrayKey"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    */
     short int x;
     char x0,x1;
     x=0x1122;
@@ -676,65 +757,6 @@ void printMethodNamesOfClass(Class cls){
         result = [NSString stringWithFormat:@"0%@", result];
     }
     return result;
-}
--(NSString *)getHexTo16:(NSInteger)decimal {
-    
-    NSString *hex =@"";
-    NSString *letter;
-    NSInteger number;
-    for (int i = 0; i<9; i++) {
-        
-        number = decimal % 16;
-        decimal = decimal / 16;
-        switch (number) {
-                
-            case 10:
-                letter =@"A"; break;
-            case 11:
-                letter =@"B"; break;
-            case 12:
-                letter =@"C"; break;
-            case 13:
-                letter =@"D"; break;
-            case 14:
-                letter =@"E"; break;
-            case 15:
-                letter =@"F"; break;
-            default:
-                letter = [NSString stringWithFormat:@"%ld", number];
-        }
-        hex = [letter stringByAppendingString:hex];
-        if (decimal == 0) {
-            
-            break;
-        }
-    }
-    return hex;
-}
--(void )convertHexStrToData:(NSString *)str{
-    if (!str || [str length] == 0) {
-        return ;
-    }
-    
-    NSMutableData *hexData = [[NSMutableData alloc] initWithCapacity:20];
-    NSRange range;
-    if ([str length] % 2 == 0) {
-        range = NSMakeRange(0, 2);
-    } else {
-        range = NSMakeRange(0, 1);
-    }
-    for (NSInteger i = range.location; i < [str length]; i += 2) {
-        unsigned int anInt;
-        NSString *hexCharStr = [str substringWithRange:range];
-        NSScanner *scanner = [[NSScanner alloc] initWithString:hexCharStr];
-        
-        [scanner scanHexInt:&anInt];
-        NSData *entity = [[NSData alloc] initWithBytes:&anInt length:1];
-        [hexData appendData:entity];
-        
-        range.location += range.length;
-        range.length = 2;
-    }
 }
 
 //销毁

@@ -155,38 +155,6 @@
             endingLineNumber = "535"
             landmarkName = "-confirmForceUpgrade"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "77A4D85E-8406-4876-B360-0EBCF4FFC77C - 3ef02c0d94e88700"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[FirmTableController confirmForceUpgrade]"
-                  moduleName = "Interview"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kiss/Desktop/Interview/Interview/Home/FirmTableController.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "535"
-                  endingLineNumber = "535"
-                  offsetFromSymbolStart = "200">
-               </Location>
-               <Location
-                  uuid = "77A4D85E-8406-4876-B360-0EBCF4FFC77C - ae127483d3611be5"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__42-[FirmTableController confirmForceUpgrade]_block_invoke_2"
-                  moduleName = "Interview"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kiss/Desktop/Interview/Interview/Home/FirmTableController.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "535"
-                  endingLineNumber = "535"
-                  offsetFromSymbolStart = "12">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -423,38 +391,6 @@
             endingLineNumber = "128"
             landmarkName = "-viewMoveBackWithType:andContext:"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "34D3F551-5202-4C8D-9DD3-0687D65CCCF2 - bc7301fc2ca0b860"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[WXSTransitionManager(ViewMoveAnimation) viewMoveBackWithType:andContext:]"
-                  moduleName = "Interview"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kiss/Desktop/Interview/Interview/Home/PopVC/WXSTransition/WXSTransitionManager+ViewMoveAnimation.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "128"
-                  endingLineNumber = "128"
-                  offsetFromSymbolStart = "1802">
-               </Location>
-               <Location
-                  uuid = "34D3F551-5202-4C8D-9DD3-0687D65CCCF2 - d0160304da099d84"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__75-[WXSTransitionManager(ViewMoveAnimation) viewMoveBackWithType:andContext:]_block_invoke_3"
-                  moduleName = "Interview"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kiss/Desktop/Interview/Interview/Home/PopVC/WXSTransition/WXSTransitionManager+ViewMoveAnimation.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "128"
-                  endingLineNumber = "128"
-                  offsetFromSymbolStart = "12">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
